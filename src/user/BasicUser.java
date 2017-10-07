@@ -1,9 +1,6 @@
 package user;
-import lib.payment.*;
-import product.*;
 
-import java.io.IOException;
-import java.util.InputMismatchException;
+import product.*;
 import java.util.Scanner;
 
 public class BasicUser implements User {
@@ -11,7 +8,7 @@ public class BasicUser implements User {
 	static int number_of_accounts = 1;
 
 	public String username;
-	public String accountType = "Basic user"; //TODO: this could be enumeration
+	public String accountType = "Basic user"; //TODO: this should be enumeration
 
 	public Cart cart = new Cart();
 
@@ -20,6 +17,7 @@ public class BasicUser implements User {
 		accountNumber = User.account_num + BasicUser.number_of_accounts++;
 		String[] info = UserOperations.createUser();
 		this.username = info[0];
+		// TODO: store the password
 	}
 	public BasicUser(String username, String password) {
 		UserOperations.login(username, password);

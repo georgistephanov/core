@@ -5,7 +5,7 @@ import product.*;
 abstract class UserOperations {
 
 	static String[] createUser() {
-		// TODO: modify + add checking logic
+		// TODO: modify + add validation logic
 		String[] info = new String[2];
 
 		java.util.Scanner scanner = new java.util.Scanner(System.in);
@@ -20,7 +20,7 @@ abstract class UserOperations {
 	}
 
 	static boolean login(String user, String pw) {
-		// TODO: add logic
+		// TODO: needs to be implemented
 		return true;
 	}
 
@@ -36,7 +36,7 @@ abstract class UserOperations {
 	// PRIVATE METHODS
 	private static boolean makePayment(User user, double amount) {
 		if (user.card.makePayment(amount)) {
-			System.out.println("Payment successful! New amount: $" + user.card.getBalance());
+			System.out.println("Payment successful! New balance: $" + user.card.getBalance());
 			return true;
 		}
 		else {

@@ -24,6 +24,7 @@ public class Main {
     }
 }
 
+// TODO: Make a user menu (infinite loop)
 // TODO: Generate receipt
 // TODO: Print before checkout [ Qty | Item | Price ]
 // TODO: Process Order as a process from the Checkout

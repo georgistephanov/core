@@ -4,38 +4,37 @@ public class Product {
 	private static long _productID = 123_456_00;
 	public long productID;
 
-	public String name;
-	double price;
-	int quantityAvailable;
+	private String _name;
+	private double _price;
+	private int _quantityAvailable;
 
 	public Product(String n, double p, int q) {
-		name = n;
-		price = p;
-		quantityAvailable = q;
+		_name = n;
+		_price = p;
+		_quantityAvailable = q;
 		productID = _productID++;
 	}
 
 	// GETTERS
 	public int getQuantity() {
-		return quantityAvailable;
+		return _quantityAvailable;
 	}
 	public double getPrice() {
-		return (double) Math.round(price * 100) / 100;
+		return (double) Math.round(_price * 100) / 100;
 	}
-	public String getName() { return name; }
+	public String getName() { return _name; }
 
 
-
+	// Subtracts the quantity bought from the initial available quantity
 	public void reduceQuantity() {
-		quantityAvailable--;
+		_quantityAvailable--;
 	}
-
 	public void reduceQuantity(int i) {
-		quantityAvailable -= i;
+		_quantityAvailable -= i;
 	}
 
 	public void printProductInfo() {
-		System.out.println("Product ID: " + productID + "\nName: " + name
-				+ "\nPrice: " + price + "\nQuantity: " + quantityAvailable + "\n");
+		System.out.println("Product ID: " + productID + "\nName: " + _name
+				+ "\nPrice: " + _price + "\nQuantity: " + _quantityAvailable + "\n");
 	}
 }

@@ -52,7 +52,7 @@ public class ProductCatalog {
 	}
 
 	public static boolean productAvailable(long id) {
-		if (isProductAvailable(id)) {
+		if (_isProductAvailable(id)) {
 			Product p = ProductCatalog.getProduct(id);
 			associatedUser.addToCart(p);
 			return true;
@@ -63,7 +63,8 @@ public class ProductCatalog {
 		}
 	}
 
-	private static boolean isProductAvailable(long id) {
+	// PRIVATE METHODS
+	private static boolean _isProductAvailable(long id) {
 		for(Product p : catalog) {
 			if (p.productID == id)
 				return true;
@@ -73,10 +74,14 @@ public class ProductCatalog {
 	}
 
 	private static Product getProduct(long id) {
-		for (Product p : catalog)
-			if (p.productID == id)
-				return p;
-		return null; // should never reach this so it should be removed
+		Product p = null;
+		for (Product pr : catalog)
+			if (pr.productID == id) {
+				p = pr;
+				break;
+			}
+
+		return p;
 	}
 
 }
