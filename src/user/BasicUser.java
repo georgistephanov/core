@@ -28,30 +28,25 @@ public class BasicUser implements User {
 
 	// PUBLIC METHODS
 	public void addToCart(Product p) {
-		cart.addToCart(p);
+		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to the cart? (y/n)\n");
+
+		Scanner s = new Scanner(System.in);
+		String opt = s.nextLine();
+
+		if (opt.charAt(0) == 'y' || opt.charAt(0) == 'Y') {
+			System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
+			cart.addToCart(p);
+		}
+		else {
+			System.out.println("The product has not been added to the cart.\n");
+		}
+
+		//TODO Check to see if the product is in the cart now. If so, ask whether to delete it or not.
 	}
 
 	public boolean checkout() {
 		//TODO: reduce the quantity of the successfully checked out products
 		return UserOperations.makeCheckoutPayment(this, cart);
-	}
-
-	public void scanProduct() throws InputMismatchException {
-		Scanner scanner = new Scanner(System.in);
-		long prodID;
-
-		System.out.println("Type in the product ID: ");
-		prodID = scanner.nextLong();
-
-		Product p = ProductCatalog.productAvailable(prodID);
-
-		if (p != null) {
-			cart.addToCart(p);
-			System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
-		}
-		else {
-			System.out.println("Ooops... There is no product with this ID in our catalog.");
-		}
 	}
 
 }

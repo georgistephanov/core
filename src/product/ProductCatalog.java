@@ -2,12 +2,17 @@ package product;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import data.*;
+import user.BasicUser;
 
 public class ProductCatalog {
+	private static BasicUser associatedUser;
+
 	public static ArrayList<Product> catalog = new ArrayList<>();
 
-	public ProductCatalog() {
+	public ProductCatalog(BasicUser user) {
 		// Initialise the product catalog
 		// TODO: Refactor this
 		try {
@@ -30,6 +35,8 @@ public class ProductCatalog {
 					i = 0;
 				}
 			}
+
+			associatedUser = user;
 		}
 		catch (IOException e) {
 			System.out.println("Error reading the products file.");
@@ -44,13 +51,32 @@ public class ProductCatalog {
 		}
 	}
 
-	public static Product productAvailable(long id) {
+	public static boolean productAvailable(long id) {
+		if (isProductAvailable(id)) {
+			Product p = ProductCatalog.getProduct(id);
+			associatedUser.addToCart(p);
+			return true;
+		}
+		else {
+			System.out.println("There is no such product in our database.\n");
+			return false;
+		}
+	}
+
+	private static boolean isProductAvailable(long id) {
 		for(Product p : catalog) {
 			if (p.productID == id)
-				return p;
+				return true;
 		}
 
-		return null;
+		return false;
+	}
+
+	private static Product getProduct(long id) {
+		for (Product p : catalog)
+			if (p.productID == id)
+				return p;
+		return null; // should never reach this so it should be removed
 	}
 
 }
