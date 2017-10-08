@@ -19,8 +19,8 @@ abstract class UserOperations {
 		return info;
 	}
 
+	// TODO: needs to be implemented after the createUser method
 	static boolean login(String user, String pw) {
-		// TODO: needs to be implemented
 		return true;
 	}
 
@@ -28,14 +28,8 @@ abstract class UserOperations {
 		return user.card.getBalance();
 	}
 
-	static boolean makeCheckoutPayment(User user, Cart c) {
-		return makePayment(user, c.getTotalAmount());
-	}
-
-
-	// PRIVATE METHODS
-	private static boolean makePayment(User user, double amount) {
-		if (user.card.makePayment(amount)) {
+	static boolean checkout(User user, Cart c) {
+		if (user.card.makePayment(c.getTotalAmount())) {
 			System.out.println("Payment successful! New balance: $" + user.card.getBalance());
 			return true;
 		}

@@ -17,12 +17,19 @@ public class PhysicalScanner {
 		return ps;
 	}
 
-	public void scanProduct() throws InputMismatchException {
+	public void scanProduct() {
 		Scanner scanner = new Scanner(System.in);
 		long prodID;
 
 		System.out.println("Type in the product ID: ");
-		prodID = scanner.nextLong();
+
+		try {
+			prodID = scanner.nextLong();
+		}
+		catch (InputMismatchException e) {
+			System.out.println("Please provide an ID in the correct format! (123_456_xx)\n");
+			return;
+		}
 
 		ProductCatalog.productAvailable(prodID);
 	}

@@ -1,6 +1,9 @@
 package user;
 
+import lib.GeneralHelperFunctions;
 import product.*;
+import sun.java2d.loops.FillRect;
+
 import java.util.Scanner;
 
 public class BasicUser implements User {
@@ -26,17 +29,14 @@ public class BasicUser implements User {
 
 	// PUBLIC METHODS
 	public void addToCart(Product p) {
-		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to the cart? (y/n)\n");
+		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to your cart? (y/n)");
 
-		Scanner s = new Scanner(System.in);
-		String opt = s.nextLine();
-
-		if (opt.charAt(0) == 'y' || opt.charAt(0) == 'Y') {
+		if (GeneralHelperFunctions.askForDecision()) {
 			System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
 			cart.addToCart(p);
 		}
 		else {
-			System.out.println("The product has not been added to the cart.\n");
+			System.out.println("The product has not been added to the cart.");
 		}
 
 		//TODO Check to see if the product is in the cart now. If so, ask whether to delete it or not.
@@ -44,7 +44,8 @@ public class BasicUser implements User {
 
 	public boolean checkout() {
 		//TODO: reduce the quantity of the successfully checked out products
-		return UserOperations.makeCheckoutPayment(this, cart);
+		//TODO: Encapsulate the call to UserOprations.checkout
+		return UserOperations.checkout(this, cart);
 	}
 
 }
