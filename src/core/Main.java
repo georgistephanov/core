@@ -30,7 +30,7 @@ public class Main {
 					physicalScanner.scanProduct();
 					break;
 				case 3:
-					// TODO Make a function taking care of this option (3. Profile)
+					b1.userProfileMenu();
 					break;
 			}
 
@@ -60,35 +60,23 @@ class Engine {
 		System.out.println("\t1. View catalog");
 		System.out.println("\t2. Scan product");
 		System.out.println("\t3. Profile");
-		System.out.println("\n4. Cart");
-		System.out.println("\t0.Exit");
+		System.out.println("\t4. Cart");
+		System.out.println("\n\t0. Exit");
 
-		Scanner s = new Scanner(System.in);
 
-		try {
-			int opt = s.nextInt();
-			switch (opt) {
-				case 1:
-					return 1;
-				case 2:
-					return 2;
-				case 3:
-					return 3;
-				case 0:
-					printExitMessage();
-					break;
-				default:
-					throw new InputMismatchException();
-			}
-		}
-		catch (InputMismatchException e) {
-			System.out.println("Please provide a correct input.\nWant to continue? (y/n)");
-
-			if (GeneralHelperFunctions.askForDecision()) {
-				return 0;
-			}
-
-			printExitMessage();
+		int opt = GeneralHelperFunctions.inputIntegerOption(1, 4);
+		switch (opt) {
+			case 1:
+				return 1;
+			case 2:
+				return 2;
+			case 3:
+				return 3;
+			case -1:
+				printExitMessage();
+				break;
+			default:
+				throw new InputMismatchException();
 		}
 
 		return -1;
@@ -96,7 +84,7 @@ class Engine {
 
 	private void printExitMessage() {
 		System.out.println("\n\n\tThank you for using CORE Cashless!");
-		System.out.print("\n\tExiting...\n\n");
+		System.out.print("\tExiting...\n\n");
 	}
 }
 
@@ -105,6 +93,9 @@ class Engine {
 // TODO: Print before checkout [ Qty | Item | Price ]
 // TODO: Process Order as a process from the Checkout
 // TODO: Cancel line
+
+
+// TODO: create a method that takes strings as parameters and outputs a menu
 
 
 // GENERAL TODO: Look into Java best practices if it is the best decision to have that much static classes.

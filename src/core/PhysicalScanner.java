@@ -1,5 +1,6 @@
 package core;
 
+import lib.GeneralHelperFunctions;
 import product.Product;
 import product.ProductCatalog;
 
@@ -18,19 +19,13 @@ public class PhysicalScanner {
 	}
 
 	public void scanProduct() {
-		Scanner scanner = new Scanner(System.in);
-		long prodID;
-
 		System.out.println("Type in the product ID: ");
+		long prodID = GeneralHelperFunctions.inputIntegerOption(123_456_00, 123_999_99);
 
-		try {
-			prodID = scanner.nextLong();
-		}
-		catch (InputMismatchException e) {
+		if (prodID != -1)
+			ProductCatalog.productAvailable(prodID);
+		else
 			System.out.println("Please provide an ID in the correct format! (123_456_xx)\n");
-			return;
-		}
 
-		ProductCatalog.productAvailable(prodID);
 	}
 }

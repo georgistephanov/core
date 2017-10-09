@@ -38,4 +38,14 @@ abstract class UserOperations {
 			return false;
 		}
 	}
+
+	static void printProfileInfo(BasicUser b) {
+		System.out.println("Account number:\t" + b.getAccountNumber());
+		System.out.println("Username:\t\t" + b.getUsername());
+		System.out.println("Account type:\t" + b.getAccountType());
+	}
+
+	static void editProfile(BasicUser b) {
+
+	}
 }
