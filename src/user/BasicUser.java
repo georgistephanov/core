@@ -78,4 +78,7 @@ public class BasicUser implements User {
 		}
 	}
 
+	public void userCartMenu() {
+		this.cart.cartMenu();
+	}
 }

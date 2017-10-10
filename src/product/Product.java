@@ -37,4 +37,7 @@ public class Product {
 		System.out.println("Product ID: " + productID + "\nName: " + _name
 				+ "\nPrice: " + _price + "\nQuantity: " + _quantityAvailable + "\n");
 	}
+	public void printShortProductInfo() {
+		System.out.println(_name + ", $" + _price);
+	}
 }

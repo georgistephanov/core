@@ -1,4 +1,5 @@
 package core;
+import jdk.internal.util.xml.impl.Input;
 import lib.GeneralHelperFunctions;
 import sun.java2d.loops.FillRect;
 import user.*;
@@ -10,47 +11,66 @@ import java.util.InputMismatchException;
 public class Main {
 
     public static void main(String[] args) {
-		Engine e = Engine.getInstance();
 
-		BasicUser b1 = new BasicUser("Georgi", "123");
-		PhysicalScanner physicalScanner = PhysicalScanner.initialise();
-		ProductCatalog catalog = new ProductCatalog(b1);
+    	// These objects should be created inside the engine class
+		Engine e = Engine.getInstance(new BasicUser("Georgi", "123"), PhysicalScanner.initialise());
 
 		int opt; // Variable controlling the execution of the engine
-		do {
-			opt = e.initialiseMenu();
+		for ( ; ; ) {
+			try {
+				opt = e.initialiseMenu();
 
-			switch(opt) {
-				case 0:
-					break;
-				case 1:
-					catalog.printCatalog();
-					break;
-				case 2:
-					physicalScanner.scanProduct();
-					break;
-				case 3:
-					b1.userProfileMenu();
-					break;
+				switch (opt) {
+					case -1:
+						e.terminateApplication();
+					case 1:
+						catalog.printCatalog();
+						break;
+					case 2:
+						physicalScanner.scanProduct();
+						break;
+					case 3:
+						b1.userProfileMenu();
+						break;
+					case 4:
+						b1.userCartMenu();
+						break;
+					default:
+
+				}
+			} catch (InputMismatchException exc) {
+				System.out.println("\nPlease provide a correct input!");
 			}
 
-		} while (opt != -1);
+		}
     }
 }
 
 // Engine class which implements the Singleton pattern
 class Engine {
-	private static Engine e = new Engine();
+	private static Engine e;
 	public boolean running;
 
-	private Engine() {
+	private BasicUser user;
+	private PhysicalScanner scanner;
+	private ProductCatalog catalog;
+
+	private Engine(BasicUser user, PhysicalScanner scanner) {
 		running = true;
 
 		System.out.println("CORE Control Centre running...\n");
 		System.out.println("Welcome to CORE Control Centre!\n");
+
+		this.user = user;
+		this.scanner = scanner;
+		catalog = new ProductCatalog(this.user)
 	}
 
-	public static Engine getInstance() {
+	public static Engine getInstance(BasicUser u, PhysicalScanner ps,) {
+		if (e == null) {
+			e = new Engine(u, ps);
+		}
+
 		return e;
 	}
 
@@ -64,7 +84,7 @@ class Engine {
 		System.out.println("\n\t0. Exit");
 
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(1, 4);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 		switch (opt) {
 			case 1:
 				return 1;
@@ -72,30 +92,26 @@ class Engine {
 				return 2;
 			case 3:
 				return 3;
+			case 4:
+				return 4;
+			case 0:
 			case -1:
-				printExitMessage();
-				break;
+				terminateApplication();
 			default:
 				throw new InputMismatchException();
 		}
-
-		return -1;
 	}
 
-	private void printExitMessage() {
+	public static void terminateApplication() {
 		System.out.println("\n\n\tThank you for using CORE Cashless!");
 		System.out.print("\tExiting...\n\n");
+		System.exit(0);
 	}
 }
 
-// These should go inside the cart class (Menu option 4. Cart)
-// TODO: Generate receipt
-// TODO: Print before checkout [ Qty | Item | Price ]
-// TODO: Process Order as a process from the Checkout
-// TODO: Cancel line
-
-
+//TODO: create a method which terminates the engine and the program
 // TODO: create a method that takes strings as parameters and outputs a menu
 
+// BIG CHANGE TODO: Refactor the code so that all of the logic is inside the Engine class
 
 // GENERAL TODO: Look into Java best practices if it is the best decision to have that much static classes.
