@@ -28,17 +28,6 @@ abstract class UserOperations {
 		return user.card.getBalance();
 	}
 
-	static boolean checkout(User user, Cart c) {
-		if (user.card.makePayment(c.getTotalAmount())) {
-			System.out.println("Payment successful! New balance: $" + user.card.getBalance());
-			return true;
-		}
-		else {
-			System.out.println("Payment unsuccessful! Insufficient amount of money in the card.");
-			return false;
-		}
-	}
-
 	static void printProfileInfo(BasicUser b) {
 		System.out.println("Account number:\t" + b.getAccountNumber());
 		System.out.println("Username:\t\t" + b.getUsername());

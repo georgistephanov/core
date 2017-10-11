@@ -7,6 +7,8 @@ import java.util.Scanner;
 import data.*;
 import user.BasicUser;
 
+// THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
+// WILL NOT EXIST WHEN A DB IS PRESENT
 public class ProductCatalog {
 	private static BasicUser associatedUser;
 

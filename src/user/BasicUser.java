@@ -1,6 +1,7 @@
 package user;
 
 import lib.GeneralHelperFunctions;
+import lib.payment.VisaCard;
 import product.*;
 import sun.java2d.loops.FillRect;
 
@@ -13,7 +14,8 @@ public class BasicUser implements User {
 	private String username;
 	private String accountType = "Basic user"; //TODO: this should be enumeration
 
-	private Cart cart = new Cart();
+	private VisaCard card = new VisaCard();
+	private Cart cart = new Cart(card);
 
 	// CONSTRUCTORS
 	public BasicUser() {
@@ -38,20 +40,14 @@ public class BasicUser implements User {
 		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to your cart? (y/n)");
 
 		if (GeneralHelperFunctions.askForDecision()) {
-			System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
-			cart.addToCart(p);
+			if (cart.addToCart(p)) {
+				System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
+			}
 		}
 		else {
 			System.out.println("The product has not been added to the cart.");
 		}
-
 		//TODO Check to see if the product is in the cart now. If so, ask whether to delete it or not.
-	}
-
-	public boolean checkout() {
-		//TODO: reduce the quantity of the successfully checked out products
-		//TODO: Encapsulate the call to UserOprations.checkout
-		return UserOperations.checkout(this, cart);
 	}
 
 	public void userProfileMenu() {

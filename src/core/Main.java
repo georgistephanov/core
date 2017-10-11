@@ -1,7 +1,5 @@
 package core;
-import jdk.internal.util.xml.impl.Input;
 import lib.GeneralHelperFunctions;
-import sun.java2d.loops.FillRect;
 import user.*;
 import product.*;
 
@@ -10,30 +8,58 @@ import java.util.InputMismatchException;
 
 public class Main {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-    	// These objects should be created inside the engine class
-		Engine e = Engine.getInstance(new BasicUser("Georgi", "123"), PhysicalScanner.initialise());
+		// These objects should be created inside the engine class
+		Engine e = Engine.getInstance();
+		e.execute();
+	}
+}
+// Engine class which implements the Singleton pattern
+class Engine {
+	private static Engine e = new Engine();
+	public boolean running;
 
-		int opt; // Variable controlling the execution of the engine
-		for ( ; ; ) {
+	private BasicUser user;
+	private PhysicalScanner scanner;
+	private ProductCatalog db;
+
+	private Engine() {
+		running = true;
+
+		System.out.println("CORE Control Centre running...\n");
+		System.out.println("Welcome to CORE Control Centre!\n");
+
+		user = new BasicUser("Georgi", "123");
+		scanner = PhysicalScanner.initialise();
+		db = new ProductCatalog(user);
+	}
+
+	public static Engine getInstance() { return e; }
+
+
+	// This is the main method which is responsible for the engine
+	public void execute() {
+		int opt;
+
+		for (; ; ) {
 			try {
-				opt = e.initialiseMenu();
+				opt = initialiseMenu();
 
 				switch (opt) {
 					case -1:
-						e.terminateApplication();
+						terminateApplication();
 					case 1:
-						catalog.printCatalog();
+						db.printCatalog();
 						break;
 					case 2:
-						physicalScanner.scanProduct();
+						scanner.scanProduct();
 						break;
 					case 3:
-						b1.userProfileMenu();
+						user.userProfileMenu();
 						break;
 					case 4:
-						b1.userCartMenu();
+						user.userCartMenu();
 						break;
 					default:
 
@@ -41,40 +67,10 @@ public class Main {
 			} catch (InputMismatchException exc) {
 				System.out.println("\nPlease provide a correct input!");
 			}
-
 		}
-    }
-}
-
-// Engine class which implements the Singleton pattern
-class Engine {
-	private static Engine e;
-	public boolean running;
-
-	private BasicUser user;
-	private PhysicalScanner scanner;
-	private ProductCatalog catalog;
-
-	private Engine(BasicUser user, PhysicalScanner scanner) {
-		running = true;
-
-		System.out.println("CORE Control Centre running...\n");
-		System.out.println("Welcome to CORE Control Centre!\n");
-
-		this.user = user;
-		this.scanner = scanner;
-		catalog = new ProductCatalog(this.user)
 	}
 
-	public static Engine getInstance(BasicUser u, PhysicalScanner ps,) {
-		if (e == null) {
-			e = new Engine(u, ps);
-		}
-
-		return e;
-	}
-
-	public int initialiseMenu() {
+	private int initialiseMenu() {
 		// General menu
 		System.out.println("\nMenu:");
 		System.out.println("\t1. View catalog");
@@ -108,6 +104,7 @@ class Engine {
 		System.exit(0);
 	}
 }
+
 
 //TODO: create a method which terminates the engine and the program
 // TODO: create a method that takes strings as parameters and outputs a menu

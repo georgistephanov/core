@@ -7,18 +7,21 @@ public class Product {
 	private String _name;
 	private double _price;
 	private int _quantityAvailable;
+	private int _quantityInCart;
 
 	public Product(String n, double p, int q) {
 		_name = n;
 		_price = p;
 		_quantityAvailable = q;
+		_quantityInCart = 0;
 		productID = _productID++;
 	}
 
 	// GETTERS
-	public int getQuantity() {
-		return _quantityAvailable;
+	public int getQuantityAvailable() {
+		return _quantityAvailable - _quantityInCart;
 	}
+	public int getQuantityInCart() { return _quantityInCart; }
 	public double getPrice() {
 		return (double) Math.round(_price * 100) / 100;
 	}
@@ -31,6 +34,12 @@ public class Product {
 	}
 	public void reduceQuantity(int i) {
 		_quantityAvailable -= i;
+	}
+	public void addedToCart() {
+		_quantityInCart++;
+	}
+	public void addedToCart(int i) {
+		_quantityInCart += i;
 	}
 
 	public void printProductInfo() {
