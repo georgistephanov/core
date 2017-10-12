@@ -1,4 +1,5 @@
 package core;
+import data.DataFetcher;
 import lib.GeneralHelperFunctions;
 import user.*;
 import product.*;
@@ -11,8 +12,10 @@ public class Main {
 	public static void main(String[] args) {
 
 		// These objects should be created inside the engine class
-		Engine e = Engine.getInstance();
-		e.execute();
+		//Engine e = Engine.getInstance();
+		//e.execute();
+
+		DataFetcher.callMySQL();
 	}
 }
 // Engine class which implements the Singleton pattern
