@@ -16,32 +16,15 @@ public class ProductCatalog {
 
 	public ProductCatalog(BasicUser user) {
 		// Initialise the product catalog
-		// TODO: Refactor this
 		try {
-			ArrayList<String> fileData;
-			fileData = DataFetcher.readFromFile("D:\\Projects\\Java Playground\\CORE Control Centre\\data\\products.txt", 20);
+			MySQLAccess db = MySQLAccess.getMySQLObject();
 
-			String productInfo[] = new String[3];
-
-			int i=0;
-			for (String line : fileData) {
-				if (i < 3) {
-					productInfo[i] = line;
-					i++;
-				}
-				else {
-					double price = Double.parseDouble(productInfo[1]);
-					int quantity = Integer.parseInt(productInfo[2]);
-
-					catalog.add(new Product(productInfo[0], price, quantity));
-					i = 0;
-				}
-			}
+			catalog = db.getProductsFromDatabase();
 
 			associatedUser = user;
 		}
-		catch (IOException e) {
-			System.out.println("Error reading the products file.");
+		catch (Exception e) {
+			System.out.println(e.toString());
 		}
 	}
 

@@ -1,5 +1,7 @@
 package product;
 
+import java.text.DecimalFormat;
+
 public class Product {
 	private static long _productID = 123_456_00;
 	public long productID;
@@ -9,12 +11,14 @@ public class Product {
 	private int _quantityAvailable;
 	private int _quantityInCart;
 
-	public Product(String n, double p, int q) {
+	DecimalFormat f = new DecimalFormat("####.##");
+
+	public Product(int id, String n, double p, int q) {
 		_name = n;
 		_price = p;
 		_quantityAvailable = q;
 		_quantityInCart = 0;
-		productID = _productID++;
+		productID = _productID + id;
 	}
 
 	// GETTERS
@@ -44,9 +48,9 @@ public class Product {
 
 	public void printProductInfo() {
 		System.out.println("Product ID: " + productID + "\nName: " + _name
-				+ "\nPrice: " + _price + "\nQuantity: " + _quantityAvailable + "\n");
+				+ "\nPrice: " + f.format(_price) + "\nQuantity: " + _quantityAvailable + "\n");
 	}
 	public void printShortProductInfo() {
-		System.out.println(_name + ", $" + _price);
+		System.out.println(_name + ", $" + f.format(_price));
 	}
 }

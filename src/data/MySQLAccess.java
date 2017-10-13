@@ -1,47 +1,50 @@
 package data;
+import product.Product;
+
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import java.sql.*;
 
-public class DataFetcher {
+// This class implements the Singleton pattern
+public class MySQLAccess {
+	private static MySQLAccess db = new MySQLAccess();
 
-	public static ArrayList<String> readFromFile(String fileName, int approxNumOfLines) throws IOException {
-
-		ArrayList<String> file_data = new ArrayList<>();
-
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(fileName));
-
-			for (String line = br.readLine(); line != null; line = br.readLine()) {
-				file_data.add(line);
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("File '" + fileName + "' not found.");
-		}
-
-		return file_data;
-	}
-
-	public static void callMySQL() {
-		MySQLAccess m = new MySQLAccess();
-		try {
-			m.readDatabase();
-		}
-		catch (Exception e) {
-			System.out.println(e.toString());
-		}
-
-	}
-}
-
-class MySQLAccess {
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public void readDatabase() throws Exception {
+
+	private MySQLAccess() {}
+	public static MySQLAccess getMySQLObject() { return db; }
+
+
+	public ArrayList<Product> getProductsFromDatabase() {
+		ArrayList<Product> products = new ArrayList<>();
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT * FROM product");
+
+			products = createArrayListFromResultSet(resultSet);
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return products;
+	}
+
+	private void readDatabase() throws Exception {
 		try {
 			// This will load the MySQL driver
 			Class.forName("com.mysql.jdbc.Driver");
@@ -114,6 +117,21 @@ class MySQLAccess {
 			System.out.println("Password: " + password);
 			System.out.println("Cuteness: " + cuteness + "\n");
 		}
+	}
+
+	private ArrayList<Product> createArrayListFromResultSet(ResultSet resultSet) throws SQLException {
+		ArrayList<Product> products = new ArrayList<>();
+
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String productName = resultSet.getString("name");
+			float price = resultSet.getFloat("price");
+			int quantityAv = resultSet.getInt("quantityAvailable");
+
+			products.add(new Product(id, productName, price, quantityAv));
+		}
+
+		return products;
 	}
 
 	private void close() {
