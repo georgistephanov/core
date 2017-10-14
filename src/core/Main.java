@@ -72,12 +72,8 @@ class Engine {
 
 	private int initialiseMenu() {
 		// General menu
-		System.out.println("\nMenu:");
-		System.out.println("\t1. View catalog");
-		System.out.println("\t2. Scan product");
-		System.out.println("\t3. Profile");
-		System.out.println("\t4. Cart");
-		System.out.println("\n\t0. Exit");
+		String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
+		GeneralHelperFunctions.generateMenu(mainMenu);
 
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -106,9 +102,15 @@ class Engine {
 }
 
 
-//TODO: create a method which terminates the engine and the program
-// TODO: create a method that takes strings as parameters and outputs a menu
+/* TODO: Use the factory method design pattern combined with dependency inversion to
+   TODO: add categories to the products and create the correct object dependant on the category
+   TODO: and also use it to create different types of accounts (Basic, Premium, Employee, Manager, Owner)
 
-// BIG CHANGE TODO: Refactor the code so that all of the logic is inside the Engine class
+   TODO: See if you can somehow use Abstract Factory to manage different product attributes depending
+   TODO: on the category.
+*/
+
+// TODO: Store purchase information about the user in the database
+// TODO: Add logout and change user option
 
 // GENERAL TODO: Look into Java best practices if it is the best decision to have that much static classes.

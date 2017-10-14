@@ -34,14 +34,36 @@ public class Cart {
 		return false;
 	}
 
-	private boolean productAlreadyInCart(Product p) {
+	public boolean addToCart(Product p, int quantity) {
+		if (quantity >= 1 && p.getQuantityAvailable() >= quantity) {
+			if (!productAlreadyInCart(p)) {
+				items.add(p);
+			}
+
+			p.addedToCart(quantity);
+			totalAmount += (quantity + p.getPrice());
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean productAlreadyInCart(Product p) {
 		for (Product i : items) {
 			// TODO: check the IDs as it would be safer
-			if (i.getName() == p.getName())
+			if (i.getID() == i.getID())
 				return true;
 		}
 
 		return false;
+	}
+
+	public void removeFromCart(Product p) {
+		if (items.remove(p)) {
+			System.out.println(p.getName() + " successfully removed from the cart");
+		} else {
+			System.out.println("This item was not in the cart.");
+		}
 	}
 
 	private void showItems() {
@@ -73,12 +95,8 @@ public class Cart {
 	}
 
 	public void cartMenu() {
-		System.out.println("\nCart:");
-		System.out.println("\t1. View items");
-		System.out.println("\t2. Checkout");
-		System.out.println("\t");
-		System.out.println("\t9. Cancel line");
-		System.out.println("\t0. Back");
+		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
+		GeneralHelperFunctions.generateMenu(cartMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 
@@ -92,13 +110,12 @@ public class Cart {
 				else
 					System.out.println("The cart is empty.");
 				break;
-			case 9:
+			case 3:
 				cancelLine();
 				break;
 			case 0:
 				return;
 			default:
-
 		}
 
 		cartMenu();

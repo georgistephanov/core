@@ -30,6 +30,7 @@ public class Product {
 		return (double) Math.round(_price * 100) / 100;
 	}
 	public String getName() { return _name; }
+	public long getID() { return productID; }
 
 
 	// Subtracts the quantity bought from the initial available quantity

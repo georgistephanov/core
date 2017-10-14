@@ -39,22 +39,44 @@ public class BasicUser implements User {
 	public void addToCart(Product p) {
 		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to your cart? (y/n)");
 
-		if (GeneralHelperFunctions.askForDecision()) {
-			if (cart.addToCart(p)) {
-				System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
+		if (!cart.productAlreadyInCart(p)) {
+			if (GeneralHelperFunctions.askForDecision()) {
+				if (cart.addToCart(p)) {
+					System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
+				}
+			} else {
+				System.out.println("The product has not been added to the cart.");
+			}
+		} else {
+			System.out.println("The product is already in the cart. Do you want to add more?");
+
+			if (GeneralHelperFunctions.askForDecision()) {
+				System.out.println("Maximum quantity available: " + p.getQuantityAvailable());
+				System.out.print("Enter quantity: ");
+				int quantity = GeneralHelperFunctions.inputIntegerOption(0, p.getQuantityAvailable());
+
+				if (quantity != -1) {
+					cart.addToCart(p, quantity);
+				} else {
+					System.out.println("Incorrect input provided.");
+					return;
+				}
+			} else {
+				System.out.println("Do you want to remove the product from the cart?");
+
+				if (GeneralHelperFunctions.askForDecision()) {
+					cart.removeFromCart(p);
+				}
+				else {
+					return;
+				}
 			}
 		}
-		else {
-			System.out.println("The product has not been added to the cart.");
-		}
-		//TODO Check to see if the product is in the cart now. If so, ask whether to delete it or not.
 	}
 
 	public void userProfileMenu() {
-		System.out.println("\nProfile:");
-		System.out.println("\t1. View profile info");
-		System.out.println("\t2. Edit profile");
-		System.out.println("\n\t0. Back");
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Back"};
+		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
 
@@ -69,9 +91,12 @@ public class BasicUser implements User {
 				System.out.println("Incorrect input! Please try again.");
 				userProfileMenu();
 				break;
-			default:
+			case 0:
 				return;
+			default:
 		}
+
+		userProfileMenu();
 	}
 
 	public void userCartMenu() {
