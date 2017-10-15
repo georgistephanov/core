@@ -1,14 +1,13 @@
 package lib;
 
+import core.Engine;
+
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class GeneralHelperFunctions {
 
-	// Fix: This isn't behaving correctly when trying to scan more than one products consecutively
 	public static boolean askForDecision() {
-		Scanner s = new Scanner(System.in);
-		char opt = s.nextLine().toLowerCase().charAt(0);
+		char opt = Engine.inputScanner.next().toLowerCase().charAt(0);
 
 		if (opt == 'y')
 			return true;
@@ -17,11 +16,10 @@ public class GeneralHelperFunctions {
 	}
 
 	public static int inputIntegerOption(int start, int end) {
-		Scanner s = new Scanner(System.in);
 		int opt;
 
 		try {
-			opt = s.nextInt();
+			opt = Engine.inputScanner.nextInt();
 
 			if (opt >= start && opt <= end)
 				return opt;

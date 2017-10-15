@@ -8,7 +8,7 @@ public class Product {
 
 	private String _name;
 	private double _price;
-	private int _quantityAvailable;
+	private int _quantityAvailable, _defaultQuantityAvailable;
 	private int _quantityInCart;
 
 	DecimalFormat f = new DecimalFormat("####.##");
@@ -17,11 +17,12 @@ public class Product {
 		_name = n;
 		_price = p;
 		_quantityAvailable = q;
+		_defaultQuantityAvailable = q;
 		_quantityInCart = 0;
 		productID = _productID + id;
 	}
 
-	// GETTERS
+	/* ============== GETTERS ============== */
 	public int getQuantityAvailable() {
 		return _quantityAvailable - _quantityInCart;
 	}
@@ -34,24 +35,32 @@ public class Product {
 
 
 	// Subtracts the quantity bought from the initial available quantity
-	public void reduceQuantity() {
+	public void reduceQuantityAvailable() {
 		_quantityAvailable--;
 	}
-	public void reduceQuantity(int i) {
+	public void reduceQuantityAvailable(int i) {
 		_quantityAvailable -= i;
 	}
-	public void addedToCart() {
+	public void increaseQuantityInCart() {
 		_quantityInCart++;
 	}
-	public void addedToCart(int i) {
+	public void increaseQuantityInCart(int i) {
 		_quantityInCart += i;
 	}
 
+	public void productRemovedFromCart() {
+		_quantityAvailable = _defaultQuantityAvailable;
+		_quantityInCart = 0;
+	}
+
+
+	// Prints full product info
 	public void printProductInfo() {
 		System.out.println("Product ID: " + productID + "\nName: " + _name
 				+ "\nPrice: " + f.format(_price) + "\nQuantity: " + _quantityAvailable + "\n");
 	}
+	// Prints short product info
 	public void printShortProductInfo() {
-		System.out.println(_name + ", $" + f.format(_price));
+		System.out.println(_quantityInCart + " " + _name + ", $" + f.format(_price));
 	}
 }

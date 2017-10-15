@@ -12,12 +12,13 @@ public class BasicUser implements User {
 	private static int number_of_accounts = 1;
 
 	private String username;
-	private String accountType = "Basic user"; //TODO: this should be enumeration
+	private String accountType = "Basic user";
 
 	private VisaCard card = new VisaCard();
 	private Cart cart = new Cart(card);
 
-	// CONSTRUCTORS
+
+	/* ============== CONSTRUCTORS ============== */
 	public BasicUser() {
 		accountNumber = User.account_num + BasicUser.number_of_accounts++;
 		String[] info = UserOperations.createUser();
@@ -30,48 +31,17 @@ public class BasicUser implements User {
 		this.username = username;
 	}
 
-	// Getters
+
+	/* ============== GETTERS ============== */
 	long getAccountNumber() { return this.accountNumber; }
 	String getUsername() { return this.username; }
 	String getAccountType() { return this.accountType; }
 
-	// PUBLIC METHODS
+
+
+	/* ============== PUBLIC METHODS ============== */
 	public void addToCart(Product p) {
-		System.out.println("Product '" + p.getName() + "' is available.\nDo you want to add it to your cart? (y/n)");
-
-		if (!cart.productAlreadyInCart(p)) {
-			if (GeneralHelperFunctions.askForDecision()) {
-				if (cart.addToCart(p)) {
-					System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
-				}
-			} else {
-				System.out.println("The product has not been added to the cart.");
-			}
-		} else {
-			System.out.println("The product is already in the cart. Do you want to add more?");
-
-			if (GeneralHelperFunctions.askForDecision()) {
-				System.out.println("Maximum quantity available: " + p.getQuantityAvailable());
-				System.out.print("Enter quantity: ");
-				int quantity = GeneralHelperFunctions.inputIntegerOption(0, p.getQuantityAvailable());
-
-				if (quantity != -1) {
-					cart.addToCart(p, quantity);
-				} else {
-					System.out.println("Incorrect input provided.");
-					return;
-				}
-			} else {
-				System.out.println("Do you want to remove the product from the cart?");
-
-				if (GeneralHelperFunctions.askForDecision()) {
-					cart.removeFromCart(p);
-				}
-				else {
-					return;
-				}
-			}
-		}
+		cart.addToCart(p);
 	}
 
 	public void userProfileMenu() {

@@ -14,8 +14,11 @@ public class ProductCatalog {
 
 	public static ArrayList<Product> catalog = new ArrayList<>();
 
+
+	/* ============== PUBLIC METHODS ============== */
+
+	// Generates a catalog from the products in the database
 	public ProductCatalog(BasicUser user) {
-		// Initialise the product catalog
 		try {
 			MySQLAccess db = MySQLAccess.getMySQLObject();
 
@@ -48,7 +51,9 @@ public class ProductCatalog {
 		}
 	}
 
-	// PRIVATE METHODS
+
+	/* ============== PRIVATE METHODS ============== */
+
 	private static boolean _isProductAvailable(long id) {
 		for(Product p : catalog) {
 			if (p.productID == id)
