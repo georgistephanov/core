@@ -1,11 +1,10 @@
 package user;
 
+import core.Engine;
+import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 import product.*;
-import sun.java2d.loops.FillRect;
-
-import java.util.Scanner;
 
 public class BasicUser implements User {
 	private long accountNumber;
@@ -17,18 +16,31 @@ public class BasicUser implements User {
 	private VisaCard card = new VisaCard();
 	private Cart cart = new Cart(card);
 
+	public boolean authorised = false;
+
 
 	/* ============== CONSTRUCTORS ============== */
 	public BasicUser() {
-		accountNumber = User.account_num + BasicUser.number_of_accounts++;
 		String[] info = UserOperations.createUser();
-		this.username = info[0];
-		// TODO: store the password
+		MySQLAccess db = MySQLAccess.getMySQLObject();
+
+		if (info[0] != null && info[1] != null) {
+			if (db.registerUser(info[0], info[1])) {
+				accountNumber = User.account_num + db.getIDFromUsername(info[0]);
+				this.username = info[0];
+				authorised = true;
+			} else {
+				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
+			}
+		}
 	}
+
 	public BasicUser(String username, String password) {
-		UserOperations.login(username, password);
-		accountNumber = User.account_num + BasicUser.number_of_accounts++;
-		this.username = username;
+		if (UserOperations.login(username, password)) {
+			accountNumber = User.account_num + MySQLAccess.getMySQLObject().getIDFromUsername(username);
+			this.username = username;
+			authorised = true;
+		}
 	}
 
 

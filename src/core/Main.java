@@ -1,10 +1,6 @@
 package core;
-import lib.GeneralHelperFunctions;
-import user.*;
-import product.*;
 
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import data.MySQLAccess;
 
 public class Main {
 
@@ -12,6 +8,7 @@ public class Main {
 
 		Engine e = Engine.getInstance();
 		e.execute();
+
 	}
 }
 

@@ -1,5 +1,6 @@
 package core;
 
+import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
 import product.ProductCatalog;
 import user.BasicUser;
@@ -16,7 +17,7 @@ public class Engine {
 	private PhysicalScanner scanner;
 	private ProductCatalog db;
 
-	public static final Scanner inputScanner = new Scanner(System.in);
+	public static Scanner inputScanner;
 
 	private Engine() {
 		running = true;
@@ -24,7 +25,10 @@ public class Engine {
 		System.out.println("CORE Control Centre running...\n");
 		System.out.println("Welcome to CORE Control Centre!\n");
 
-		user = new BasicUser("Georgi", "123");
+		inputScanner = new Scanner(System.in);
+
+		user = promptLogin();
+
 		scanner = PhysicalScanner.initialise();
 		db = new ProductCatalog(user);
 	}
@@ -62,6 +66,34 @@ public class Engine {
 				System.out.println("\nPlease provide a correct input!");
 			}
 		}
+	}
+
+	// TODO: Fix behaviour when unexisting username is being typed or wrong password
+	// Works for correct input and already registered user
+	private BasicUser promptLogin() {
+		BasicUser user;
+
+		System.out.println("\nDo you have an account? (y/n)");
+
+		if (GeneralHelperFunctions.askForDecision()) {
+			System.out.println("\n\nLogin...\n");
+
+			String username;
+			//while () {
+				System.out.println("Username: ");
+				username = Engine.inputScanner.next();
+			//}
+
+
+			System.out.println("Password: ");
+			String password = Engine.inputScanner.next();
+
+			user = new BasicUser(username, password);
+		} else {
+			user = new BasicUser();
+		}
+
+		return user;
 	}
 
 	private int initialiseMenu() {

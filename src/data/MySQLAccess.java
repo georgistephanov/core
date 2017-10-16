@@ -32,7 +32,7 @@ public class MySQLAccess {
 
 			resultSet = statement.executeQuery("SELECT * FROM product");
 
-			products = createArrayListFromResultSet(resultSet);
+			products = createProductArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -42,6 +42,119 @@ public class MySQLAccess {
 		}
 
 		return products;
+	}
+
+	public ArrayList<String> getUsernames() {
+		ArrayList<String> usernames = new ArrayList<>();
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT username FROM usernames");
+			usernames = createStringArrayListFromResultSet(resultSet);
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: getUsernames()) " + e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return usernames;
+	}
+
+	// Restrict to 3 wrong passwords
+	public boolean login(String username, String password) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				String dbPassword = resultSet.getString("password");
+				System.out.println("Trying to login now...    " + password + " == " + dbPassword);
+
+				if (password.equals(dbPassword)) {
+					System.out.println("Password match");
+					return true;
+				} else {
+					System.out.println("Wrong password. Try again!");
+					login(username, password);
+				}
+			} else {
+				System.out.println("(MySQLAccess: login()) Unable to read the resultSet");
+			}
+
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: login()) " + e.toString());
+		}
+		finally {
+			close();
+		}
+
+		System.out.println("(MySQLAccess: login()) Unable to authorise you. Please try again!");
+		return false;
+	}
+
+	public boolean registerUser(String username, String password) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?, ?)");
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			preparedStatement.setInt(3, 0);
+			preparedStatement.setBoolean(4, false);
+			preparedStatement.executeUpdate();
+
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: registerUser()) Error while trying to add the user to the database.");
+			System.out.println(e.toString());
+			return false;
+		}
+		finally {
+			close();
+		}
+
+		return true;
+	}
+
+	public int getIDFromUsername(String username) {
+		int id = -1;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT id FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				id = Integer.parseInt(resultSet.getString("id"));
+			} else {
+				System.out.println("(MySQLAccess: getIDFromUsername) No such user exists.");
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return id;
 	}
 
 	private void readDatabase() throws Exception {
@@ -119,7 +232,7 @@ public class MySQLAccess {
 		}
 	}
 
-	private ArrayList<Product> createArrayListFromResultSet(ResultSet resultSet) throws SQLException {
+	private ArrayList<Product> createProductArrayListFromResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<Product> products = new ArrayList<>();
 
 		while (resultSet.next()) {
@@ -132,6 +245,16 @@ public class MySQLAccess {
 		}
 
 		return products;
+	}
+
+	private ArrayList<String> createStringArrayListFromResultSet(ResultSet resultSet) throws SQLException {
+		ArrayList<String> arrayList = new ArrayList<>();
+
+		while (resultSet.next()) {
+			arrayList.add(resultSet.getString("username"));
+		}
+
+		return arrayList;
 	}
 
 	private void close() {
