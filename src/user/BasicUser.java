@@ -16,6 +16,8 @@ public class BasicUser implements User {
 	private VisaCard card = new VisaCard();
 	private Cart cart = new Cart(card);
 
+	private int login_max_try = 3;
+
 	public boolean authorised = false;
 
 
@@ -35,12 +37,44 @@ public class BasicUser implements User {
 		}
 	}
 
-	public BasicUser(String username, String password) {
-		if (UserOperations.login(username, password)) {
-			accountNumber = User.account_num + MySQLAccess.getMySQLObject().getIDFromUsername(username);
-			this.username = username;
-			authorised = true;
+	public BasicUser(boolean hasAccount) {
+		if (hasAccount) {
+			initUser();
 		}
+		else {
+			System.out.println("BasicUser: Invalid call to constructor with parameter: false");
+			Engine.terminateApplication();
+		}
+	}
+
+	private void initUser() {
+		if (login_max_try > 0) {
+			String info[] = askForUsernameAndPassword();
+
+			if (UserOperations.login(info[0], info[1])) {
+				accountNumber = User.account_num + MySQLAccess.getMySQLObject().getIDFromUsername(info[0]);
+				this.username = info[0];
+				authorised = true;
+			} else {
+				login_max_try--;
+				System.out.println("\n\n" + login_max_try + " tries left.");
+				initUser();
+			}
+		} else {
+			Engine.terminateApplication();
+		}
+	}
+
+	private String[] askForUsernameAndPassword() {
+		String info[] = new String[2];
+
+		System.out.println("Username: ");
+		info[0] = Engine.inputScanner.next();
+
+		System.out.println("Password: ");
+		info[1] = Engine.inputScanner.next();
+
+		return info;
 	}
 
 

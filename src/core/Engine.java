@@ -76,19 +76,7 @@ public class Engine {
 		System.out.println("\nDo you have an account? (y/n)");
 
 		if (GeneralHelperFunctions.askForDecision()) {
-			System.out.println("\n\nLogin...\n");
-
-			String username;
-			//while () {
-				System.out.println("Username: ");
-				username = Engine.inputScanner.next();
-			//}
-
-
-			System.out.println("Password: ");
-			String password = Engine.inputScanner.next();
-
-			user = new BasicUser(username, password);
+			user = new BasicUser(true);
 		} else {
 			user = new BasicUser();
 		}

@@ -14,12 +14,12 @@ abstract class UserOperations {
 		ArrayList<String> usernames = MySQLAccess.getMySQLObject().getUsernames();
 		boolean usernameExists;
 
-		System.out.println("Create a new account...");
+		System.out.println("\nCreating a new account...");
 
 		do {
 			usernameExists = false;
 
-			System.out.println("\nUsername: ");
+			System.out.print("\nUsername: ");
 			info[0] = Engine.inputScanner.next();
 
 			for (String u : usernames) {
@@ -33,11 +33,10 @@ abstract class UserOperations {
 		System.out.print("Password: ");
 		info[1] = Engine.inputScanner.next();
 
-		System.out.println("\nUsername: " + info[0] + "   Password: " + info[1]);
+		System.out.println("\n\nThank you for becoming a part of Giorgio's.\n");
 		return info;
 	}
 
-	// TODO: needs to be implemented after the createUser method
 	static boolean login(String user, String pw) {
 		MySQLAccess db = MySQLAccess.getMySQLObject();
 

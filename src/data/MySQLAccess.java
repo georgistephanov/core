@@ -66,37 +66,38 @@ public class MySQLAccess {
 		return usernames;
 	}
 
-	// Restrict to 3 wrong passwords
 	public boolean login(String username, String password) {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
 
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
-			statement = connect.createStatement();
+		boolean usernameExists = usernameExists(username);
 
-			resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
+		if (usernameExists) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
 
-			if (resultSet.next()) {
-				String dbPassword = resultSet.getString("password");
-				System.out.println("Trying to login now...    " + password + " == " + dbPassword);
+				connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+				statement = connect.createStatement();
+				resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
 
-				if (password.equals(dbPassword)) {
-					System.out.println("Password match");
-					return true;
-				} else {
-					System.out.println("Wrong password. Try again!");
-					login(username, password);
+				if (resultSet.next()) {
+					String dbPassword = resultSet.getString("password");
+
+					if (password.equals(dbPassword)) {
+						System.out.println("\nPassword match.\nLogging you in...\n");
+						return true;
+					} else {
+						System.out.println("Wrong password. Try again!");
+						return false;
+					}
 				}
-			} else {
-				System.out.println("(MySQLAccess: login()) Unable to read the resultSet");
-			}
 
-		}
-		catch (Exception e) {
-			System.out.println("(MySQLAccess: login()) " + e.toString());
-		}
-		finally {
-			close();
+			} catch (Exception e) {
+				System.out.println("(MySQLAccess: login()) " + e.toString());
+			} finally {
+				close();
+			}
+		} else {
+			System.out.println("No such username exists.");
+			return false;
 		}
 
 		System.out.println("(MySQLAccess: login()) Unable to authorise you. Please try again!");
@@ -230,6 +231,18 @@ public class MySQLAccess {
 			System.out.println("Password: " + password);
 			System.out.println("Cuteness: " + cuteness + "\n");
 		}
+	}
+
+	private boolean usernameExists(String username) {
+		ArrayList<String> usernames = getUsernames();
+
+		for (String u : usernames) {
+			if (u.equals(username.trim())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private ArrayList<Product> createProductArrayListFromResultSet(ResultSet resultSet) throws SQLException {
