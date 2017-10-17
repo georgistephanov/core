@@ -288,4 +288,82 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 	}
+
+
+	public boolean isAdmin(String username) {
+		boolean admin = false;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT admin FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				if(Integer.parseInt(resultSet.getString("admin")) == 1)
+					admin = true;
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return admin;
+	}
+
+	public boolean isManager(String username) {
+		boolean manager = false;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT manager FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				if(Integer.parseInt(resultSet.getString("manager")) == 1)
+					manager = true;
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return manager;
+	}
+
+	public boolean isPremium(String username) {
+		boolean premium = false;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT manager FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				if(Integer.parseInt(resultSet.getString("premium")) == 1)
+					premium = true;			}
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return premium;
+	}
 }

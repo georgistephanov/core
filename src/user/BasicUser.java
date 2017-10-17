@@ -3,91 +3,56 @@ package user;
 import core.Engine;
 import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
-import lib.payment.VisaCard;
-import product.*;
+import java.util.InputMismatchException;
 
-public class BasicUser implements User {
-	private long accountNumber;
-	private static int number_of_accounts = 1;
 
-	private String username;
-	private String accountType = "Basic user";
-
-	private VisaCard card = new VisaCard();
-	private Cart cart = new Cart(card);
-
-	private int login_max_try = 3;
-
-	public boolean authorised = false;
-
+public class BasicUser extends User {
 
 	/* ============== CONSTRUCTORS ============== */
+
+	// Main constructor which is used when an unregistered user is using the program
 	public BasicUser() {
 		String[] info = UserOperations.createUser();
 		MySQLAccess db = MySQLAccess.getMySQLObject();
 
 		if (info[0] != null && info[1] != null) {
 			if (db.registerUser(info[0], info[1])) {
-				accountNumber = User.account_num + db.getIDFromUsername(info[0]);
-				this.username = info[0];
-				authorised = true;
+				setObjectVariables(info[0], "Basic");
 			} else {
 				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
 			}
 		}
 	}
 
-	public BasicUser(boolean hasAccount) {
-		if (hasAccount) {
-			initUser();
-		}
-		else {
-			System.out.println("BasicUser: Invalid call to constructor with parameter: false");
-			Engine.terminateApplication();
-		}
-	}
-
-	private void initUser() {
-		if (login_max_try > 0) {
-			String info[] = askForUsernameAndPassword();
-
-			if (UserOperations.login(info[0], info[1])) {
-				accountNumber = User.account_num + MySQLAccess.getMySQLObject().getIDFromUsername(info[0]);
-				this.username = info[0];
-				authorised = true;
-			} else {
-				login_max_try--;
-				System.out.println("\n\n" + login_max_try + " tries left.");
-				initUser();
-			}
-		} else {
-			Engine.terminateApplication();
-		}
-	}
-
-	private String[] askForUsernameAndPassword() {
-		String info[] = new String[2];
-
-		System.out.println("Username: ");
-		info[0] = Engine.inputScanner.next();
-
-		System.out.println("Password: ");
-		info[1] = Engine.inputScanner.next();
-
-		return info;
+	public BasicUser(String username) {
+		setObjectVariables(username, "Basic");
 	}
 
 
-	/* ============== GETTERS ============== */
-	long getAccountNumber() { return this.accountNumber; }
-	String getUsername() { return this.username; }
-	String getAccountType() { return this.accountType; }
+	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
+
+	public int initialiseMainMenu() {
+		// General menu
+		String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
+		GeneralHelperFunctions.generateMenu(mainMenu);
 
 
-
-	/* ============== PUBLIC METHODS ============== */
-	public void addToCart(Product p) {
-		cart.addToCart(p);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		switch (opt) {
+			case 1:
+				return 1;
+			case 2:
+				return 2;
+			case 3:
+				return 3;
+			case 4:
+				return 4;
+			case 0:
+			case -1:
+				Engine.terminateApplication();
+			default:
+				throw new InputMismatchException();
+		}
 	}
 
 	public void userProfileMenu() {
@@ -115,7 +80,4 @@ public class BasicUser implements User {
 		userProfileMenu();
 	}
 
-	public void userCartMenu() {
-		this.cart.cartMenu();
-	}
 }

@@ -23,35 +23,6 @@ public class Cart {
 
 	/* ============== PUBLIC METHODS ============== */
 
-	// This method initialises the cart menu with all its menu options
-	public void cartMenu() {
-		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
-		GeneralHelperFunctions.generateMenu(cartMenu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
-
-		switch(opt) {
-			case 1:
-				showItems();
-				break;
-			case 2:
-				if (!empty())
-					if (checkout())
-						return;
-					else
-						System.out.println("The cart is empty.");
-				break;
-			case 3:
-				cancelLine();
-				break;
-			case 0:
-				return;
-			default:
-		}
-
-		cartMenu();
-	}
-
 
 	// This method is responsible for all the logic regarding adding a product to the cart
 	// TODO: REFACTOR THIS METHOD AS IT IS WAY TOO LONG
@@ -105,6 +76,46 @@ public class Cart {
 
 
 
+	/* ============== PROTECTED METHODS ============== */
+
+	// Prints a brief information about the products in the cart
+	protected void showItems() {
+		if (items.size() > 0) {
+			for (Product i : items) {
+				i.printShortProductInfo();
+			}
+			System.out.println("Total: " + getTotalAmount());
+		}
+		else {
+			System.out.println("\nYour cart is empty.");
+		}
+	}
+
+	// Cancels the current line and removes the products from the cart
+	protected void cancelLine() {
+		if (!this.empty()) {
+			System.out.println("Are you sure you want to remove all the items from the cart? (y/n)");
+			if (GeneralHelperFunctions.askForDecision()) {
+				items = new ArrayList<>();
+				System.out.println("\nYour cart has been emptied successfully");
+			}
+		}
+		else {
+			System.out.println("\nYour cart is empty.");
+		}
+	}
+
+	// Checks if the cart is empty
+	protected boolean empty() {
+		if (items.size() <= 0)
+			return true;
+
+		return false;
+	}
+
+
+
+
 	/* ============== PRIVATE METHODS ============== */
 
 	// Checks whether the product passed as a parameter is in the cart
@@ -133,33 +144,6 @@ public class Cart {
 		}
 	}
 
-	// Prints a brief information about the products in the cart
-	private void showItems() {
-		if (items.size() > 0) {
-			for (Product i : items) {
-				i.printShortProductInfo();
-			}
-			System.out.println("Total: " + getTotalAmount());
-		}
-		else {
-			System.out.println("\nYour cart is empty.");
-		}
-	}
-
-	// Cancels the current line and removes the products from the cart
-	private void cancelLine() {
-		if (!this.empty()) {
-			System.out.println("Are you sure you want to remove all the items from the cart? (y/n)");
-			if (GeneralHelperFunctions.askForDecision()) {
-				items = new ArrayList<>();
-				System.out.println("\nYour cart has been emptied successfully");
-			}
-		}
-		else {
-			System.out.println("\nYour cart is empty.");
-		}
-	}
-
 	// Returns the total cost of all products in the cart
 	private double getTotalAmount() {
 		double totalAmount = 0;
@@ -173,14 +157,6 @@ public class Cart {
 		return (double) Math.round(totalAmount * 100) / 100;
 	}
 
-	// Checks if the cart is empty
-	private boolean empty() {
-		if (items.size() <= 0)
-			return true;
-
-		return false;
-	}
-
 
 
 	/* ============== CHECKOUT METHODS ============== */
@@ -189,7 +165,7 @@ public class Cart {
 	// TODO: After checkout store the purchase info + receipt in the database
 
 	// The method responsible for all the logic regarding the checkout process
-	private boolean checkout() {
+	protected boolean checkout() {
 		// TODO: Print before checkout [ Qty | Item | Price ]
 		printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
