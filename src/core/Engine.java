@@ -16,7 +16,7 @@ public class Engine {
 
 	private User user;
 	private PhysicalScanner scanner;
-	private ProductCatalog db;
+	private static ProductCatalog db;
 
 	public static Scanner inputScanner;
 
@@ -36,16 +36,20 @@ public class Engine {
 
 	public static Engine getInstance() { return e; }
 
+	public static void printCatalog() {
+		db.printCatalog();
+	}
 
 	// This is the main method which is responsible for the engine
+	// TODO: This should be reimplemented
 	public void execute() {
 		int opt;
 
 		for (; ; ) {
 			try {
-				opt = initialiseMenu();
-				System.out.println(user.accountType + " ");
-				if (user.authorised && user.accountType.equalsIgnoreCase("basic")) {
+				opt = user.initialiseMainMenu();
+
+				if (user.authorised) {
 					switch (opt) {
 						case -1:
 							terminateApplication();
@@ -64,11 +68,7 @@ public class Engine {
 						default:
 
 					}
-				} else if (user.accountType.equalsIgnoreCase("admin")) {
-					System.out.println("big deal");
 				}
-
-
 
 			} catch (InputMismatchException exc) {
 				System.out.println("\nPlease provide a correct input!");
@@ -78,10 +78,6 @@ public class Engine {
 
 	private User promptLogin() {
 		return UserFactory.createUserObject();
-	}
-
-	private int initialiseMenu() {
-		return user.initialiseMainMenu();
 	}
 
 	public static void terminateApplication() {

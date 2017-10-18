@@ -60,6 +60,35 @@ abstract class UserOperations {
 
 	}
 
+	// TODO: Finish implementing this
+	static boolean changePassword(User b) {
+		System.out.print("Enter old password: ");
+		String oldPassword = Engine.inputScanner.next();
+
+		MySQLAccess db = MySQLAccess.getMySQLObject();
+
+		if (db.checkPassword) {
+			System.out.print("Enter new password: ");
+			String newPassword = Engine.inputScanner.next();
+
+			if (!newPassword.equals(oldPassword)) {
+				if (db.storeNewPassword(b.getUsername())) {
+					System.out.println("Password changed successfully!");
+					return true;
+				} else {
+					System.out.println("The database failed while storing the password.");
+					return false;
+				}
+			} else {
+				System.out.println("Your new password can't match the current one.");
+				return false;
+			}
+		} else {
+			System.out.println("Wrong current password!");
+			return false;
+		}
+	}
+
 
 	// FACTORY METHODS
 	static String[] askForUsernameAndPassword() {

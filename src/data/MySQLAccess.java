@@ -1,4 +1,5 @@
 package data;
+import core.Engine;
 import product.Product;
 
 import java.io.*;
@@ -111,17 +112,17 @@ public class MySQLAccess {
 			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
 			statement = connect.createStatement();
 
-			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?, ?)");
+			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?, false, false ,false)");
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
 			preparedStatement.setInt(3, 0);
-			preparedStatement.setBoolean(4, false);
 			preparedStatement.executeUpdate();
 
 		}
 		catch (Exception e) {
 			System.out.println("(MySQLAccess: registerUser()) Error while trying to add the user to the database.");
 			System.out.println(e.toString());
+			Engine.terminateApplication();
 			return false;
 		}
 		finally {
@@ -351,7 +352,7 @@ public class MySQLAccess {
 			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT manager FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT premium FROM usernames WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				if(Integer.parseInt(resultSet.getString("premium")) == 1)

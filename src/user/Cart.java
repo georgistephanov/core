@@ -157,6 +157,13 @@ public class Cart {
 		return (double) Math.round(totalAmount * 100) / 100;
 	}
 
+	private double premiumGetTotalAmount() {
+		double totalAmount = getTotalAmount();
+
+		// discount 10%
+		return (double) Math.round(totalAmount * 90) / 100;
+	}
+
 
 
 	/* ============== CHECKOUT METHODS ============== */
@@ -165,13 +172,12 @@ public class Cart {
 	// TODO: After checkout store the purchase info + receipt in the database
 
 	// The method responsible for all the logic regarding the checkout process
-	protected boolean checkout() {
-		// TODO: Print before checkout [ Qty | Item | Price ]
-		printCheckoutConfirmation();
+	protected boolean checkout(boolean premium) {
+		printCheckoutConfirmation(premium);
 		System.out.println("Do you want to process the order?");
 
 		if (GeneralHelperFunctions.askForDecision())
-			if (processOrder())
+			if (processOrder(premium))
 				return true;
 		else
 			System.out.println("Going back...");
@@ -179,10 +185,18 @@ public class Cart {
 		return false;
 	}
 
-	private boolean processOrder() {
-		if (associatedCard.makePayment(getTotalAmount())) {
+	private boolean processOrder(boolean premium) {
+
+		boolean paymentSuccessful;
+
+		if (premium)
+			paymentSuccessful = associatedCard.makePayment(premiumGetTotalAmount());
+		else
+			paymentSuccessful = associatedCard.makePayment(getTotalAmount());
+
+		if (paymentSuccessful) {
 			System.out.println("Payment successful! New balance: $" + associatedCard.getBalance());
-			generateReceipt();
+			generateReceipt(premium);
 			return true;
 		}
 		else {
@@ -192,20 +206,24 @@ public class Cart {
 	}
 
 	// Prints a confirmation message with all the info needed for a checkout
-	private void printCheckoutConfirmation() {
+	private void printCheckoutConfirmation(boolean premium) {
 		System.out.println("\n|Qty| Price\t\t| Item\t");
 		for (Product i : items) {
 			System.out.println("| " + i.getQuantityInCart() + " | $" + i.getPrice() + (i.getPrice() < 10 ? "\t\t| " : "\t| ") + i.getName());
 		}
 		System.out.println("\nTotal: $" + getTotalAmount());
+
+		if (premium)
+			System.out.println("Total after 10% discount: $" + premiumGetTotalAmount());
+
 		System.out.println();
 	}
 
 	// Prints the receipt and stores it in the database
 	// TODO: Store the receipt in the database
-	private void generateReceipt() {
+	private void generateReceipt(boolean premium) {
 		// TODO: Make it look like a real receipt
-		printCheckoutConfirmation();
+		printCheckoutConfirmation(premium);
 		System.out.println("The transaction has been made successfully.\nYou may take the products with you!");
 		System.out.println("Thank you for shopping at Giorgio's! Have a good day! :)");
 	}

@@ -47,11 +47,23 @@ public abstract class User {
 				cart.showItems();
 				break;
 			case 2:
-				if (!cart.empty())
-					if (cart.checkout())
+				if (!cart.empty()) {
+					boolean checkoutSuccessful;
+
+					if (accountType.equalsIgnoreCase("premium")) {
+						checkoutSuccessful = cart.checkout(true);
+					}
+					else {
+						checkoutSuccessful = cart.checkout(false);
+					}
+
+					if (checkoutSuccessful)
 						return;
-					else
-						System.out.println("The cart is empty.");
+
+				}
+				else
+					System.out.println("The cart is empty.");
+
 				break;
 			case 3:
 				cart.cancelLine();

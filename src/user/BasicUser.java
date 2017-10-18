@@ -24,10 +24,13 @@ public class BasicUser extends User {
 		}
 	}
 
-	public BasicUser(String username) {
-		setObjectVariables(username, "Basic");
+	public BasicUser(String username, Boolean premium) {
+		if (premium) {
+			setObjectVariables(username, "Premium");
+		} else {
+			setObjectVariables(username, "Basic");
+		}
 	}
-
 
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
 

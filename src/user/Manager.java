@@ -3,10 +3,11 @@ package user;
 import core.Engine;
 import lib.GeneralHelperFunctions;
 
-public class Admin extends User {
+public class Manager extends User {
 
-	public Admin(String username) {
-		setObjectVariables(username, "Admin");
+	public Manager(String username) {
+		System.out.println("Manager");
+		setObjectVariables(username, "Manager");
 	}
 
 	// TODO: This could be well expanded
@@ -49,4 +50,5 @@ public class Admin extends User {
 
 		userProfileMenu();
 	}
+
 }
