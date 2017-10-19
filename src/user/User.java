@@ -30,8 +30,8 @@ public abstract class User {
 	}
 
 	protected void setObjectVariables(String username, String accountType) {
-		account_num += MySQLAccess.getMySQLObject().getIDFromUsername(username);
 		this.username = username;
+		account_num += MySQLAccess.getMySQLObject().getIDFromUsername(username);
 		authorised = true;
 		this.accountType = accountType;
 	}

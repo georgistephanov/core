@@ -72,36 +72,66 @@ public class MySQLAccess {
 		boolean usernameExists = usernameExists(username);
 
 		if (usernameExists) {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-
-				connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
-				statement = connect.createStatement();
-				resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
-
-				if (resultSet.next()) {
-					String dbPassword = resultSet.getString("password");
-
-					if (password.equals(dbPassword)) {
-						System.out.println("\nPassword match.\nLogging you in...\n");
-						return true;
-					} else {
-						System.out.println("Wrong password. Try again!");
-						return false;
-					}
-				}
-
-			} catch (Exception e) {
-				System.out.println("(MySQLAccess: login()) " + e.toString());
-			} finally {
-				close();
+			if (passwordMatch(username, password)) {
+				System.out.println("Password match!\nLogging you in...");
+				return true;
 			}
 		} else {
 			System.out.println("No such username exists.");
-			return false;
 		}
 
-		System.out.println("(MySQLAccess: login()) Unable to authorise you. Please try again!");
+		return false;
+	}
+
+	public boolean passwordMatch(String username, String password) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
+
+			if (resultSet.next()) {
+				String dbPassword = resultSet.getString("password");
+
+				if(password.equals(dbPassword)) {
+					return true;
+				} else {
+					System.out.println("Wrong password. Try again!");
+				}
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return false;
+	}
+
+	public boolean changePassword(String username, String newPassword) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("UPDATE usernames SET password=? WHERE username=?");
+			preparedStatement.setString(1, newPassword);
+			preparedStatement.setString(2, username);
+			preparedStatement.executeUpdate();
+
+			return true;
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: changePassword) " + e.toString());
+		}
+		finally {
+			close();
+		}
+
 		return false;
 	}
 

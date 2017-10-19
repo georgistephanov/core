@@ -46,7 +46,7 @@ abstract class UserOperations {
 		return false;
 	}
 
-	static double getFunds(User user) {
+	static double getCurrentBalance(User user) {
 		return user.card.getBalance();
 	}
 
@@ -57,22 +57,25 @@ abstract class UserOperations {
 	}
 
 	static void editProfile(User b) {
+		System.out.println("\nDo you want to change your password?");
 
+		if (GeneralHelperFunctions.askForDecision()) {
+			changePassword(b);
+		}
 	}
 
-	// TODO: Finish implementing this
 	static boolean changePassword(User b) {
 		System.out.print("Enter old password: ");
 		String oldPassword = Engine.inputScanner.next();
 
 		MySQLAccess db = MySQLAccess.getMySQLObject();
 
-		if (db.checkPassword) {
+		if (db.passwordMatch(b.getUsername(), oldPassword)) {
 			System.out.print("Enter new password: ");
 			String newPassword = Engine.inputScanner.next();
 
 			if (!newPassword.equals(oldPassword)) {
-				if (db.storeNewPassword(b.getUsername())) {
+				if (db.changePassword(b.getUsername(), newPassword)) {
 					System.out.println("Password changed successfully!");
 					return true;
 				} else {
@@ -84,7 +87,6 @@ abstract class UserOperations {
 				return false;
 			}
 		} else {
-			System.out.println("Wrong current password!");
 			return false;
 		}
 	}

@@ -59,7 +59,7 @@ public class BasicUser extends User {
 	}
 
 	public void userProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Back"};
+		String profileMenu[] = {"Profile:", "View profile info", "Change password", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
@@ -69,7 +69,7 @@ public class BasicUser extends User {
 				UserOperations.printProfileInfo(this);
 				break;
 			case 2:
-				UserOperations.editProfile(this);
+				UserOperations.changePassword(this);
 				break;
 			case -1:
 				System.out.println("Incorrect input! Please try again.");
