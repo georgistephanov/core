@@ -14,18 +14,26 @@ public final class PhysicalScanner {
 
 	private PhysicalScanner() {	}
 
-	public static PhysicalScanner initialise() {
+	public static PhysicalScanner getInstance() {
 		return ps;
 	}
 
-	public void scanProduct() {
+	public Product scanProduct() {
+		Product p = null;
+
 		System.out.println("Type in the product ID: ");
 		long prodID = GeneralHelperFunctions.inputIntegerOption(123_456_00, 123_999_99);
 
-		if (prodID != -1)
-			ProductCatalog.productAvailable(prodID);
+		if (prodID != -1) {
+			if (ProductCatalog.productAvailable(prodID)) {
+				p = ProductCatalog.getProduct(prodID);
+			} else {
+				System.out.println("Sorry, this product is currently unavailable or there is no such product with this id.");
+			}
+		}
 		else
 			System.out.println("Please provide an ID in the correct format! (123_456_xx)\n");
 
+		return p;
 	}
 }

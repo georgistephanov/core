@@ -14,11 +14,11 @@ public abstract class User {
 	public boolean authorised = false;
 
 	protected VisaCard card = new VisaCard();
-	protected Cart cart = new Cart(card);
+	protected Cart cart = new Cart(card, false);
 
 
 	/* ============== ABSTRACT CLASSES ============== */
-	public abstract int initialiseMainMenu();
+	public abstract void initialiseMainMenu();
 	public abstract void userProfileMenu();
 	//public abstract void userCartMenu();
 
@@ -29,13 +29,15 @@ public abstract class User {
 		cart.addToCart(p);
 	}
 
+	// Method which sets the object variables when constructed
 	protected void setObjectVariables(String username, String accountType) {
 		this.username = username;
 		account_num += MySQLAccess.getMySQLObject().getIDFromUsername(username);
-		authorised = true;
 		this.accountType = accountType;
+		authorised = true;
 	}
 
+	// General cart menu interface
 	public void userCartMenu() {
 		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
 		GeneralHelperFunctions.generateMenu(cartMenu);
@@ -47,19 +49,13 @@ public abstract class User {
 				cart.showItems();
 				break;
 			case 2:
-				if (!cart.empty()) {
-					boolean checkoutSuccessful;
-
-					if (accountType.equalsIgnoreCase("premium")) {
-						checkoutSuccessful = cart.checkout(true);
+				if (!cart.empty() && cart.checkout()) {
+					if (cart.checkout()) {
+						return;
 					}
 					else {
-						checkoutSuccessful = cart.checkout(false);
+						System.out.println("Unsuccessful checkout.");
 					}
-
-					if (checkoutSuccessful)
-						return;
-
 				}
 				else
 					System.out.println("The cart is empty.");
@@ -69,8 +65,9 @@ public abstract class User {
 				cart.cancelLine();
 				break;
 			case 0:
-				return;
+				initialiseMainMenu();
 			default:
+				break;
 		}
 
 		userCartMenu();

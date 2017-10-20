@@ -11,19 +11,19 @@ public class Manager extends User {
 	}
 
 	// TODO: This could be well expanded
-	public int initialiseMainMenu() {
+	public void initialiseMainMenu() {
 		String mainMenu[] = {"Menu: ", "View catalog", "Profile", "System settings", "Exit"};
 		GeneralHelperFunctions.generateMenu(mainMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 		switch (opt) {
 			case 1:
-				return 1;
+				//return 1;
 			default:
 				Engine.terminateApplication();
 		}
 
-		return -1;
+		//return -1;
 	}
 
 	public void userProfileMenu() {

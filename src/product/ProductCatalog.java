@@ -41,15 +41,7 @@ public class ProductCatalog {
 	}
 
 	public static boolean productAvailable(long id) {
-		if (_isProductAvailable(id)) {
-			Product p = ProductCatalog.getProduct(id);
-			associatedUser.addToCart(p);
-			return true;
-		}
-		else {
-			System.out.println("There is no such product in our database.\n");
-			return false;
-		}
+		return _isProductAvailable(id);
 	}
 
 
@@ -64,7 +56,7 @@ public class ProductCatalog {
 		return false;
 	}
 
-	private static Product getProduct(long id) {
+	public static Product getProduct(long id) {
 		Product p = null;
 		for (Product pr : catalog)
 			if (pr.productID == id) {

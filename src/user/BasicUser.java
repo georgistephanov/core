@@ -1,8 +1,12 @@
 package user;
 
 import core.Engine;
+import core.PhysicalScanner;
 import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
+import product.Product;
+import sun.java2d.loops.FillRect;
+
 import java.util.InputMismatchException;
 
 
@@ -27,6 +31,7 @@ public class BasicUser extends User {
 	public BasicUser(String username, Boolean premium) {
 		if (premium) {
 			setObjectVariables(username, "Premium");
+			cart = new Cart(card, true);
 		} else {
 			setObjectVariables(username, "Basic");
 		}
@@ -34,7 +39,8 @@ public class BasicUser extends User {
 
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
 
-	public int initialiseMainMenu() {
+	// TODO: Encapsulate this logic to the current class. No need for the engine to do this
+	public void initialiseMainMenu() {
 		// General menu
 		String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
 		GeneralHelperFunctions.generateMenu(mainMenu);
@@ -43,16 +49,22 @@ public class BasicUser extends User {
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 		switch (opt) {
 			case 1:
-				return 1;
+				Engine.getInstance().printCatalog();
+				break;
 			case 2:
-				return 2;
+				Product p = PhysicalScanner.getInstance().scanProduct();
+				if ( p != null) {
+					cart.addToCart(p);
+				}
+				break;
 			case 3:
-				return 3;
+				userProfileMenu();
 			case 4:
-				return 4;
+				userCartMenu();
 			case 0:
-			case -1:
 				Engine.terminateApplication();
+			case -1:
+				return;
 			default:
 				throw new InputMismatchException();
 		}
@@ -74,10 +86,10 @@ public class BasicUser extends User {
 			case -1:
 				System.out.println("Incorrect input! Please try again.");
 				userProfileMenu();
-				break;
 			case 0:
-				return;
+				initialiseMainMenu();
 			default:
+				break;
 		}
 
 		userProfileMenu();

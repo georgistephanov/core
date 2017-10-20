@@ -30,15 +30,16 @@ public class Engine {
 
 		user = promptLogin();
 
-		scanner = PhysicalScanner.initialise();
+		scanner = PhysicalScanner.getInstance();
 		db = new ProductCatalog(user);
 	}
 
 	public static Engine getInstance() { return e; }
 
-	public static void printCatalog() {
+	public  void printCatalog() {
 		db.printCatalog();
 	}
+
 
 	// This is the main method which is responsible for the engine
 	// TODO: This should be reimplemented
@@ -47,28 +48,8 @@ public class Engine {
 
 		for (; ; ) {
 			try {
-				opt = user.initialiseMainMenu();
-
-				if (user.authorised) {
-					switch (opt) {
-						case -1:
-							terminateApplication();
-						case 1:
-							db.printCatalog();
-							break;
-						case 2:
-							scanner.scanProduct();
-							break;
-						case 3:
-							user.userProfileMenu();
-							break;
-						case 4:
-							user.userCartMenu();
-							break;
-						default:
-
-					}
-				}
+				if (user.authorised)
+					user.initialiseMainMenu();
 
 			} catch (InputMismatchException exc) {
 				System.out.println("\nPlease provide a correct input!");
