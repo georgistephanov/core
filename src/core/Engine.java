@@ -15,31 +15,20 @@ public class Engine {
 	public boolean running;
 
 	private User user;
-	private PhysicalScanner scanner;
-	private static ProductCatalog db;
-
-	public static Scanner inputScanner;
+	public static Scanner inputScanner = new Scanner(System.in);
 
 	private Engine() {
-		running = true;
 
+		running = true;
 		System.out.println("CORE Control Centre running...\n");
 		System.out.println("Welcome to CORE Control Centre!\n");
 
-		inputScanner = new Scanner(System.in);
-
 		user = promptLogin();
-
-		scanner = PhysicalScanner.getInstance();
-		db = new ProductCatalog(user);
 	}
 
+
+	/* ====== PUBLIC METHODS ====== */
 	public static Engine getInstance() { return e; }
-
-	public  void printCatalog() {
-		db.printCatalog();
-	}
-
 
 	// This is the main method which is responsible for the engine
 	// TODO: This should be reimplemented
@@ -57,13 +46,15 @@ public class Engine {
 		}
 	}
 
-	private User promptLogin() {
-		return UserFactory.createUserObject();
-	}
-
 	public static void terminateApplication() {
 		System.out.println("\n\n\tThank you for using CORE Cashless!");
 		System.out.print("\tExiting...\n\n");
 		System.exit(0);
+	}
+
+
+	/* ====== PRIVATE METHODS ====== */
+	private User promptLogin() {
+		return UserFactory.createUserObject();
 	}
 }

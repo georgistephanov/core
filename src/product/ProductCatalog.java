@@ -11,8 +11,7 @@ import user.User;
 // THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
 // WILL NOT EXIST WHEN A DB IS PRESENT
 public class ProductCatalog {
-	private static User associatedUser;
-
+	// An array list which holds all the products
 	public static ArrayList<Product> catalog = new ArrayList<>();
 
 
@@ -24,15 +23,13 @@ public class ProductCatalog {
 			MySQLAccess db = MySQLAccess.getMySQLObject();
 
 			catalog = db.getProductsFromDatabase();
-
-			associatedUser = user;
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
 	}
 
-	public void printCatalog() {
+	public static void printCatalog() {
 		if (!catalog.isEmpty()) {
 			for(Product p: catalog) {
 				p.printProductInfo();
@@ -42,18 +39,6 @@ public class ProductCatalog {
 
 	public static boolean productAvailable(long id) {
 		return _isProductAvailable(id);
-	}
-
-
-	/* ============== PRIVATE METHODS ============== */
-
-	private static boolean _isProductAvailable(long id) {
-		for(Product p : catalog) {
-			if (p.productID == id)
-				return true;
-		}
-
-		return false;
 	}
 
 	public static Product getProduct(long id) {
@@ -67,4 +52,14 @@ public class ProductCatalog {
 		return p;
 	}
 
+	/* ============== PRIVATE METHODS ============== */
+
+	private static boolean _isProductAvailable(long id) {
+		for(Product p : catalog) {
+			if (p.productID == id)
+				return true;
+		}
+
+		return false;
+	}
 }

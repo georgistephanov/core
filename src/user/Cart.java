@@ -26,7 +26,6 @@ public class Cart {
 
 	/* ============== PUBLIC METHODS ============== */
 
-
 	// This method is responsible for all the logic regarding adding a product to the cart
 	// TODO: REFACTOR THIS METHOD AS IT IS WAY TOO LONG
 	public boolean addToCart(Product p) {
@@ -201,7 +200,7 @@ public class Cart {
 	}
 
 	// Prints a confirmation message with all the info needed for a checkout
-	protected void printCheckoutConfirmation() {
+	private void printCheckoutConfirmation() {
 		System.out.println("\n|Qty| Price\t\t| Item\t");
 		for (Product i : items) {
 			System.out.println("| " + i.getQuantityInCart() + " | $" + i.getPrice() + (i.getPrice() < 10 ? "\t\t| " : "\t| ") + i.getName());

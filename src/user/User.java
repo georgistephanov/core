@@ -25,9 +25,6 @@ public abstract class User {
 
 
 	/* ============== IMPLEMENTED CLASSES ============== */
-	public void addToCart(Product p) {
-		cart.addToCart(p);
-	}
 
 	// Method which sets the object variables when constructed
 	protected void setObjectVariables(String username, String accountType) {

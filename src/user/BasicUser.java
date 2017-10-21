@@ -5,6 +5,7 @@ import core.PhysicalScanner;
 import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
 import product.Product;
+import product.ProductCatalog;
 import sun.java2d.loops.FillRect;
 
 import java.util.InputMismatchException;
@@ -38,8 +39,6 @@ public class BasicUser extends User {
 	}
 
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
-
-	// TODO: Encapsulate this logic to the current class. No need for the engine to do this
 	public void initialiseMainMenu() {
 		// General menu
 		String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
@@ -49,7 +48,7 @@ public class BasicUser extends User {
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 		switch (opt) {
 			case 1:
-				Engine.getInstance().printCatalog();
+				ProductCatalog.printCatalog();
 				break;
 			case 2:
 				Product p = PhysicalScanner.getInstance().scanProduct();

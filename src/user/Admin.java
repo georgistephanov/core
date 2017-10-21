@@ -50,3 +50,7 @@ public class Admin extends User {
 		userProfileMenu();
 	}
 }
+
+
+
+// TODO: Add system status for the admin
