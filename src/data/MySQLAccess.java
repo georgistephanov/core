@@ -22,6 +22,9 @@ public class MySQLAccess {
 	public static MySQLAccess getMySQLObject() { return db; }
 
 
+
+	/* ======== PUBLIC METHODS ======== */
+
 	public ArrayList<Product> getProductsFromDatabase() {
 		ArrayList<Product> products = new ArrayList<>();
 
@@ -189,6 +192,65 @@ public class MySQLAccess {
 		return id;
 	}
 
+	public boolean addProductToTheDatabase(String name, double price, int quantity) {
+		if (!_productAlreadyExists(name)) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+
+				connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+
+				preparedStatement = connect.prepareStatement("INSERT INTO product VALUES (default, ?, ?, ?)");
+				preparedStatement.setString(1, name);
+				preparedStatement.setDouble(2, price);
+				preparedStatement.setInt(3, quantity);
+
+				preparedStatement.executeUpdate();
+
+				return true;
+			} catch (Exception e) {
+				System.out.println("(MySQLAccess: addProductToTheDatabase) " + e.toString());
+			} finally {
+				close();
+			}
+		} else {
+			System.out.println("Product with such name already exists!");
+		}
+
+		return false;
+	}
+
+	public Product getProductFromName(String name) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/product?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM product WHERE name='" + name + "'");
+
+			int id = resultSet.getInt("id");
+			double price = resultSet.getDouble("price");
+			int quantity = resultSet.getInt("quantity");
+
+			if (id != 0 && price != 0 && quantity != 0)
+				return new Product(id, name, price, quantity);
+			else
+				System.out.println("Couldn't get the product information from the database.");
+
+			return null;
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return null;
+	}
+
+
+	/* ======== PRIVATE METHODS ======== */
+
 	private void readDatabase() throws Exception {
 		try {
 			// This will load the MySQL driver
@@ -318,6 +380,31 @@ public class MySQLAccess {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+	}
+
+	private boolean _productAlreadyExists(String name) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT name FROM product");
+
+			while (resultSet.next()) {
+				if (name.equalsIgnoreCase(resultSet.getString("name")))
+					return true;
+			}
+
+			return false;
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: _productAlreadyExists) " + e.toString());
+		}
+		finally {
+			close();
+		}
+
+		return true;
 	}
 
 

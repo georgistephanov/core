@@ -15,12 +15,15 @@ import java.util.Scanner;
 // This class implements the Singleton Pattern
 // TODO This could implement the observer pattern so that the scanner constantly waits for the id to be passed
 public final class PhysicalScanner {
+
 	/* ======== Class Members ======== */
 	private static PhysicalScanner ps = new PhysicalScanner();
 
 	// Private constructor to encapsulate the object itself
 	private PhysicalScanner() {	}
 
+
+	/* ======== Public Methods ======== */
 	public static PhysicalScanner getInstance() {
 		return ps;
 	}

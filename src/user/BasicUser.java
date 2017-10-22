@@ -25,7 +25,11 @@ public class BasicUser extends User {
 				setObjectVariables(info[0], "Basic");
 			} else {
 				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
+				Engine.terminateApplication();
 			}
+		} else {
+			System.out.println("Invalid username and/or password.");
+			Engine.terminateApplication();
 		}
 	}
 

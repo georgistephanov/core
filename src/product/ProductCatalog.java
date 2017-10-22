@@ -18,7 +18,7 @@ public class ProductCatalog {
 	/* ============== PUBLIC METHODS ============== */
 
 	// Generates a catalog from the products in the database
-	public ProductCatalog(User user) {
+	public ProductCatalog() {
 		try {
 			MySQLAccess db = MySQLAccess.getMySQLObject();
 
@@ -27,6 +27,15 @@ public class ProductCatalog {
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
+	}
+
+	public static boolean addProductToTheCatalog(Product p) {
+		if (p != null) {
+			catalog.add(p);
+			return true;
+		}
+
+		return false;
 	}
 
 	public static void printCatalog() {
@@ -51,6 +60,7 @@ public class ProductCatalog {
 
 		return p;
 	}
+
 
 	/* ============== PRIVATE METHODS ============== */
 

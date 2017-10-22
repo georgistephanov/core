@@ -2,6 +2,7 @@ package core;
 
 import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
+import product.Product;
 import product.ProductCatalog;
 import user.User;
 import user.UserFactory;
@@ -15,13 +16,17 @@ public class Engine {
 	public boolean running;
 
 	private User user;
-	public static Scanner inputScanner = new Scanner(System.in);
+	public static Scanner inputScanner;
+
+	private ProductCatalog catalog = new ProductCatalog();
 
 	private Engine() {
 
 		running = true;
 		System.out.println("CORE Control Centre running...\n");
 		System.out.println("Welcome to CORE Control Centre!\n");
+
+		inputScanner = new Scanner(System.in);
 
 		user = promptLogin();
 	}
@@ -31,10 +36,10 @@ public class Engine {
 	public static Engine getInstance() { return e; }
 
 	// This is the main method which is responsible for the engine
-	// TODO: This should be reimplemented
 	public void execute() {
 		int opt;
 
+		// Infinite loop which represents the main menu
 		for (; ; ) {
 			try {
 				if (user.authorised)

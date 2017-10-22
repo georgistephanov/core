@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/data/MySQLAccess.java" line="155" />
+    <bookmark url="file://$PROJECT_DIR$/src/data/MySQLAccess.java" line="158" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce654145-c427-4b47-bef5-1b577612164d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/core/Engine.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/core/Engine.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/core/PhysicalScanner.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/core/PhysicalScanner.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/data/MySQLAccess.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/data/MySQLAccess.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/product/ProductCatalog.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/product/ProductCatalog.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/BasicUser.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/BasicUser.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/Cart.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/Cart.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/Manager.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/Manager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/User.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/Engine.java" afterPath="$PROJECT_DIR$/src/core/Engine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/PhysicalScanner.java" afterPath="$PROJECT_DIR$/src/core/PhysicalScanner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/MySQLAccess.java" afterPath="$PROJECT_DIR$/src/data/MySQLAccess.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/product/ProductCatalog.java" afterPath="$PROJECT_DIR$/src/product/ProductCatalog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/Admin.java" afterPath="$PROJECT_DIR$/src/user/Admin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/BasicUser.java" afterPath="$PROJECT_DIR$/src/user/BasicUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/Cart.java" afterPath="$PROJECT_DIR$/src/user/Cart.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/Manager.java" afterPath="$PROJECT_DIR$/src/user/Manager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/User.java" afterPath="$PROJECT_DIR$/src/user/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/UserFactory.java" afterPath="$PROJECT_DIR$/src/user/UserFactory.java" />
     </list>
@@ -29,38 +39,49 @@
           <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/core/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="407">
-                  <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+                <state relative-caret-position="296">
+                  <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Engine.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="472">
-                  <caret line="29" column="38" lean-forward="false" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+                <state relative-caret-position="478">
+                  <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="method#Engine#0;class#Engine#0" expanded="false" />
                     <element signature="method#execute#0;class#Engine#0" expanded="false" />
                     <element signature="method#terminateApplication#0;class#Engine#0" expanded="false" />
-                    <element signature="e#1295#1296#0" expanded="true" />
-                    <element signature="e#1339#1340#0" expanded="true" />
+                    <element signature="e#1404#1405#0" expanded="true" />
+                    <element signature="e#1448#1449#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PhysicalScanner.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/core/PhysicalScanner.java">
+          <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/user/User.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="222">
-                  <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+                <state relative-caret-position="777">
+                  <caret line="21" column="60" lean-forward="false" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="method#setObjectVariables#0;class#User#0" expanded="false" />
+                    <element signature="method#userCartMenu#0;class#User#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Product.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/product/Product.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1698">
+                  <caret line="59" column="48" lean-forward="false" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -68,30 +89,18 @@
           <file leaf-file-name="ProductCatalog.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-222">
-                  <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+                <state relative-caret-position="399">
+                  <caret line="20" column="10" lean-forward="false" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="UserFactory.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/user/UserFactory.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="814">
-                  <caret line="28" column="93" lean-forward="false" selection-start-line="28" selection-start-column="93" selection-end-line="28" selection-end-column="93" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MySQLAccess.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="MySQLAccess.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/data/MySQLAccess.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="814">
-                  <caret line="164" column="50" lean-forward="false" selection-start-line="164" selection-start-column="50" selection-end-line="164" selection-end-column="50" />
+                <state relative-caret-position="1218">
+                  <caret line="298" column="9" lean-forward="true" selection-start-line="298" selection-start-column="9" selection-end-line="298" selection-end-column="9" />
                   <folding>
                     <element signature="method#getProductsFromDatabase#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#getUsernames#0;class#MySQLAccess#0" expanded="false" />
@@ -100,13 +109,13 @@
                     <element signature="method#changePassword#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#registerUser#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#getIDFromUsername#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#readDatabase#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#addProductToTheDatabase#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#writeMetaData#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#writeResultSet#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#usernameExists#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#createProductArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#createStringArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#close#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_productAlreadyExists#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#isAdmin#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#isManager#0;class#MySQLAccess#0" expanded="false" />
                     <element signature="method#isPremium#0;class#MySQLAccess#0" expanded="false" />
@@ -119,25 +128,23 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-          <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/user/User.java">
+          <file leaf-file-name="Manager.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/user/Manager.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="472">
-                  <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+                <state relative-caret-position="740">
+                  <caret line="53" column="14" lean-forward="false" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="14" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="method#setObjectVariables#0;class#User#0" expanded="false" />
-                    <element signature="method#userCartMenu#0;class#User#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="BasicUser.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="BasicUser.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1308">
-                  <caret line="41" column="4" lean-forward="false" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
+                <state relative-caret-position="1776">
+                  <caret line="54" column="43" lean-forward="false" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="43" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -145,11 +152,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Cart.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Cart.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/user/Cart.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="711">
-                  <caret line="202" column="11" lean-forward="false" selection-start-line="202" selection-start-column="11" selection-end-line="202" selection-end-column="11" />
+                <state relative-caret-position="1318">
+                  <caret line="219" column="49" lean-forward="true" selection-start-line="219" selection-start-column="49" selection-end-line="219" selection-end-column="49" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#addToCart#0;class#Cart#0" expanded="false" />
@@ -170,14 +177,24 @@
           <file leaf-file-name="UserOperations.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1739">
-                  <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+                <state relative-caret-position="404">
+                  <caret line="99" column="37" lean-forward="false" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="37" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#login#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-                    <element signature="method#askForUsernameAndPassword#0;class#UserOperations#0" expanded="false" />
-                    <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="UserFactory.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/user/UserFactory.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="420">
+                  <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -236,17 +253,17 @@
         <option value="$PROJECT_DIR$/src/core/Main.java" />
         <option value="$PROJECT_DIR$/src/core/UserOperations.java" />
         <option value="$PROJECT_DIR$/src/user/Premium.java" />
-        <option value="$PROJECT_DIR$/src/data/MySQLAccess.java" />
-        <option value="$PROJECT_DIR$/src/user/UserOperations.java" />
-        <option value="$PROJECT_DIR$/src/user/Manager.java" />
         <option value="$PROJECT_DIR$/src/user/Admin.java" />
-        <option value="$PROJECT_DIR$/src/core/PhysicalScanner.java" />
+        <option value="$PROJECT_DIR$/src/user/Cart.java" />
+        <option value="$PROJECT_DIR$/src/user/BasicUser.java" />
         <option value="$PROJECT_DIR$/src/user/UserFactory.java" />
+        <option value="$PROJECT_DIR$/src/core/PhysicalScanner.java" />
+        <option value="$PROJECT_DIR$/src/user/User.java" />
+        <option value="$PROJECT_DIR$/src/data/MySQLAccess.java" />
+        <option value="$PROJECT_DIR$/src/user/Manager.java" />
+        <option value="$PROJECT_DIR$/src/user/UserOperations.java" />
         <option value="$PROJECT_DIR$/src/product/ProductCatalog.java" />
         <option value="$PROJECT_DIR$/src/core/Engine.java" />
-        <option value="$PROJECT_DIR$/src/user/User.java" />
-        <option value="$PROJECT_DIR$/src/user/BasicUser.java" />
-        <option value="$PROJECT_DIR$/src/user/Cart.java" />
       </list>
     </option>
   </component>
@@ -274,8 +291,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -329,6 +344,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -402,14 +419,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-14" y="-14" width="3868" height="2098" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280132" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.50416666" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2800659" sideWeight="0.49583334" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2800659" sideWeight="0.49583334" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -505,8 +521,6 @@
             <element signature="imports" expanded="true" />
             <element signature="method#login#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#askForUsernameAndPassword#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -619,8 +633,6 @@
             <element signature="imports" expanded="true" />
             <element signature="method#login#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#askForUsernameAndPassword#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -685,8 +697,6 @@
             <element signature="imports" expanded="true" />
             <element signature="method#login#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#askForUsernameAndPassword#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -747,13 +757,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/UserOperations.java" />
-    <entry file="file://$PROJECT_DIR$/src/product/Product.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1739">
-          <caret line="59" column="48" lean-forward="false" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/lib/GeneralHelperFunctions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
@@ -772,38 +775,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1739">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#login#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#askForUsernameAndPassword#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/Manager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="20" column="27" lean-forward="true" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/user/Admin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1073">
@@ -814,20 +785,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/UserFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/core/PhysicalScanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="28" column="93" lean-forward="false" selection-start-line="28" selection-start-column="93" selection-end-line="28" selection-end-column="93" />
+        <state relative-caret-position="999">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#scanProduct#0;class#PhysicalScanner#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/user/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state relative-caret-position="777">
+          <caret line="21" column="60" lean-forward="false" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setObjectVariables#0;class#User#0" expanded="false" />
@@ -836,25 +808,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
+    <entry file="file://$PROJECT_DIR$/src/product/Product.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="29" column="38" lean-forward="false" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#Engine#0;class#Engine#0" expanded="false" />
-            <element signature="method#execute#0;class#Engine#0" expanded="false" />
-            <element signature="method#terminateApplication#0;class#Engine#0" expanded="false" />
-            <element signature="e#1295#1296#0" expanded="true" />
-            <element signature="e#1339#1340#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1698">
+          <caret line="59" column="48" lean-forward="false" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
+    <entry file="file://$PROJECT_DIR$/src/user/UserFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1308">
-          <caret line="41" column="4" lean-forward="false" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
+        <state relative-caret-position="420">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -863,8 +828,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/user/Cart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="202" column="11" lean-forward="false" selection-start-line="202" selection-start-column="11" selection-end-line="202" selection-end-column="11" />
+        <state relative-caret-position="1318">
+          <caret line="219" column="49" lean-forward="true" selection-start-line="219" selection-start-column="49" selection-end-line="219" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#addToCart#0;class#Cart#0" expanded="false" />
@@ -881,28 +846,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/PhysicalScanner.java">
+    <entry file="file://$PROJECT_DIR$/src/user/Manager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="740">
+          <caret line="53" column="14" lean-forward="false" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
+    <entry file="file://$PROJECT_DIR$/src/core/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-222">
-          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        <state relative-caret-position="296">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="99" column="37" lean-forward="false" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#login#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1776">
+          <caret line="54" column="43" lean-forward="false" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/MySQLAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="164" column="50" lean-forward="false" selection-start-line="164" selection-start-column="50" selection-end-line="164" selection-end-column="50" />
+        <state relative-caret-position="1218">
+          <caret line="298" column="9" lean-forward="true" selection-start-line="298" selection-start-column="9" selection-end-line="298" selection-end-column="9" />
           <folding>
             <element signature="method#getProductsFromDatabase#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#getUsernames#0;class#MySQLAccess#0" expanded="false" />
@@ -911,16 +898,38 @@
             <element signature="method#changePassword#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#registerUser#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#getIDFromUsername#0;class#MySQLAccess#0" expanded="false" />
-            <element signature="method#readDatabase#0;class#MySQLAccess#0" expanded="false" />
+            <element signature="method#addProductToTheDatabase#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#writeMetaData#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#writeResultSet#0;class#MySQLAccess#0" expanded="false" />
-            <element signature="method#usernameExists#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#createProductArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#createStringArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#close#0;class#MySQLAccess#0" expanded="false" />
+            <element signature="method#_productAlreadyExists#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isAdmin#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isManager#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isPremium#0;class#MySQLAccess#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="20" column="10" lean-forward="false" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#execute#0;class#Engine#0" expanded="false" />
+            <element signature="method#terminateApplication#0;class#Engine#0" expanded="false" />
+            <element signature="e#1404#1405#0" expanded="true" />
+            <element signature="e#1448#1449#0" expanded="true" />
           </folding>
         </state>
       </provider>

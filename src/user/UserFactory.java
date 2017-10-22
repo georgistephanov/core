@@ -26,7 +26,6 @@ public class UserFactory {
 			}
 
 		//} else {
-		// TODO: Make sure the program is being terminated if the registration doesn't finish
 		//	user = new BasicUser();
 		//}
 

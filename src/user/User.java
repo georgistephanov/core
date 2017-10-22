@@ -6,6 +6,9 @@ import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 import product.Product;
 
+// TODO: The class should be extended to hold other additional information
+// TODO: about the person using it in order  to create a full profile.
+// TODO: This shall be implemented after the user database has been re-done
 public abstract class User {
 	protected long account_num = 100_123_00;
 	protected String username;
@@ -16,6 +19,7 @@ public abstract class User {
 	protected VisaCard card = new VisaCard();
 	protected Cart cart = new Cart(card, false);
 
+	protected MySQLAccess db = MySQLAccess.getMySQLObject();
 
 	/* ============== ABSTRACT CLASSES ============== */
 	public abstract void initialiseMainMenu();

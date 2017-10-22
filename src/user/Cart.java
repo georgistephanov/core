@@ -27,9 +27,9 @@ public class Cart {
 	/* ============== PUBLIC METHODS ============== */
 
 	// This method is responsible for all the logic regarding adding a product to the cart
-	// TODO: REFACTOR THIS METHOD AS IT IS WAY TOO LONG
 	public boolean addToCart(Product p) {
 
+		// Checks if the product is already in the cart
 		if (p.getQuantityAvailable() > 0) {
 			System.out.println("Product '" + p.getName() + "' is available.");
 
@@ -164,6 +164,7 @@ public class Cart {
 
 	// For checkout logic refer to CORE Cashless on your phone's notes
 	// TODO: After checkout store the purchase info + receipt in the database
+	// TODO: This shall be done after the database structure is re-done
 
 	// The method responsible for all the logic regarding the checkout process
 	protected boolean checkout() {
