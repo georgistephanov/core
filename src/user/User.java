@@ -50,16 +50,14 @@ public abstract class User {
 				cart.showItems();
 				break;
 			case 2:
-				if (!cart.empty() && cart.checkout()) {
+				if (!cart.empty()) {
 					if (cart.checkout()) {
-						return;
+						initialiseMainMenu();
+						break;
 					}
-					else {
-						System.out.println("Unsuccessful checkout.");
-					}
-				}
-				else
+				} else {
 					System.out.println("The cart is empty.");
+				}
 
 				break;
 			case 3:

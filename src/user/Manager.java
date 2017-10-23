@@ -23,10 +23,13 @@ public class Manager extends User {
 				break;
 			case 2:
 				_addProductToTheCatalog();
-			default:
+				break;
+			case 0:
 				Engine.terminateApplication();
+				break;
+			default:
+				return;
 		}
-
 	}
 
 	private boolean	_addProductToTheCatalog() {
@@ -42,8 +45,9 @@ public class Manager extends User {
 
 	private String _createNewProduct() {
 		try {
+			Engine.inputScanner.nextLine();
 			System.out.print("Name of the product: ");
-			String name = Engine.inputScanner.next();
+			String name = Engine.inputScanner.nextLine();
 
 			System.out.print("\nPrice: ");
 			double price = Engine.inputScanner.nextDouble();

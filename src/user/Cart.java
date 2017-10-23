@@ -171,11 +171,14 @@ public class Cart {
 		printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
 
-		if (GeneralHelperFunctions.askForDecision())
-			if (processOrder())
+		if (GeneralHelperFunctions.askForDecision()) {
+			if (processOrder()) {
+				items = new ArrayList<>();
 				return true;
+			}
+		}
 		else
-			System.out.println("Going back...");
+			System.out.println("Canceling checkout...");
 
 		return false;
 	}

@@ -223,16 +223,18 @@ public class MySQLAccess {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/product?autoReconnect=true&useSSL=false", "root", "");
+			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM product WHERE name='" + name + "'");
 
-			int id = resultSet.getInt("id");
-			double price = resultSet.getDouble("price");
-			int quantity = resultSet.getInt("quantity");
+			if (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				double price = resultSet.getDouble("price");
+				int quantity = resultSet.getInt("quantityAvailable");
 
-			if (id != 0 && price != 0 && quantity != 0)
-				return new Product(id, name, price, quantity);
+				if (id != 0 && price != 0 && quantity != 0)
+					return new Product(id, name, price, quantity);
+			}
 			else
 				System.out.println("Couldn't get the product information from the database.");
 

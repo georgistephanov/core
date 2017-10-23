@@ -62,8 +62,10 @@ public class BasicUser extends User {
 				break;
 			case 3:
 				userProfileMenu();
+				break;
 			case 4:
 				userCartMenu();
+				break;
 			case 0:
 				Engine.terminateApplication();
 			case -1:
