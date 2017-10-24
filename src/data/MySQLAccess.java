@@ -2,14 +2,12 @@ package data;
 import core.Engine;
 import product.Product;
 
-import java.io.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import java.sql.*;
 
 // This class implements the Singleton pattern
-public class MySQLAccess {
+public final class MySQLAccess {
 	private static MySQLAccess db = new MySQLAccess();
 
 	private Connection connect = null;
@@ -29,20 +27,18 @@ public class MySQLAccess {
 		ArrayList<Product> products = new ArrayList<>();
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("products");
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT * FROM product");
 
-			products = createProductArrayListFromResultSet(resultSet);
+			products = _createProductArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return products;
@@ -52,19 +48,17 @@ public class MySQLAccess {
 		ArrayList<String> usernames = new ArrayList<>();
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT username FROM usernames");
-			usernames = createStringArrayListFromResultSet(resultSet);
+			usernames = _createStringArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
 			System.out.println("(MySQLAccess: getUsernames()) " + e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return usernames;
@@ -72,11 +66,11 @@ public class MySQLAccess {
 
 	public boolean login(String username, String password) {
 
-		boolean usernameExists = usernameExists(username);
+		boolean usernameExists = _usernameExists(username);
 
 		if (usernameExists) {
 			if (passwordMatch(username, password)) {
-				System.out.println("Password match!\nLogging you in...");
+				System.out.println("\nLogging you in...");
 				return true;
 			}
 		} else {
@@ -88,9 +82,7 @@ public class MySQLAccess {
 
 	public boolean passwordMatch(String username, String password) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
 
@@ -108,7 +100,7 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return false;
@@ -116,10 +108,7 @@ public class MySQLAccess {
 
 	public boolean changePassword(String username, String newPassword) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
-			statement = connect.createStatement();
+			connect = _prepareConnection("users");
 
 			preparedStatement = connect.prepareStatement("UPDATE usernames SET password=? WHERE username=?");
 			preparedStatement.setString(1, newPassword);
@@ -132,7 +121,7 @@ public class MySQLAccess {
 			System.out.println("(MySQLAccess: changePassword) " + e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return false;
@@ -140,9 +129,7 @@ public class MySQLAccess {
 
 	public boolean registerUser(String username, String password) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
 			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?, false, false ,false)");
@@ -159,7 +146,7 @@ public class MySQLAccess {
 			return false;
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return true;
@@ -169,9 +156,7 @@ public class MySQLAccess {
 		int id = -1;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT id FROM usernames WHERE username=\"" + username + "\"");
@@ -186,7 +171,7 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return id;
@@ -195,9 +180,7 @@ public class MySQLAccess {
 	public boolean addProductToTheDatabase(String name, double price, int quantity) {
 		if (!_productAlreadyExists(name)) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-
-				connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+				connect = _prepareConnection("products");
 
 				preparedStatement = connect.prepareStatement("INSERT INTO product VALUES (default, ?, ?, ?)");
 				preparedStatement.setString(1, name);
@@ -210,7 +193,7 @@ public class MySQLAccess {
 			} catch (Exception e) {
 				System.out.println("(MySQLAccess: addProductToTheDatabase) " + e.toString());
 			} finally {
-				close();
+				_close();
 			}
 		} else {
 			System.out.println("Product with such name already exists!");
@@ -221,9 +204,7 @@ public class MySQLAccess {
 
 	public Product getProductFromName(String name) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("products");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM product WHERE name='" + name + "'");
 
@@ -244,16 +225,94 @@ public class MySQLAccess {
 			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return null;
 	}
 
+	public String getFirstName(int id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT firstName FROM information WHERE id=" + id);
+
+			if (resultSet.next())
+				return resultSet.getString("firstName");
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "getFirstName");
+		}
+		finally {
+			_close();
+		}
+
+		return "";
+	}
+
+	public String getLastName(int id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT lastName FROM information WHERE id=" + id);
+
+			if (resultSet.next())
+				return resultSet.getString("lastName");
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "getLastName");
+		}
+		finally {
+			_close();
+		}
+
+		return "";
+	}
+
+	public boolean changeFirstName(int id, String newName) {
+		try {
+			connect = _prepareConnection("users");
+			preparedStatement = connect.prepareStatement("UPDATE information SET firstName=? WHERE id=?");
+			preparedStatement.setString(1, newName);
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+
+			return true;
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "changeFirstName");
+		}
+		finally {
+			_close();
+		}
+
+		return false;
+	}
+
+	public boolean changeLastName(int id, String newName) {
+		try {
+			connect = _prepareConnection("users");
+			preparedStatement = connect.prepareStatement("UPDATE information SET lastName=? WHERE id=?");
+			preparedStatement.setString(1, newName);
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+
+			return true;
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "changeLastName");
+		}
+		finally {
+			_close();
+		}
+
+		return false;
+	}
+
 
 	/* ======== PRIVATE METHODS ======== */
 
-	private void readDatabase() throws Exception {
+	private void _readDatabase() throws Exception {
 		try {
 			// This will load the MySQL driver
 			Class.forName("com.mysql.jdbc.Driver");
@@ -266,7 +325,7 @@ public class MySQLAccess {
 
 			// Result set get the result of the SQL query
 			resultSet = statement.executeQuery("SELECT * FROM usernames");
-			writeResultSet(resultSet);
+			_writeResultSet(resultSet);
 
 			System.out.println("\n------------------------\n");
 
@@ -279,7 +338,7 @@ public class MySQLAccess {
 
 			preparedStatement = connect.prepareStatement("SELECT * FROM usernames");
 			resultSet = preparedStatement.executeQuery();
-			writeResultSet(resultSet);
+			_writeResultSet(resultSet);
 
 			System.out.println("\n------------------------\n");
 
@@ -290,18 +349,18 @@ public class MySQLAccess {
 			*/
 
 			resultSet = statement.executeQuery("SELECT * FROM usernames");
-			writeResultSet(resultSet);
-			//writeMetaData(resultSet);
+			_writeResultSet(resultSet);
+			//_writeMetaData(resultSet);
 
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		} finally {
-			close();
+			_close();
 		}
 	}
 
-	private void writeMetaData(ResultSet resultSet) throws SQLException {
+	private void _writeMetaData(ResultSet resultSet) throws SQLException {
 		// Now get some metadata from the database
 		// Result set get the result of the SQL query
 
@@ -313,7 +372,7 @@ public class MySQLAccess {
 		}
 	}
 
-	private void writeResultSet(ResultSet resultSet) throws SQLException {
+	private void _writeResultSet(ResultSet resultSet) throws SQLException {
 		// ResultSet is initially before the first data set
 		while (resultSet.next()) {
 			// It is possible to get the columns via name
@@ -328,7 +387,7 @@ public class MySQLAccess {
 		}
 	}
 
-	private boolean usernameExists(String username) {
+	private boolean _usernameExists(String username) {
 		ArrayList<String> usernames = getUsernames();
 
 		for (String u : usernames) {
@@ -340,7 +399,7 @@ public class MySQLAccess {
 		return false;
 	}
 
-	private ArrayList<Product> createProductArrayListFromResultSet(ResultSet resultSet) throws SQLException {
+	private ArrayList<Product> _createProductArrayListFromResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<Product> products = new ArrayList<>();
 
 		while (resultSet.next()) {
@@ -355,7 +414,7 @@ public class MySQLAccess {
 		return products;
 	}
 
-	private ArrayList<String> createStringArrayListFromResultSet(ResultSet resultSet) throws SQLException {
+	private ArrayList<String> _createStringArrayListFromResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<String> arrayList = new ArrayList<>();
 
 		while (resultSet.next()) {
@@ -365,8 +424,8 @@ public class MySQLAccess {
 		return arrayList;
 	}
 
-	private void close() {
-		// You need to close the resultSet
+	private void _close() {
+		// You need to _close the resultSet
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -386,9 +445,7 @@ public class MySQLAccess {
 
 	private boolean _productAlreadyExists(String name) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/products?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("products");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT name FROM product");
 
@@ -403,13 +460,22 @@ public class MySQLAccess {
 			System.out.println("(MySQLAccess: _productAlreadyExists) " + e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return true;
 	}
 
+	private Connection _prepareConnection(String databaseToUse) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
+	}
 
+	private void _logErrorMessage(Exception e, String nameOfMethod) {
+		System.out.println("(MySQLAccess : " + nameOfMethod + ") " + e.toString());
+	}
+
+	/* These methods help the UserFactory */
 	public boolean isAdmin(String username) {
 		boolean admin = false;
 
@@ -430,7 +496,7 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return admin;
@@ -456,7 +522,7 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return manager;
@@ -481,7 +547,7 @@ public class MySQLAccess {
 			System.out.println(e.toString());
 		}
 		finally {
-			close();
+			_close();
 		}
 
 		return premium;

@@ -1,13 +1,13 @@
 package user;
 
 import core.Engine;
+import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
 import product.ProductCatalog;
 
 public class Manager extends User {
 
 	public Manager(String username) {
-		System.out.println("Manager");
 		setObjectVariables(username, "Manager");
 	}
 
@@ -24,6 +24,9 @@ public class Manager extends User {
 			case 2:
 				_addProductToTheCatalog();
 				break;
+			case 3:
+				userProfileMenu();
+				break;
 			case 0:
 				Engine.terminateApplication();
 				break;
@@ -36,7 +39,7 @@ public class Manager extends User {
 		String newProductName = _createNewProduct();
 
 		if (newProductName != null) {
-			if (ProductCatalog.addProductToTheCatalog(db.getProductFromName(newProductName)))
+			if (ProductCatalog.addProductToTheCatalog(MySQLAccess.getMySQLObject().getProductFromName(newProductName)))
 				return true;
 		}
 
@@ -57,7 +60,7 @@ public class Manager extends User {
 			int quantity = Engine.inputScanner.nextInt();
 			//Engine.inputScanner.next();
 
-			if (db.addProductToTheDatabase(name, price, quantity)) {
+			if (MySQLAccess.getMySQLObject().addProductToTheDatabase(name, price, quantity)) {
 				System.out.println("Product successfully added to the database.");
 				return name;
 			} else {

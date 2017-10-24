@@ -1,7 +1,5 @@
 package core;
 
-import data.MySQLAccess;
-
 public class Main {
 
 	public static void main(String[] args) {

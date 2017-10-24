@@ -33,13 +33,13 @@ public class Cart {
 		if (p.getQuantityAvailable() > 0) {
 			System.out.println("Product '" + p.getName() + "' is available.");
 
-			if (!productAlreadyInCart(p)) {
+			if (!_productAlreadyInCart(p)) {
 				System.out.println("Do you want to add it to your cart? (y/n)");
 
 				if (GeneralHelperFunctions.askForDecision()) {
 
 					items.add(p);
-					increaseQuantity(p, 1);
+					_increaseQuantity(p, 1);
 					System.out.println("Product '" + p.getName() + "' successfully added to the cart.");
 
 				} else {
@@ -57,13 +57,13 @@ public class Cart {
 					int quantity = GeneralHelperFunctions.inputIntegerOption(0, p.getQuantityAvailable());
 
 					if (quantity != -1) {
-						increaseQuantity(p, quantity);
+						_increaseQuantity(p, quantity);
 					}
 				} else {
 					System.out.println("Do you want to remove it from the cart? (y/n)");
 
 					if (GeneralHelperFunctions.askForDecision()) {
-						removeFromCart(p);
+						_removeFromCart(p);
 					}
 				}
 			}
@@ -82,7 +82,7 @@ public class Cart {
 
 	// Prints a brief information about the products in the cart
 	protected void showItems() {
-		printCheckoutConfirmation();
+		_printCheckoutConfirmation();
 	}
 
 	// Cancels the current line and removes the products from the cart
@@ -113,7 +113,7 @@ public class Cart {
 	/* ============== PRIVATE METHODS ============== */
 
 	// Checks whether the product passed as a parameter is in the cart
-	private boolean productAlreadyInCart(Product p) {
+	private boolean _productAlreadyInCart(Product p) {
 		for (Product i : items) {
 			if (i.getID() == p.getID())
 				return true;
@@ -123,13 +123,13 @@ public class Cart {
 	}
 
 	// This method encapsulates the logic which increases the quantity of a product
-	private void increaseQuantity(Product p, int q) {
-		if (productAlreadyInCart(p))
+	private void _increaseQuantity(Product p, int q) {
+		if (_productAlreadyInCart(p))
 			p.increaseQuantityInCart(q);
 	}
 
 	// Removes a product from the cart
-	private void removeFromCart(Product p) {
+	private void _removeFromCart(Product p) {
 		if (items.remove(p)) {
 			System.out.println(p.getName() + " successfully removed from the cart");
 			p.productRemovedFromCart();
@@ -139,7 +139,7 @@ public class Cart {
 	}
 
 	// Returns the total cost of all products in the cart
-	private double getTotalAmount() {
+	private double _getTotalAmount() {
 		double totalAmount = 0;
 
 		if (!items.isEmpty()) {
@@ -151,8 +151,8 @@ public class Cart {
 		return (double) Math.round(totalAmount * 100) / 100;
 	}
 
-	private double premiumGetTotalAmount() {
-		double totalAmount = getTotalAmount();
+	private double _premiumGetTotalAmount() {
+		double totalAmount = _getTotalAmount();
 
 		// discount 10%
 		return (double) Math.round(totalAmount * 90) / 100;
@@ -168,11 +168,11 @@ public class Cart {
 
 	// The method responsible for all the logic regarding the checkout process
 	protected boolean checkout() {
-		printCheckoutConfirmation();
+		_printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
 
 		if (GeneralHelperFunctions.askForDecision()) {
-			if (processOrder()) {
+			if (_processOrder()) {
 				items = new ArrayList<>();
 				return true;
 			}
@@ -183,18 +183,18 @@ public class Cart {
 		return false;
 	}
 
-	private boolean processOrder() {
+	private boolean _processOrder() {
 
 		boolean paymentSuccessful;
 
 		if (this.premiumUser)
-			paymentSuccessful = associatedCard.makePayment(premiumGetTotalAmount());
+			paymentSuccessful = associatedCard.makePayment(_premiumGetTotalAmount());
 		else
-			paymentSuccessful = associatedCard.makePayment(getTotalAmount());
+			paymentSuccessful = associatedCard.makePayment(_getTotalAmount());
 
 		if (paymentSuccessful) {
 			System.out.println("Payment successful! New balance: $" + associatedCard.getBalance());
-			generateReceipt();
+			_generateReceipt();
 			return true;
 		}
 		else {
@@ -204,24 +204,24 @@ public class Cart {
 	}
 
 	// Prints a confirmation message with all the info needed for a checkout
-	private void printCheckoutConfirmation() {
+	private void _printCheckoutConfirmation() {
 		System.out.println("\n|Qty| Price\t\t| Item\t");
 		for (Product i : items) {
 			System.out.println("| " + i.getQuantityInCart() + " | $" + i.getPrice() + (i.getPrice() < 10 ? "\t\t| " : "\t| ") + i.getName());
 		}
-		System.out.println("\nTotal: $" + getTotalAmount());
+		System.out.println("\nTotal: $" + _getTotalAmount());
 
 		if (this.premiumUser)
-			System.out.println("Total after 10% discount: $" + premiumGetTotalAmount());
+			System.out.println("Total after 10% discount: $" + _premiumGetTotalAmount());
 
 		System.out.println();
 	}
 
 	// Prints the receipt and stores it in the database
 	// TODO: Store the receipt in the database
-	private void generateReceipt() {
+	private void _generateReceipt() {
 		// TODO: Make it look like a real receipt
-		printCheckoutConfirmation();
+		_printCheckoutConfirmation();
 		System.out.println("The transaction has been made successfully.\nYou may take the products with you!");
 		System.out.println("Thank you for shopping at Giorgio's! Have a good day! :)");
 	}

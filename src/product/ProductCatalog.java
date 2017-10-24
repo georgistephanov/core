@@ -10,7 +10,7 @@ import user.User;
 
 // THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
 // WILL NOT EXIST WHEN A DB IS PRESENT
-public class ProductCatalog {
+public final class ProductCatalog {
 	// An array list which holds all the products
 	public static ArrayList<Product> catalog = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class ProductCatalog {
 	public static Product getProduct(long id) {
 		Product p = null;
 		for (Product pr : catalog)
-			if (pr.productID == id) {
+			if (pr.getID() == id) {
 				p = pr;
 				break;
 			}
@@ -66,7 +66,7 @@ public class ProductCatalog {
 
 	private static boolean _isProductAvailable(long id) {
 		for(Product p : catalog) {
-			if (p.productID == id)
+			if (p.getID() == id)
 				return true;
 		}
 

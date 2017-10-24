@@ -47,20 +47,53 @@ abstract class UserOperations {
 	}
 
 	static double getCurrentBalance(User user) {
-		return user.card.getBalance();
+		return user.getCard().getBalance();
 	}
 
-	static void printProfileInfo(User b) {
-		System.out.println("Account number:\t" + b.getAccountNumber());
-		System.out.println("Username:\t\t" + b.getUsername());
-		System.out.println("Account type:\t" + b.getAccountType());
+	static void printProfileInfo(User u) {
+		System.out.println("Account number:\t" + u.getAccountNumber());
+		System.out.println("Username:\t\t" + u.getUsername());
+		System.out.println("Account type:\t" + u.getAccountType());
+
+		System.out.println("\nFirst name:\t" + u.getFirstName());
+		System.out.println("Last name:\t" + u.getLastName());
 	}
 
-	static void editProfile(User b) {
-		System.out.println("\nDo you want to change your password?");
+	static void editProfile(User u) {
+		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
 
-		if (GeneralHelperFunctions.askForDecision()) {
-			changePassword(b);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
+		switch (opt) {
+			case 0:
+				return;
+			case 1:
+				_changeFirstName(u);
+				break;
+			case 2:
+				_changeLastName(u);
+				break;
+			default:
+		}
+
+		editProfile(u);
+	}
+
+	private static void _changeFirstName(User u) {
+		System.out.println("What is your first name?");
+		String newFirstName = Engine.inputScanner.next();
+
+		if (MySQLAccess.getMySQLObject().changeFirstName(u.getID(), newFirstName)) {
+			u.updateName();
+		}
+	}
+
+	private static void _changeLastName(User u) {
+		System.out.println("What is your last name?");
+		String newLastName = Engine.inputScanner.next();
+
+		if (MySQLAccess.getMySQLObject().changeLastName(u.getID(), newLastName)) {
+			u.updateName();
 		}
 	}
 

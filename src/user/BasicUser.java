@@ -36,7 +36,6 @@ public class BasicUser extends User {
 	public BasicUser(String username, Boolean premium) {
 		if (premium) {
 			setObjectVariables(username, "Premium");
-			cart = new Cart(card, true);
 		} else {
 			setObjectVariables(username, "Basic");
 		}
@@ -57,7 +56,7 @@ public class BasicUser extends User {
 			case 2:
 				Product p = PhysicalScanner.getInstance().scanProduct();
 				if ( p != null) {
-					cart.addToCart(p);
+					getCart().addToCart(p);
 				}
 				break;
 			case 3:
@@ -76,7 +75,7 @@ public class BasicUser extends User {
 	}
 
 	public void userProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Change password", "Back"};
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Change password", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
@@ -86,6 +85,9 @@ public class BasicUser extends User {
 				UserOperations.printProfileInfo(this);
 				break;
 			case 2:
+				UserOperations.editProfile(this);
+				break;
+			case 3:
 				UserOperations.changePassword(this);
 				break;
 			case -1:

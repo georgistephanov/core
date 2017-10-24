@@ -1,8 +1,5 @@
 package core;
 
-import data.MySQLAccess;
-import lib.GeneralHelperFunctions;
-import product.Product;
 import product.ProductCatalog;
 import user.User;
 import user.UserFactory;
@@ -28,7 +25,7 @@ public class Engine {
 
 		inputScanner = new Scanner(System.in);
 
-		user = promptLogin();
+		user = _promptLogin();
 	}
 
 
@@ -42,7 +39,7 @@ public class Engine {
 		// Infinite loop which represents the main menu
 		for (; ; ) {
 			try {
-				if (user.authorised)
+				if (user.isAuthorised())
 					user.initialiseMainMenu();
 
 			} catch (InputMismatchException exc) {
@@ -59,7 +56,7 @@ public class Engine {
 
 
 	/* ====== PRIVATE METHODS ====== */
-	private User promptLogin() {
+	private User _promptLogin() {
 		return UserFactory.createUserObject();
 	}
 }

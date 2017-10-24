@@ -10,16 +10,19 @@ import product.Product;
 // TODO: about the person using it in order  to create a full profile.
 // TODO: This shall be implemented after the user database has been re-done
 public abstract class User {
-	protected long account_num = 100_123_00;
-	protected String username;
+	private int id;
 
-	public String accountType;
-	public boolean authorised = false;
+	private long account_num = 100_123_00;
+	private String username;
+	private String firstName, lastName;
 
-	protected VisaCard card = new VisaCard();
-	protected Cart cart = new Cart(card, false);
+	private String accountType;
+	private boolean authorised = false;
 
-	protected MySQLAccess db = MySQLAccess.getMySQLObject();
+	private VisaCard card = new VisaCard();
+	private Cart cart = new Cart(card, false);
+
+	private MySQLAccess db = MySQLAccess.getMySQLObject();
 
 	/* ============== ABSTRACT CLASSES ============== */
 	public abstract void initialiseMainMenu();
@@ -32,10 +35,18 @@ public abstract class User {
 
 	// Method which sets the object variables when constructed
 	protected void setObjectVariables(String username, String accountType) {
+		id = db.getIDFromUsername(username);
+
 		this.username = username;
-		account_num += MySQLAccess.getMySQLObject().getIDFromUsername(username);
+		account_num += id;
+
+		firstName = db.getFirstName(id);
+		lastName = db.getLastName(id);
+
 		this.accountType = accountType;
 		authorised = true;
+
+		System.out.println("\n\nHello, " + firstName);
 	}
 
 	// General cart menu interface
@@ -77,5 +88,19 @@ public abstract class User {
 	public long getAccountNumber() { return this.account_num; }
 	public String getUsername() { return this.username; }
 	public String getAccountType() { return this.accountType; }
+	public Cart getCart() { return this.cart; }
+	public VisaCard getCard() { return this.card; }
+	public boolean isAuthorised() { return this.authorised; }
+	public String getFirstName() { return this.firstName; }
+	public String getLastName() { return this.lastName; }
+
+	protected int getID() { return this.id; }
+
+
+	// Updates the users' first and last name from the database
+	public void updateName() {
+		firstName = db.getFirstName(id);
+		lastName = db.getLastName(id);
+	}
 
 }

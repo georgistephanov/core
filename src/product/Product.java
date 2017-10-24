@@ -3,8 +3,8 @@ package product;
 import java.text.DecimalFormat;
 
 public class Product {
-	private static long _productID = 123_456_00;
-	public long productID;
+	private static final long _productID = 123_456_00;
+	private long productID;
 
 	private String _name;
 	private double _price;
