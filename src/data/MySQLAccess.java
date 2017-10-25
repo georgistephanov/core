@@ -1,5 +1,6 @@
 package data;
 import core.Engine;
+import lib.payment.VisaCard;
 import product.Product;
 
 import java.util.ArrayList;
@@ -309,6 +310,65 @@ public final class MySQLAccess {
 		return false;
 	}
 
+	public String getCardNumber(int user_id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT cardNumber FROM cards WHERE id=" + user_id);
+
+			if (resultSet.next()) {
+				return resultSet.getString("cardNumber");
+			}
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "getCardNumber");
+		}
+		finally {
+			_close();
+		}
+
+		return null;
+	}
+
+	public double getCardBalance(int user_id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT balance FROM cards WHERE id=" + user_id);
+
+			if (resultSet.next()) {
+				return resultSet.getDouble("balance");
+			}
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "getCardBalance");
+		}
+		finally {
+			_close();
+		}
+
+		return -1;
+	}
+
+	public boolean updateCardBalance(String cardNumber, double newBalance) {
+		try {
+			connect = _prepareConnection("users");
+			preparedStatement = connect.prepareStatement("UPDATE cards SET balance=? WHERE cardNumber=?");
+			preparedStatement.setDouble(1, newBalance);
+			preparedStatement.setString(2, cardNumber);
+			preparedStatement.executeUpdate();
+
+			return true;
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "updateCardBalance");
+		}
+		finally {
+			_close();
+		}
+
+		return false;
+	}
 
 	/* ======== PRIVATE METHODS ======== */
 

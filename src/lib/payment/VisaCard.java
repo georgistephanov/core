@@ -1,24 +1,55 @@
 package lib.payment;
 
-public class VisaCard implements Card {
+import core.Engine;
+import data.MySQLAccess;
 
-	double balance;
+public final class VisaCard implements Card {
 
-	public VisaCard() {
-		balance = 2000.0;
+	private double balance;
+	private String cardNumber;
+	private boolean cardActive;
+
+	public VisaCard(int user_id) {
+		cardNumber = MySQLAccess.getMySQLObject().getCardNumber(user_id);
+		balance = MySQLAccess.getMySQLObject().getCardBalance(user_id);
+
+		if (cardNumber == null || balance == -1) {
+			cardActive = false;
+		} else {
+			cardActive = true;
+		}
+	}
+
+	public VisaCard(int user_id, String cardNumber, double balance) {
+		this.cardNumber = cardNumber;
+		this.balance = balance;
 	}
 
 	public boolean makePayment(double amount) {
 		if (balance >= amount) {
-			balance -= amount;
-			return true;
+			if (MySQLAccess.getMySQLObject().updateCardBalance(cardNumber, balance - amount)) {
+				balance -= amount;
+				return true;
+			} else {
+				System.out.println("There was an error while trying to connect to the database."
+								+ "\nThe payment was unsuccessful. Please try again in a few moments!\n");
+			}
+		} else {
+			System.out.println("Payment unsuccessful!\nInsufficient amount of money in your card!");
 		}
-		else
-			return false;
+
+		return false;
 	}
 
 	public double getBalance() {
 		// rounds to 2 decimal places
 		return (double) Math.round(balance * 100) / 100;
+	}
+	public String getCardNumber() {
+		return cardNumber.substring(0, 4) + " " + cardNumber.substring(4, 8) + " "
+				+ cardNumber.substring(8, 12) + " " + cardNumber.substring(12, 15);
+	}
+	public boolean isCardActive() {
+		return cardActive;
 	}
 }

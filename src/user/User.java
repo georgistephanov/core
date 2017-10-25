@@ -19,8 +19,8 @@ public abstract class User {
 	private String accountType;
 	private boolean authorised = false;
 
-	private VisaCard card = new VisaCard();
-	private Cart cart = new Cart(card, false);
+	private VisaCard card;
+	private Cart cart;
 
 	private MySQLAccess db = MySQLAccess.getMySQLObject();
 
@@ -35,6 +35,7 @@ public abstract class User {
 
 	// Method which sets the object variables when constructed
 	protected void setObjectVariables(String username, String accountType) {
+		// TODO: Refactor
 		id = db.getIDFromUsername(username);
 
 		this.username = username;
@@ -47,6 +48,13 @@ public abstract class User {
 		authorised = true;
 
 		System.out.println("\n\nHello, " + firstName);
+
+		card = new VisaCard(id);
+		cart = new Cart(card, false);
+		if (!card.isCardActive()) {
+			System.out.println("There seems to be a missing credit card to this account. "
+					+ "You won't be able to make any purchases until you add one!");
+		}
 	}
 
 	// General cart menu interface
@@ -61,13 +69,18 @@ public abstract class User {
 				cart.showItems();
 				break;
 			case 2:
-				if (!cart.empty()) {
-					if (cart.checkout()) {
-						initialiseMainMenu();
-						break;
+				if (card.isCardActive()) {
+					if (!cart.empty()) {
+						if (cart.checkout()) {
+							initialiseMainMenu();
+							break;
+						}
+					} else {
+						System.out.println("The cart is empty.");
 					}
 				} else {
-					System.out.println("The cart is empty.");
+					//TODO: make this check in the checkout method of the cart
+					System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 				}
 
 				break;

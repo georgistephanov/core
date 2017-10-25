@@ -20,7 +20,7 @@ public class Cart {
 	Cart(Card card, boolean premium) {
 		items = new ArrayList<>();
 		totalAmount = 0;
-		associatedCard = card;
+		associatedCard = card != null ? card : null;
 	}
 
 
@@ -197,10 +197,8 @@ public class Cart {
 			_generateReceipt();
 			return true;
 		}
-		else {
-			System.out.println("Payment unsuccessful! Insufficient amount of money in the card.");
-			return false;
-		}
+
+		return false;
 	}
 
 	// Prints a confirmation message with all the info needed for a checkout

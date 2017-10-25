@@ -42,6 +42,8 @@ public class BasicUser extends User {
 	}
 
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
+	// TODO: Find a way to initialise common menu options for all users in the User class and
+	// TODO:   then just add the rest of it in each of the classes!
 	public void initialiseMainMenu() {
 		// General menu
 		String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
@@ -74,6 +76,7 @@ public class BasicUser extends User {
 		}
 	}
 
+	// TODO: Add options to add and remove cards from the account
 	public void userProfileMenu() {
 		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Change password", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
