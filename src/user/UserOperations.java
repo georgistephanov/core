@@ -2,12 +2,14 @@ package user;
 import core.Engine;
 import data.MySQLAccess;
 import lib.GeneralHelperFunctions;
-import lib.payment.*;
-import product.*;
 
 import java.util.ArrayList;
 
-abstract class UserOperations {
+final class UserOperations {
+	private static int login_max_try = 3;
+
+
+	private UserOperations() {}
 
 	static String[] createUser() {
 		String info[] = new String[2];
@@ -124,6 +126,39 @@ abstract class UserOperations {
 		}
 	}
 
+	static boolean addNewCard(User b) {
+		System.out.println("\nAdd a card number (XXXX-XXXX-XXXX-XXXX)");
+		String cardNum = Engine.inputScanner.next();
+		Engine.inputScanner.nextLine();
+
+		if (cardNum.length() == 16) {
+			if(MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
+				return true;
+			}
+			else {
+				System.out.println("There was an error while establishing connection to the database. Please try again in a few moments.");
+			}
+		} else if (cardNum.length() == 19) {
+			String card_num[] = cardNum.split("-");
+
+			if (card_num.length == 4) {
+				cardNum = card_num[0] + card_num[1] + card_num[2] + card_num[3];
+
+				if (cardNum.length() == 16) {
+					if(MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
+						return true;
+					}
+					else {
+						System.out.println("There was an error while establishing connection to the database. Please try again in a few moments.");
+					}
+				}
+			}
+		} else {
+			System.out.println("\nPlease enter the number in the correct format.");
+		}
+
+		return false;
+	}
 
 	// FACTORY METHODS
 	static String[] askForUsernameAndPassword() {
@@ -137,8 +172,6 @@ abstract class UserOperations {
 
 		return info;
 	}
-
-	static int login_max_try = 3;
 
 	static String initUser() {
 		if (login_max_try > 0) {

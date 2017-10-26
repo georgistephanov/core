@@ -11,31 +11,12 @@ public class Manager extends User {
 		setObjectVariables(username, "Manager");
 	}
 
-	// TODO: This could be well expanded
 	public void initialiseMainMenu() {
-		String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Profile", "System settings", "Exit"};
-		GeneralHelperFunctions.generateMenu(mainMenu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
-		switch (opt) {
-			case 1:
-				ProductCatalog.printCatalog();
-				break;
-			case 2:
-				_addProductToTheCatalog();
-				break;
-			case 3:
-				userProfileMenu();
-				break;
-			case 0:
-				Engine.terminateApplication();
-				break;
-			default:
-				return;
-		}
+		UserMenu menu = new UserMenu(this);
+		menu.initialiseMainMenu();
 	}
 
-	private boolean	_addProductToTheCatalog() {
+	protected boolean addProductToTheCatalog() {
 		String newProductName = _createNewProduct();
 
 		if (newProductName != null) {
@@ -73,30 +54,4 @@ public class Manager extends User {
 
 		return null;
 	}
-
-	public void userProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Back"};
-		GeneralHelperFunctions.generateMenu(profileMenu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
-
-		switch (opt) {
-			case 1:
-				UserOperations.printProfileInfo(this);
-				break;
-			case 2:
-				UserOperations.editProfile(this);
-				break;
-			case -1:
-				System.out.println("Incorrect input! Please try again.");
-				userProfileMenu();
-				break;
-			case 0:
-				return;
-			default:
-		}
-
-		userProfileMenu();
-	}
-
 }

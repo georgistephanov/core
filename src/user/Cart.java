@@ -168,6 +168,15 @@ public class Cart {
 
 	// The method responsible for all the logic regarding the checkout process
 	protected boolean checkout() {
+		if (associatedCard == null) {
+			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
+			return false;
+		}
+		if (empty()) {
+			System.out.println("The cart is empty");
+			return false;
+		}
+
 		_printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
 
@@ -176,9 +185,9 @@ public class Cart {
 				items = new ArrayList<>();
 				return true;
 			}
-		}
-		else
+		} else
 			System.out.println("Canceling checkout...");
+
 
 		return false;
 	}

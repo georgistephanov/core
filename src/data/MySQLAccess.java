@@ -370,6 +370,37 @@ public final class MySQLAccess {
 		return false;
 	}
 
+	public boolean addCard(int user_id, String cardNum) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+
+			resultSet = statement.executeQuery("SELECT id FROM cards WHERE cardNumber=" + cardNum);
+
+			if (resultSet.next()) {
+				System.out.println("\nThis card already belongs to another user!\n");
+				return false;
+			}
+
+			preparedStatement = connect.prepareStatement("INSERT INTO cards VALUES (?, ?, ?)");
+			preparedStatement.setInt(1, user_id);
+			preparedStatement.setString(2, cardNum);
+			preparedStatement.setDouble(3, 3000.);
+			preparedStatement.executeUpdate();
+
+			System.out.println("The card has been successfully added.");
+			return true;
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "addCard");
+		}
+		finally {
+			_close();
+		}
+
+		return false;
+	}
+
 	/* ======== PRIVATE METHODS ======== */
 
 	private void _readDatabase() throws Exception {
