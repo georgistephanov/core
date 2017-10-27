@@ -58,7 +58,7 @@ public final class UserMenu {
 			}
 		}
 		else if (manager != null) {
-			String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Profile", "System settings", "Exit"};
+			String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Remove product from the catalog", "Profile", "System settings", "Exit"};
 			GeneralHelperFunctions.generateMenu(mainMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -70,6 +70,9 @@ public final class UserMenu {
 					manager.addProductToTheCatalog();
 					break;
 				case 3:
+					manager.removeProductFromCatalog();
+					break;
+				case 4:
 					initialiseManagerProfileMenu();
 					break;
 				case 0:
@@ -146,10 +149,10 @@ public final class UserMenu {
 
 
 	private void initialiseManagerProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Back"};
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Make user premium", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 
 		switch (opt) {
 			case 1:
@@ -158,6 +161,8 @@ public final class UserMenu {
 			case 2:
 				UserOperations.editProfile(manager);
 				break;
+			case 3:
+				UserOperations.makeUserPremium(manager);
 			case -1:
 				System.out.println("Incorrect input! Please try again.");
 				initialiseManagerProfileMenu();

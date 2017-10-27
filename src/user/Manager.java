@@ -27,6 +27,32 @@ public class Manager extends User {
 		return false;
 	}
 
+	protected boolean removeProductFromCatalog() {
+		System.out.println("Enter product ID");
+		int id = Engine.inputScanner.nextInt();
+		Engine.inputScanner.nextLine();
+
+		if (id != 0) {
+			// TODO: fix the parameter remainder hack
+			return MySQLAccess.getMySQLObject().removeProduct(id % 100);
+		} else {
+			System.out.println("Invalid ID entered");
+		}
+
+		return false;
+	}
+
+	protected void makeUserPremium() {
+		System.out.println("Enter user id: ");
+		int id = Engine.inputScanner.nextInt();
+		Engine.inputScanner.nextLine();
+
+		if (id != 0) {
+			// TODO: Fix this parameter hack
+			MySQLAccess.getMySQLObject().makeUserPremium(id % 100);
+		}
+	}
+
 	private String _createNewProduct() {
 		try {
 			Engine.inputScanner.nextLine();
@@ -41,7 +67,7 @@ public class Manager extends User {
 			int quantity = Engine.inputScanner.nextInt();
 			//Engine.inputScanner.next();
 
-			if (MySQLAccess.getMySQLObject().addProductToTheDatabase(name, price, quantity)) {
+			if (MySQLAccess.getMySQLObject().addProduct(name, price, quantity)) {
 				System.out.println("Product successfully added to the database.");
 				return name;
 			} else {

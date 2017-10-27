@@ -52,7 +52,7 @@ public final class MySQLAccess {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT username FROM usernames");
+			resultSet = statement.executeQuery("SELECT username FROM user");
 			usernames = _createStringArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
@@ -85,7 +85,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT password FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT password FROM user WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				String dbPassword = resultSet.getString("password");
@@ -111,7 +111,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 
-			preparedStatement = connect.prepareStatement("UPDATE usernames SET password=? WHERE username=?");
+			preparedStatement = connect.prepareStatement("UPDATE user SET password=? WHERE username=?");
 			preparedStatement.setString(1, newPassword);
 			preparedStatement.setString(2, username);
 			preparedStatement.executeUpdate();
@@ -133,7 +133,7 @@ public final class MySQLAccess {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?, false, false ,false)");
+			preparedStatement = connect.prepareStatement("INSERT INTO user VALUES (default, ?, ?, ?, false, false ,false)");
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
 			preparedStatement.setInt(3, 0);
@@ -160,7 +160,7 @@ public final class MySQLAccess {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT id FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT id FROM user WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				id = Integer.parseInt(resultSet.getString("id"));
@@ -178,7 +178,7 @@ public final class MySQLAccess {
 		return id;
 	}
 
-	public boolean addProductToTheDatabase(String name, double price, int quantity) {
+	public boolean addProduct(String name, double price, int quantity) {
 		if (!_productAlreadyExists(name)) {
 			try {
 				connect = _prepareConnection("products");
@@ -198,6 +198,43 @@ public final class MySQLAccess {
 			}
 		} else {
 			System.out.println("Product with such name already exists!");
+		}
+
+		return false;
+	}
+
+	public boolean removeProduct(int id) {
+		if(_productExists(id)) {
+			try {
+				connect = _prepareConnection("products");
+				statement = connect.createStatement();
+				resultSet = statement.executeQuery("SELECT name FROM product WHERE id=" + id);
+				String productName = null;
+
+				if (resultSet.next()) {
+					productName = resultSet.getString("name");
+				}
+
+				preparedStatement = connect.prepareStatement("DELETE FROM product WHERE id=?");
+				preparedStatement.setInt(1, id);
+				preparedStatement.executeUpdate();
+
+				if (productName != null)
+					System.out.println(productName + " successfully removed from the database!");
+				else
+					System.out.println("The product was successfully removed from the database");
+
+				return true;
+			}
+			catch (Exception e) {
+				_logErrorMessage(e, "removeProduct");
+			}
+			finally {
+				_close();
+			}
+		} else {
+			System.out.println("ID: " + id);
+			System.out.println("Product with such ID does not exist.");
 		}
 
 		return false;
@@ -236,7 +273,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT firstName FROM information WHERE id=" + id);
+			resultSet = statement.executeQuery("SELECT firstName FROM user_info WHERE id=" + id);
 
 			if (resultSet.next())
 				return resultSet.getString("firstName");
@@ -255,7 +292,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT lastName FROM information WHERE id=" + id);
+			resultSet = statement.executeQuery("SELECT lastName FROM user_info WHERE id=" + id);
 
 			if (resultSet.next())
 				return resultSet.getString("lastName");
@@ -273,7 +310,7 @@ public final class MySQLAccess {
 	public boolean changeFirstName(int id, String newName) {
 		try {
 			connect = _prepareConnection("users");
-			preparedStatement = connect.prepareStatement("UPDATE information SET firstName=? WHERE id=?");
+			preparedStatement = connect.prepareStatement("UPDATE user_info SET firstName=? WHERE id=?");
 			preparedStatement.setString(1, newName);
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
@@ -293,7 +330,7 @@ public final class MySQLAccess {
 	public boolean changeLastName(int id, String newName) {
 		try {
 			connect = _prepareConnection("users");
-			preparedStatement = connect.prepareStatement("UPDATE information SET lastName=? WHERE id=?");
+			preparedStatement = connect.prepareStatement("UPDATE user_info SET lastName=? WHERE id=?");
 			preparedStatement.setString(1, newName);
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
@@ -314,7 +351,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT cardNumber FROM cards WHERE id=" + user_id);
+			resultSet = statement.executeQuery("SELECT cardNumber FROM card WHERE id=" + user_id);
 
 			if (resultSet.next()) {
 				return resultSet.getString("cardNumber");
@@ -334,7 +371,7 @@ public final class MySQLAccess {
 		try {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT balance FROM cards WHERE id=" + user_id);
+			resultSet = statement.executeQuery("SELECT balance FROM card WHERE id=" + user_id);
 
 			if (resultSet.next()) {
 				return resultSet.getDouble("balance");
@@ -353,7 +390,7 @@ public final class MySQLAccess {
 	public boolean updateCardBalance(String cardNumber, double newBalance) {
 		try {
 			connect = _prepareConnection("users");
-			preparedStatement = connect.prepareStatement("UPDATE cards SET balance=? WHERE cardNumber=?");
+			preparedStatement = connect.prepareStatement("UPDATE card SET balance=? WHERE cardNumber=?");
 			preparedStatement.setDouble(1, newBalance);
 			preparedStatement.setString(2, cardNumber);
 			preparedStatement.executeUpdate();
@@ -375,7 +412,7 @@ public final class MySQLAccess {
 			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT id FROM cards WHERE cardNumber=" + cardNum);
+			resultSet = statement.executeQuery("SELECT id FROM card WHERE cardNumber=" + cardNum);
 
 			if (resultSet.next()) {
 				System.out.println("\nThis card already belongs to another user!\n");
@@ -401,6 +438,29 @@ public final class MySQLAccess {
 		return false;
 	}
 
+	public void makeUserPremium(int id) {
+		if (id != 0) {
+			if (_userExists(id)) {
+				try {
+					connect = _prepareConnection("users");
+					preparedStatement = connect.prepareStatement("UPDATE user SET premium=true WHERE id=?");
+					preparedStatement.setInt(1, id);
+					preparedStatement.executeUpdate();
+
+					System.out.println("User 123_456_" + id + " has been given premium status successfully.");
+				}
+				catch (Exception e) {
+					_logErrorMessage(e, "makeUserPremium");
+				}
+				finally {
+					_close();
+				}
+			} else {
+				System.out.println("No such user exists.");
+			}
+		}
+	}
+
 	/* ======== PRIVATE METHODS ======== */
 
 	private void _readDatabase() throws Exception {
@@ -415,19 +475,19 @@ public final class MySQLAccess {
 			statement = connect.createStatement();
 
 			// Result set get the result of the SQL query
-			resultSet = statement.executeQuery("SELECT * FROM usernames");
+			resultSet = statement.executeQuery("SELECT * FROM user");
 			_writeResultSet(resultSet);
 
 			System.out.println("\n------------------------\n");
 
 			// PreparedStatements can use variables and are more efficient
-			preparedStatement = connect.prepareStatement("INSERT INTO usernames VALUES (default, ?, ?, ?)");
+			preparedStatement = connect.prepareStatement("INSERT INTO user VALUES (default, ?, ?, ?)");
 			preparedStatement.setString(1, "JoseJR");
 			preparedStatement.setString(2,"papa-papa-papa");
 			preparedStatement.setInt(3, 11);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connect.prepareStatement("SELECT * FROM usernames");
+			preparedStatement = connect.prepareStatement("SELECT * FROM user");
 			resultSet = preparedStatement.executeQuery();
 			_writeResultSet(resultSet);
 
@@ -439,7 +499,7 @@ public final class MySQLAccess {
 				preparedStatement.executeUpdate();
 			*/
 
-			resultSet = statement.executeQuery("SELECT * FROM usernames");
+			resultSet = statement.executeQuery("SELECT * FROM user");
 			_writeResultSet(resultSet);
 			//_writeMetaData(resultSet);
 
@@ -485,6 +545,26 @@ public final class MySQLAccess {
 			if (u.equals(username.trim())) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	private boolean _userExists(int id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM user WHERE id=" + id);
+
+			if (resultSet.next()) {
+				return true;
+			}
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "_userExists : id");
+		}
+		finally {
+			_close();
 		}
 
 		return false;
@@ -557,6 +637,27 @@ public final class MySQLAccess {
 		return true;
 	}
 
+	private boolean _productExists(int id) {
+		try {
+			connect = _prepareConnection("products");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT id FROM product");
+
+			while (resultSet.next()) {
+				if (id == resultSet.getInt("id"))
+					return true;
+			}
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: _productAlreadyExists) " + e.toString());
+		}
+		finally {
+			_close();
+		}
+
+		return false;
+	}
+
 	private Connection _prepareConnection(String databaseToUse) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
@@ -571,12 +672,10 @@ public final class MySQLAccess {
 		boolean admin = false;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT admin FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT admin FROM user WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				if(Integer.parseInt(resultSet.getString("admin")) == 1)
@@ -597,12 +696,10 @@ public final class MySQLAccess {
 		boolean manager = false;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT manager FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT manager FROM user WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				if(Integer.parseInt(resultSet.getString("manager")) == 1)
@@ -623,16 +720,15 @@ public final class MySQLAccess {
 		boolean premium = false;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
 
-			resultSet = statement.executeQuery("SELECT premium FROM usernames WHERE username=\"" + username + "\"");
+			resultSet = statement.executeQuery("SELECT premium FROM user WHERE username=\"" + username + "\"");
 
 			if (resultSet.next()) {
 				if(Integer.parseInt(resultSet.getString("premium")) == 1)
-					premium = true;			}
+					premium = true;
+			}
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());

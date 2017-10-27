@@ -160,6 +160,11 @@ final class UserOperations {
 		return false;
 	}
 
+	// TODO: Abstract this so that the Admin class could use this
+	static void makeUserPremium(Manager m) {
+		m.makeUserPremium();
+	}
+
 	// FACTORY METHODS
 	static String[] askForUsernameAndPassword() {
 		String info[] = new String[2];

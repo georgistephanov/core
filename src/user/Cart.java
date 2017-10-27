@@ -17,10 +17,11 @@ public class Cart {
 
 	DecimalFormat f = new DecimalFormat("####.##");
 
-	Cart(Card card, boolean premium) {
+	Cart(Card card, boolean isPremium) {
 		items = new ArrayList<>();
 		totalAmount = 0;
 		associatedCard = card != null ? card : null;
+		premiumUser = isPremium;
 	}
 
 

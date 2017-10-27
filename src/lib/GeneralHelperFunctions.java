@@ -8,6 +8,7 @@ public class GeneralHelperFunctions {
 
 	public static boolean askForDecision() {
 		char opt = Engine.inputScanner.next().toLowerCase().charAt(0);
+		Engine.inputScanner.nextLine();
 
 		if (opt == 'y')
 			return true;
@@ -20,6 +21,7 @@ public class GeneralHelperFunctions {
 
 		try {
 			opt = Engine.inputScanner.nextInt();
+			Engine.inputScanner.nextLine();
 
 			if (opt >= start && opt <= end)
 				return opt;

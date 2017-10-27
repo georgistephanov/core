@@ -7,6 +7,8 @@ import user.UserFactory;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+//TODO: There are major problems with the scanners and the input in general. Fix them!
+
 // Engine class which implements the Singleton pattern
 public class Engine {
 	private static Engine e = new Engine();

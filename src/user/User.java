@@ -41,7 +41,7 @@ public abstract class User {
 		authorised = true;
 
 		card = new VisaCard(id);
-		cart = new Cart(card, false);
+		cart = new Cart(card, (this.accountType.equalsIgnoreCase("premium") ? true : false));
 		if (!card.isCardActive()) {
 			System.out.println("There seems to be a missing credit card to this account. "
 					+ "You won't be able to make any purchases until you add one!");
