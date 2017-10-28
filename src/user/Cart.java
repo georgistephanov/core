@@ -167,6 +167,7 @@ public class Cart {
 	// TODO: After checkout store the purchase info + receipt in the database
 	// TODO: This shall be done after the database structure is re-done
 
+	// TODO: Decouple this from the user and the card. Let the payment be called from the user
 	// The method responsible for all the logic regarding the checkout process
 	protected boolean checkout() {
 		if (associatedCard == null) {

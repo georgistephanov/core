@@ -42,8 +42,6 @@ public class BasicUser extends User {
 	}
 
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
-	// TODO: Find a way to initialise common menu options for all users in the User class and
-	// TODO:   then just add the rest of it in each of the classes!
 	public void initialiseMainMenu() {
 		UserMenu menu = new UserMenu(this);
 		menu.initialiseMainMenu();

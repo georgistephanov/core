@@ -61,44 +61,6 @@ final class UserOperations {
 		System.out.println("Last name:\t" + u.getLastName());
 	}
 
-	static void editProfile(User u) {
-		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Back"};
-		GeneralHelperFunctions.generateMenu(menu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
-		switch (opt) {
-			case 0:
-				return;
-			case 1:
-				_changeFirstName(u);
-				break;
-			case 2:
-				_changeLastName(u);
-				break;
-			default:
-		}
-
-		editProfile(u);
-	}
-
-	private static void _changeFirstName(User u) {
-		System.out.println("What is your first name?");
-		String newFirstName = Engine.inputScanner.next();
-
-		if (MySQLAccess.getMySQLObject().changeFirstName(u.getID(), newFirstName)) {
-			u.updateName();
-		}
-	}
-
-	private static void _changeLastName(User u) {
-		System.out.println("What is your last name?");
-		String newLastName = Engine.inputScanner.next();
-
-		if (MySQLAccess.getMySQLObject().changeLastName(u.getID(), newLastName)) {
-			u.updateName();
-		}
-	}
-
 	static boolean changePassword(User b) {
 		System.out.print("Enter old password: ");
 		String oldPassword = Engine.inputScanner.next();
@@ -164,10 +126,44 @@ final class UserOperations {
 		System.out.println("Balance: $" + b.getCard().getBalance());
 	}
 
-	// TODO: Abstract this so that the Admin class could use this
-	static void makeUserPremium(Manager m) {
-		m.makeUserPremium();
+	static void makeUserPremium() {
+		_makeUserPremium();
 	}
+
+
+	/* ======== PRIVATE METHODS ======== */
+
+	static void changeFirstName(User u) {
+		System.out.println("What is your first name?");
+		String newFirstName = Engine.inputScanner.next();
+
+		if (MySQLAccess.getMySQLObject().changeFirstName(u.getID(), newFirstName)) {
+			u.updateName();
+		}
+	}
+
+	static void changeLastName(User u) {
+		System.out.println("What is your last name?");
+		String newLastName = Engine.inputScanner.next();
+
+		if (MySQLAccess.getMySQLObject().changeLastName(u.getID(), newLastName)) {
+			u.updateName();
+		}
+	}
+
+	private static void _makeUserPremium() {
+		System.out.println("Enter user id: ");
+		int id = Engine.inputScanner.nextInt();
+		Engine.inputScanner.nextLine();
+
+		if (id != 0) {
+			if (id > 100_123_00)
+				MySQLAccess.getMySQLObject().makeUserPremium(id - 100_123_00);
+			else
+				MySQLAccess.getMySQLObject().makeUserPremium(id);
+		}
+	}
+
 
 	// FACTORY METHODS
 	static String[] askForUsernameAndPassword() {

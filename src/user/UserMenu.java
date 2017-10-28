@@ -44,15 +44,15 @@ public final class UserMenu {
 					}
 					break;
 				case 3:
-					initialiseBasicUserProfileMenu();
+					_basicUserProfileMenu();
 					break;
 				case 4:
-					initialiseBasicUserCartMenu();
+					_basicUserCartMenu();
 					break;
 				case 0:
 					Engine.terminateApplication();
 				case -1:
-					return;
+					break;
 				default:
 					throw new InputMismatchException();
 			}
@@ -73,7 +73,7 @@ public final class UserMenu {
 					manager.removeProductFromCatalog();
 					break;
 				case 4:
-					initialiseManagerProfileMenu();
+					_managerProfileMenu();
 					break;
 				case 0:
 					Engine.terminateApplication();
@@ -89,9 +89,9 @@ public final class UserMenu {
 
 
 
-	// TODO: Add options to add and remove cards from the account
-	private void initialiseBasicUserProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Change password", "Card >", "Back"};
+	/* ========== Profile Menu ========== */
+	private void _basicUserProfileMenu() {
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Card >", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
@@ -101,27 +101,49 @@ public final class UserMenu {
 				UserOperations.printProfileInfo(basicUser);
 				break;
 			case 2:
-				UserOperations.editProfile(basicUser);
+				_basicUserEditProfileMenu();
 				break;
 			case 3:
-				UserOperations.changePassword(basicUser);
+				_basicUserCardMenu();
 				break;
-			case 4:
-				_initialiseBasicUserCardMenu();
-				break;
-			case -1:
-				System.out.println("Incorrect input! Please try again.");
-				initialiseBasicUserProfileMenu();
 			case 0:
 				return;
 			default:
 				break;
 		}
 
-		initialiseBasicUserProfileMenu();
+		_basicUserProfileMenu();
+	}
+	private void _managerProfileMenu() {
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Make user premium", "Back"};
+		GeneralHelperFunctions.generateMenu(profileMenu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+
+		switch (opt) {
+			case 1:
+				UserOperations.printProfileInfo(this.manager);
+				break;
+			case 2:
+				_managerEditProfileMenu();
+				break;
+			case 3:
+				UserOperations.makeUserPremium();
+			case -1:
+				System.out.println("Incorrect input! Please try again.");
+				_managerProfileMenu();
+				break;
+			case 0:
+				return;
+			default:
+		}
+
+		_managerProfileMenu();
 	}
 
-	private void initialiseBasicUserCartMenu() {
+
+	/* ========== Cart Menu ========== */
+	private void _basicUserCartMenu() {
 		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
 		GeneralHelperFunctions.generateMenu(cartMenu);
 
@@ -145,10 +167,12 @@ public final class UserMenu {
 				break;
 		}
 
-		initialiseBasicUserCartMenu();
+		_basicUserCartMenu();
 	}
 
-	private void _initialiseBasicUserCardMenu() {
+
+	/* ========== Card Menu ========== */
+	private void _basicUserCardMenu() {
 		String cardMenu[] = {"Card:", "Add new card", "Check balance", "Back"};
 		GeneralHelperFunctions.generateMenu(cardMenu);
 
@@ -166,34 +190,53 @@ public final class UserMenu {
 			default:
 		}
 
-		_initialiseBasicUserCardMenu();
+		_basicUserCardMenu();
 	}
 
 
-	private void initialiseManagerProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Make user premium", "Back"};
-		GeneralHelperFunctions.generateMenu(profileMenu);
+	/* ========== Edit profile Menu ========== */
+	private void _basicUserEditProfileMenu() {
+		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Change password", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
-
 		switch (opt) {
 			case 1:
-				UserOperations.printProfileInfo(manager);
+				UserOperations.changeFirstName(this.basicUser);
 				break;
 			case 2:
-				UserOperations.editProfile(manager);
+				UserOperations.changeLastName(this.basicUser);
 				break;
 			case 3:
-				UserOperations.makeUserPremium(manager);
-			case -1:
-				System.out.println("Incorrect input! Please try again.");
-				initialiseManagerProfileMenu();
+				UserOperations.changePassword(this.basicUser);
 				break;
 			case 0:
 				return;
 			default:
 		}
 
-		initialiseManagerProfileMenu();
+		_basicUserEditProfileMenu();
+	}
+	private void _managerEditProfileMenu() {
+		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Change password", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+		switch (opt) {
+			case 1:
+				UserOperations.changeFirstName(this.manager);
+				break;
+			case 2:
+				UserOperations.changeLastName(this.manager);
+				break;
+			case 3:
+				UserOperations.changePassword(this.manager);
+				break;
+			case 0:
+				return;
+			default:
+		}
+
+		_managerEditProfileMenu();
 	}
 }

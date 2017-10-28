@@ -44,19 +44,6 @@ public class Manager extends User {
 		return false;
 	}
 
-	protected void makeUserPremium() {
-		System.out.println("Enter user id: ");
-		int id = Engine.inputScanner.nextInt();
-		Engine.inputScanner.nextLine();
-
-		if (id != 0) {
-			if (id > 100_123_00)
-				MySQLAccess.getMySQLObject().makeUserPremium(id - 100_123_00);
-			else
-				MySQLAccess.getMySQLObject().makeUserPremium(id);
-		}
-	}
-
 	private String _createNewProduct() {
 		try {
 			System.out.print("Name of the product: ");
