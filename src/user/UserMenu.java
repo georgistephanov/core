@@ -28,7 +28,7 @@ public final class UserMenu {
 	public void initialiseMainMenu() {
 		if (basicUser != null) {
 			// General menu
-			String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile", "Cart", "Exit"};
+			String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile >", "Cart >", "Exit"};
 			GeneralHelperFunctions.generateMenu(mainMenu);
 
 
@@ -58,7 +58,7 @@ public final class UserMenu {
 			}
 		}
 		else if (manager != null) {
-			String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Remove product from the catalog", "Profile", "System settings", "Exit"};
+			String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Remove product from the catalog", "Profile >", "System settings >", "Exit"};
 			GeneralHelperFunctions.generateMenu(mainMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -88,9 +88,10 @@ public final class UserMenu {
 	}
 
 
+
 	// TODO: Add options to add and remove cards from the account
 	private void initialiseBasicUserProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Change password", "Add card", "Back"};
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile", "Change password", "Card >", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
@@ -106,13 +107,13 @@ public final class UserMenu {
 				UserOperations.changePassword(basicUser);
 				break;
 			case 4:
-				UserOperations.addNewCard(basicUser);
+				_initialiseBasicUserCardMenu();
 				break;
 			case -1:
 				System.out.println("Incorrect input! Please try again.");
 				initialiseBasicUserProfileMenu();
 			case 0:
-				initialiseMainMenu();
+				return;
 			default:
 				break;
 		}
@@ -131,20 +132,41 @@ public final class UserMenu {
 				basicUser.displayCartItems();
 				break;
 			case 2:
-				if (basicUser.beginCheckoutProcess()) {
-					initialiseMainMenu();
-				}
+				if (basicUser.beginCheckoutProcess())
+					return;
+
 				break;
 			case 3:
 				basicUser.removeItemsFromCart();
 				break;
 			case 0:
-				initialiseMainMenu();
+				return;
 			default:
 				break;
 		}
 
 		initialiseBasicUserCartMenu();
+	}
+
+	private void _initialiseBasicUserCardMenu() {
+		String cardMenu[] = {"Card:", "Add new card", "Check balance", "Back"};
+		GeneralHelperFunctions.generateMenu(cardMenu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+
+		switch (opt) {
+			case 1:
+				UserOperations.addNewCard(this.basicUser);
+				break;
+			case 2:
+				UserOperations.printCardBalance(this.basicUser);
+				break;
+			case 0:
+				return;
+			default:
+		}
+
+		_initialiseBasicUserCardMenu();
 	}
 
 

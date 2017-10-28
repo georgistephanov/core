@@ -36,7 +36,6 @@ public class Engine {
 
 	// This is the main method which is responsible for the engine
 	public void execute() {
-		int opt;
 
 		// Infinite loop which represents the main menu
 		for (; ; ) {

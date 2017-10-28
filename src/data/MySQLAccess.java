@@ -419,7 +419,7 @@ public final class MySQLAccess {
 				return false;
 			}
 
-			preparedStatement = connect.prepareStatement("INSERT INTO cards VALUES (?, ?, ?)");
+			preparedStatement = connect.prepareStatement("INSERT INTO card VALUES (?, ?, ?)");
 			preparedStatement.setInt(1, user_id);
 			preparedStatement.setString(2, cardNum);
 			preparedStatement.setDouble(3, 3000.);
@@ -447,7 +447,7 @@ public final class MySQLAccess {
 					preparedStatement.setInt(1, id);
 					preparedStatement.executeUpdate();
 
-					System.out.println("User 123_456_" + id + " has been given premium status successfully.");
+					System.out.println("User 100_123_" + id + " has been given premium status successfully.");
 				}
 				catch (Exception e) {
 					_logErrorMessage(e, "makeUserPremium");

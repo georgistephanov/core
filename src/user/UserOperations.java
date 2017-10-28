@@ -160,6 +160,10 @@ final class UserOperations {
 		return false;
 	}
 
+	static void printCardBalance(User b) {
+		System.out.println("Balance: $" + b.getCard().getBalance());
+	}
+
 	// TODO: Abstract this so that the Admin class could use this
 	static void makeUserPremium(Manager m) {
 		m.makeUserPremium();

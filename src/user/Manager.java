@@ -33,8 +33,10 @@ public class Manager extends User {
 		Engine.inputScanner.nextLine();
 
 		if (id != 0) {
-			// TODO: fix the parameter remainder hack
-			return MySQLAccess.getMySQLObject().removeProduct(id % 100);
+			if (id > 123_456_00)
+				return MySQLAccess.getMySQLObject().removeProduct(id - 123_456_00);
+			else
+				return MySQLAccess.getMySQLObject().removeProduct(id);
 		} else {
 			System.out.println("Invalid ID entered");
 		}
@@ -48,20 +50,20 @@ public class Manager extends User {
 		Engine.inputScanner.nextLine();
 
 		if (id != 0) {
-			// TODO: Fix this parameter hack
-			MySQLAccess.getMySQLObject().makeUserPremium(id % 100);
+			if (id > 100_123_00)
+				MySQLAccess.getMySQLObject().makeUserPremium(id - 100_123_00);
+			else
+				MySQLAccess.getMySQLObject().makeUserPremium(id);
 		}
 	}
 
 	private String _createNewProduct() {
 		try {
-			Engine.inputScanner.nextLine();
 			System.out.print("Name of the product: ");
 			String name = Engine.inputScanner.nextLine();
 
 			System.out.print("\nPrice: ");
 			double price = Engine.inputScanner.nextDouble();
-			//Engine.inputScanner.next();
 
 			System.out.print("\nQuantity: ");
 			int quantity = Engine.inputScanner.nextInt();
