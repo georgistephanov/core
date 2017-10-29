@@ -461,6 +461,27 @@ public final class MySQLAccess {
 		}
 	}
 
+	public void printPreviousOrders(int id) {
+		try {
+			connect = _prepareConnection("users");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM orders WHERE user_id=" + id);
+
+			System.out.println("\nPrevious orders:");
+			while (resultSet.next()) {
+				System.out.println("\t| #" + 187_453_00 + resultSet.getInt("id")
+					+ " | " + resultSet.getDate("date")
+						+ " | $" + resultSet.getDouble("amount_paid") + " |");
+			}
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "printPreviousOrders");
+		}
+		finally {
+			_close();
+		}
+	}
+
 	/* ======== PRIVATE METHODS ======== */
 
 	private void _readDatabase() throws Exception {

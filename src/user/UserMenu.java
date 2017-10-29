@@ -91,7 +91,7 @@ public final class UserMenu {
 
 	/* ========== Profile Menu ========== */
 	private void _basicUserProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Card >", "Back"};
+		String profileMenu[] = {"Profile:", "View profile", "Edit profile >", "Card >", "Orders >", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
@@ -105,6 +105,9 @@ public final class UserMenu {
 				break;
 			case 3:
 				_basicUserCardMenu();
+				break;
+			case 4:
+				_basicUserOrdersMenu();
 				break;
 			case 0:
 				return;
@@ -238,5 +241,23 @@ public final class UserMenu {
 		}
 
 		_managerEditProfileMenu();
+	}
+
+	/* ========== Orders Menu ========== */
+	private void _basicUserOrdersMenu() {
+		String ordersMenu[] = {"Orders:", "See previous orders", "Back"};
+		GeneralHelperFunctions.generateMenu(ordersMenu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+
+		switch (opt) {
+			case 1:
+				UserOperations.printPreviousOrders(this.basicUser);
+				break;
+			case 0:
+				return;
+			default:
+				break;
+		}
 	}
 }

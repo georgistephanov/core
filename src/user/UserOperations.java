@@ -130,6 +130,10 @@ final class UserOperations {
 		_makeUserPremium();
 	}
 
+	static void printPreviousOrders(User u) {
+		MySQLAccess.getMySQLObject().printPreviousOrders(u.getID());
+	}
+
 
 	/* ======== PRIVATE METHODS ======== */
 
