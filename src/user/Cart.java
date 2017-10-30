@@ -1,19 +1,20 @@
 package user;
+
 import lib.GeneralHelperFunctions;
 import product.*;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import lib.payment.*;
 
+
 public class Cart {
 
-	ArrayList<Product> items;
-	double totalAmount;
-	Card associatedCard;
+	private ArrayList<Product> items;
+	private double totalAmount;
+	private Card associatedCard;
 
 	// Associates the correct type of user this cart belongs to
-	boolean premiumUser;
+	private boolean _premiumUser;
 
 	DecimalFormat f = new DecimalFormat("####.##");
 
@@ -21,14 +22,14 @@ public class Cart {
 		items = new ArrayList<>();
 		totalAmount = 0;
 		associatedCard = card != null ? card : null;
-		premiumUser = isPremium;
+		_premiumUser = isPremium;
 	}
 
 
 	/* ============== PUBLIC METHODS ============== */
 
 	// This method is responsible for all the logic regarding adding a product to the cart
-	public boolean addToCart(Product p) {
+	boolean addToCart(Product p) {
 
 		// Checks if the product is already in the cart
 		if (p.getQuantityAvailable() > 0) {
@@ -82,12 +83,12 @@ public class Cart {
 	/* ============== PROTECTED METHODS ============== */
 
 	// Prints a brief information about the products in the cart
-	protected void showItems() {
+	void showItems() {
 		_printCheckoutConfirmation();
 	}
 
 	// Cancels the current line and removes the products from the cart
-	protected void cancelLine() {
+	void cancelLine() {
 		if (!this.empty()) {
 			System.out.println("Are you sure you want to remove all the items from the cart? (y/n)");
 			if (GeneralHelperFunctions.askForDecision()) {
@@ -101,7 +102,7 @@ public class Cart {
 	}
 
 	// Checks if the cart is empty
-	protected boolean empty() {
+	boolean empty() {
 		if (items.size() <= 0)
 			return true;
 
@@ -169,7 +170,7 @@ public class Cart {
 
 	// TODO: Decouple this from the user and the card. Let the payment be called from the user
 	// The method responsible for all the logic regarding the checkout process
-	protected boolean checkout() {
+	boolean checkout() {
 		if (associatedCard == null) {
 			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 			return false;
@@ -198,7 +199,7 @@ public class Cart {
 
 		boolean paymentSuccessful;
 
-		if (this.premiumUser)
+		if (this._premiumUser)
 			paymentSuccessful = associatedCard.makePayment(_premiumGetTotalAmount());
 		else
 			paymentSuccessful = associatedCard.makePayment(_getTotalAmount());
@@ -220,7 +221,7 @@ public class Cart {
 		}
 		System.out.println("\nTotal: $" + _getTotalAmount());
 
-		if (this.premiumUser)
+		if (this._premiumUser)
 			System.out.println("Total after 10% discount: $" + _premiumGetTotalAmount());
 
 		System.out.println();

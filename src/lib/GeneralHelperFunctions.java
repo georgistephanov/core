@@ -1,7 +1,6 @@
 package lib;
 
 import core.Engine;
-
 import java.util.InputMismatchException;
 
 public class GeneralHelperFunctions {

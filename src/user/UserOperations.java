@@ -1,7 +1,6 @@
 package user;
 import core.Engine;
 import data.MySQLAccess;
-import lib.GeneralHelperFunctions;
 
 import java.util.ArrayList;
 
@@ -132,6 +131,14 @@ final class UserOperations {
 
 	static void printPreviousOrders(User u) {
 		MySQLAccess.getMySQLObject().printPreviousOrders(u.getID());
+	}
+
+	static void printFullPreviousOrder() {
+		System.out.print("Order number: ");
+		int orderNumber = Engine.inputScanner.nextInt();
+		Engine.inputScanner.nextLine();
+
+		MySQLAccess.getMySQLObject().printFullPreviousOrder(orderNumber);
 	}
 
 

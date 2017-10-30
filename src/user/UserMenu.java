@@ -5,8 +5,8 @@ import core.PhysicalScanner;
 import lib.GeneralHelperFunctions;
 import product.Product;
 import product.ProductCatalog;
-
 import java.util.InputMismatchException;
+
 
 public final class UserMenu {
 	private BasicUser basicUser;
@@ -244,8 +244,9 @@ public final class UserMenu {
 	}
 
 	/* ========== Orders Menu ========== */
+	// TODO: Store the order to the database
 	private void _basicUserOrdersMenu() {
-		String ordersMenu[] = {"Orders:", "See previous orders", "Back"};
+		String ordersMenu[] = {"Orders:", "Previous orders", "See specific order", "Back"};
 		GeneralHelperFunctions.generateMenu(ordersMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
@@ -254,10 +255,15 @@ public final class UserMenu {
 			case 1:
 				UserOperations.printPreviousOrders(this.basicUser);
 				break;
+			case 2:
+				UserOperations.printFullPreviousOrder();
+				break;
 			case 0:
 				return;
 			default:
 				break;
 		}
+
+		_basicUserOrdersMenu();
 	}
 }

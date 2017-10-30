@@ -1,7 +1,6 @@
 package user;
 
 import data.MySQLAccess;
-import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 
 public abstract class User {
@@ -17,7 +16,27 @@ public abstract class User {
 	private VisaCard card;
 	private Cart cart;
 
-	private MySQLAccess db = MySQLAccess.getMySQLObject();
+	private static MySQLAccess db = MySQLAccess.getMySQLObject();
+
+	/* ============== STATIC FACTORY METHOD ============== */
+	public static User createUserInstance() {
+		//System.out.println("Do you have an account? (y/n)");
+		//if (GeneralHelperFunctions.askForDecision()) {
+			String username = UserOperations.initUser();
+
+			if (db.isAdmin(username)) {
+				return new Admin(username);
+			} else if (db.isManager(username)) {
+				return new Manager(username);
+			} else if (db.isPremium(username)) {
+				return new BasicUser(username, true);
+			} else {
+				return new BasicUser(username, false);
+			}
+		//} else {
+			//return new BasicUser();
+		//}
+	}
 
 	/* ============== ABSTRACT CLASSES ============== */
 	public abstract void initialiseMainMenu();

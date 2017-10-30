@@ -1,32 +1,29 @@
 package product;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import data.*;
-import user.BasicUser;
-import user.User;
 
 // THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
 // WILL NOT EXIST WHEN A DB IS PRESENT
 public final class ProductCatalog {
 	// An array list which holds all the products
-	public static ArrayList<Product> catalog = new ArrayList<>();
+	private static ArrayList<Product> catalog = new ArrayList<>();
 
-
-	/* ============== PUBLIC METHODS ============== */
-
-	// Generates a catalog from the products in the database
-	public ProductCatalog() {
+	static {
 		try {
 			MySQLAccess db = MySQLAccess.getMySQLObject();
-
 			catalog = db.getProductsFromDatabase();
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
+	}
+
+	/* ============== PUBLIC METHODS ============== */
+
+	// Generates a catalog from the products in the database
+	public ProductCatalog() {
+		// TODO: Consider whether to leave this as it is or the class should be redesigned
 	}
 
 	public static boolean addProductToTheCatalog(Product p) {

@@ -1,10 +1,8 @@
 package data;
+
 import core.Engine;
-import lib.payment.VisaCard;
 import product.Product;
-
 import java.util.ArrayList;
-
 import java.sql.*;
 
 // This class implements the Singleton pattern
@@ -34,6 +32,11 @@ public final class MySQLAccess {
 			resultSet = statement.executeQuery("SELECT * FROM product");
 
 			products = _createProductArrayListFromResultSet(resultSet);
+			if (products.isEmpty())
+				System.out.println("HELLLLOOOOOO");
+			else {
+				System.out.println("BLABLA");
+			}
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -252,7 +255,36 @@ public final class MySQLAccess {
 				int quantity = resultSet.getInt("quantityAvailable");
 
 				if (id != 0 && price != 0 && quantity != 0)
-					return new Product(id, name, price, quantity);
+					return new Product.Builder(id, name, price, quantity).build();
+			}
+			else
+				System.out.println("Couldn't get the product information from the database.");
+
+			return null;
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
+		}
+		finally {
+			_close();
+		}
+
+		return null;
+	}
+
+	public Product getProductFromID(int id) {
+		try {
+			connect = _prepareConnection("products");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM product WHERE id=" + id);
+
+			if (resultSet.next()) {
+				String name = resultSet.getString("name");
+				double price = resultSet.getDouble("price");
+				int quantity = resultSet.getInt("quantityAvailable");
+
+				if (id != 0 && price != 0 && quantity != 0)
+					return new Product.Builder(id, name, price, quantity).build();
 			}
 			else
 				System.out.println("Couldn't get the product information from the database.");
@@ -467,11 +499,12 @@ public final class MySQLAccess {
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM orders WHERE user_id=" + id);
 
-			System.out.println("\nPrevious orders:");
+			System.out.println("\nPrevious orders:\n"
+				+ "\t| Order number |    Date    |   Price\t|" );
 			while (resultSet.next()) {
 				System.out.println("\t| #" + 187_453_00 + resultSet.getInt("id")
-					+ " | " + resultSet.getDate("date")
-						+ " | $" + resultSet.getDouble("amount_paid") + " |");
+					+ "   | " + resultSet.getDate("date")
+						+ " |  $" + resultSet.getDouble("amount_paid") + "\t|");
 			}
 		}
 		catch (Exception e) {
@@ -482,82 +515,42 @@ public final class MySQLAccess {
 		}
 	}
 
-	/* ======== PRIVATE METHODS ======== */
-
-	private void _readDatabase() throws Exception {
+	public void printFullPreviousOrder(int orderNumber) {
 		try {
-			// This will load the MySQL driver
-			Class.forName("com.mysql.jdbc.Driver");
-
-			// Setup the connection with the DB
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/users?autoReconnect=true&useSSL=false", "root", "");
-
-			// Statements allow to issue SQL queries to the DB
+			connect = _prepareConnection("users");
 			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM order_products WHERE order_id=" + orderNumber);
 
-			// Result set get the result of the SQL query
-			resultSet = statement.executeQuery("SELECT * FROM user");
-			_writeResultSet(resultSet);
+			if (resultSet.isBeforeFirst()) {
+				// TODO: These could be mapped together
+				ArrayList<Integer> productIDs = new ArrayList<>();
+				ArrayList<Double> productPrices = new ArrayList<>();
 
-			System.out.println("\n------------------------\n");
+				while (resultSet.next()) {
+					productIDs.add(resultSet.getInt("product_id"));
+					productPrices.add(resultSet.getDouble("price"));
+				}
 
-			// PreparedStatements can use variables and are more efficient
-			preparedStatement = connect.prepareStatement("INSERT INTO user VALUES (default, ?, ?, ?)");
-			preparedStatement.setString(1, "JoseJR");
-			preparedStatement.setString(2,"papa-papa-papa");
-			preparedStatement.setInt(3, 11);
-			preparedStatement.executeUpdate();
+				System.out.println("Order #" + 187_453_00 + orderNumber);
+				for (int i = 0; i < productIDs.size(); i++) {
+					Product product = getProductFromID(productIDs.get(i));
+					if (product != null)
+						System.out.println("\t" + getProductFromID(productIDs.get(i)).getName() + "\t\t$" + productPrices.get(i));
+				}
 
-			preparedStatement = connect.prepareStatement("SELECT * FROM user");
-			resultSet = preparedStatement.executeQuery();
-			_writeResultSet(resultSet);
-
-			System.out.println("\n------------------------\n");
-
-			// Remove again the inserted user
-			/*	preparedStatement = connect.prepareStatement("DELETE FROM usernames WHERE username= ? ;");
-				preparedStatement.setString(1, "georgi");
-				preparedStatement.executeUpdate();
-			*/
-
-			resultSet = statement.executeQuery("SELECT * FROM user");
-			_writeResultSet(resultSet);
-			//_writeMetaData(resultSet);
-
+			} else {
+				System.out.println("There is no order with such number.");
+			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
-		} finally {
+			_logErrorMessage(e, "printFullPreviousOrder");
+		}
+		finally {
 			_close();
 		}
 	}
 
-	private void _writeMetaData(ResultSet resultSet) throws SQLException {
-		// Now get some metadata from the database
-		// Result set get the result of the SQL query
-
-		System.out.println("The columns in the table are: ");
-
-		System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
-		for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-			System.out.println("Column " + i + " " + resultSet.getMetaData().getColumnName(i));
-		}
-	}
-
-	private void _writeResultSet(ResultSet resultSet) throws SQLException {
-		// ResultSet is initially before the first data set
-		while (resultSet.next()) {
-			// It is possible to get the columns via name
-			// also possible to get the columns via the column number
-			// which starts at 1 e.g. resultSet.getString(2);
-			String username = resultSet.getString("username");
-			String password = resultSet.getString("password");
-			int cuteness = resultSet.getInt("cuteness");
-			System.out.println("Username: " + username);
-			System.out.println("Password: " + password);
-			System.out.println("Cuteness: " + cuteness + "\n");
-		}
-	}
+	/* ============ PRIVATE METHODS ============ */
 
 	private boolean _usernameExists(String username) {
 		ArrayList<String> usernames = getUsernames();
@@ -600,7 +593,7 @@ public final class MySQLAccess {
 			float price = resultSet.getFloat("price");
 			int quantityAv = resultSet.getInt("quantityAvailable");
 
-			products.add(new Product(id, productName, price, quantityAv));
+			products.add(new Product.Builder(id, productName, price, quantityAv).build());
 		}
 
 		return products;

@@ -1,14 +1,7 @@
 package user;
 
 import core.Engine;
-import core.PhysicalScanner;
 import data.MySQLAccess;
-import lib.GeneralHelperFunctions;
-import product.Product;
-import product.ProductCatalog;
-import sun.java2d.loops.FillRect;
-
-import java.util.InputMismatchException;
 
 
 public class BasicUser extends User {
@@ -46,6 +39,5 @@ public class BasicUser extends User {
 		UserMenu menu = new UserMenu(this);
 		menu.initialiseMainMenu();
 	}
-
 
 }

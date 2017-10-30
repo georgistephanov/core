@@ -2,7 +2,6 @@ package user;
 
 import core.Engine;
 import data.MySQLAccess;
-import lib.GeneralHelperFunctions;
 import product.ProductCatalog;
 
 public class Manager extends User {
