@@ -32,11 +32,6 @@ public final class MySQLAccess {
 			resultSet = statement.executeQuery("SELECT * FROM product");
 
 			products = _createProductArrayListFromResultSet(resultSet);
-			if (products.isEmpty())
-				System.out.println("HELLLLOOOOOO");
-			else {
-				System.out.println("BLABLA");
-			}
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -206,7 +201,7 @@ public final class MySQLAccess {
 		return false;
 	}
 
-	public boolean removeProduct(int id) {
+	public void removeProduct(int id) {
 		if(_productExists(id)) {
 			try {
 				connect = _prepareConnection("products");
@@ -227,7 +222,6 @@ public final class MySQLAccess {
 				else
 					System.out.println("The product was successfully removed from the database");
 
-				return true;
 			}
 			catch (Exception e) {
 				_logErrorMessage(e, "removeProduct");
@@ -239,8 +233,6 @@ public final class MySQLAccess {
 			System.out.println("ID: " + id);
 			System.out.println("Product with such ID does not exist.");
 		}
-
-		return false;
 	}
 
 	public Product getProductFromName(String name) {
@@ -251,35 +243,6 @@ public final class MySQLAccess {
 
 			if (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				double price = resultSet.getDouble("price");
-				int quantity = resultSet.getInt("quantityAvailable");
-
-				if (id != 0 && price != 0 && quantity != 0)
-					return new Product.Builder(id, name, price, quantity).build();
-			}
-			else
-				System.out.println("Couldn't get the product information from the database.");
-
-			return null;
-		}
-		catch (Exception e) {
-			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
-		}
-		finally {
-			_close();
-		}
-
-		return null;
-	}
-
-	public Product getProductFromID(int id) {
-		try {
-			connect = _prepareConnection("products");
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM product WHERE id=" + id);
-
-			if (resultSet.next()) {
-				String name = resultSet.getString("name");
 				double price = resultSet.getDouble("price");
 				int quantity = resultSet.getInt("quantityAvailable");
 
@@ -526,16 +489,19 @@ public final class MySQLAccess {
 				ArrayList<Integer> productIDs = new ArrayList<>();
 				ArrayList<Double> productPrices = new ArrayList<>();
 
+				// These should be filled here as another database connection is created
+				// in the for loop via a function call to getProductFromID();
 				while (resultSet.next()) {
 					productIDs.add(resultSet.getInt("product_id"));
 					productPrices.add(resultSet.getDouble("price"));
 				}
 
+				// Print the full order information
 				System.out.println("Order #" + 187_453_00 + orderNumber);
 				for (int i = 0; i < productIDs.size(); i++) {
 					Product product = getProductFromID(productIDs.get(i));
 					if (product != null)
-						System.out.println("\t" + getProductFromID(productIDs.get(i)).getName() + "\t\t$" + productPrices.get(i));
+						System.out.println("\t" + product.getName() + "\t\t$" + productPrices.get(i));
 				}
 
 			} else {
@@ -672,6 +638,35 @@ public final class MySQLAccess {
 		return false;
 	}
 
+	private Product getProductFromID(int id) {
+		try {
+			connect = _prepareConnection("products");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM product WHERE id=" + id);
+
+			if (resultSet.next()) {
+				String name = resultSet.getString("name");
+				double price = resultSet.getDouble("price");
+				int quantity = resultSet.getInt("quantityAvailable");
+
+				if (id != 0 && price != 0 && quantity != 0)
+					return new Product.Builder(id, name, price, quantity).build();
+			}
+			else
+				System.out.println("Couldn't get the product information from the database.");
+
+			return null;
+		}
+		catch (Exception e) {
+			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
+		}
+		finally {
+			_close();
+		}
+
+		return null;
+	}
+
 	private Connection _prepareConnection(String databaseToUse) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
@@ -752,5 +747,23 @@ public final class MySQLAccess {
 		}
 
 		return premium;
+	}
+
+
+	public boolean isRunning() {
+		try {
+			_prepareConnection("users");
+			_prepareConnection("products");
+
+			return true;
+		}
+		catch (Exception e) {
+			_logErrorMessage(e, "isRunning()");
+		}
+		finally {
+			_close();
+		}
+
+		return false;
 	}
 }

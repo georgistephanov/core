@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import lib.payment.*;
 
 
-public class Cart {
+class Cart {
 
 	private ArrayList<Product> items;
 	private double totalAmount;
@@ -15,8 +15,6 @@ public class Cart {
 
 	// Associates the correct type of user this cart belongs to
 	private boolean _premiumUser;
-
-	DecimalFormat f = new DecimalFormat("####.##");
 
 	Cart(Card card, boolean isPremium) {
 		items = new ArrayList<>();
@@ -89,24 +87,21 @@ public class Cart {
 
 	// Cancels the current line and removes the products from the cart
 	void cancelLine() {
-		if (!this.empty()) {
-			System.out.println("Are you sure you want to remove all the items from the cart? (y/n)");
-			if (GeneralHelperFunctions.askForDecision()) {
-				items = new ArrayList<>();
-				System.out.println("\nYour cart has been emptied successfully");
-			}
-		}
-		else {
+		if (_isEmpty()) {
 			System.out.println("\nYour cart is empty.");
+			return;
+		}
+
+		System.out.println("Are you sure you want to remove all the items from the cart? (y/n)");
+		if (GeneralHelperFunctions.askForDecision()) {
+			items = new ArrayList<>();
+			System.out.println("\nYour cart has been emptied successfully");
 		}
 	}
 
 	// Checks if the cart is empty
-	boolean empty() {
-		if (items.size() <= 0)
-			return true;
-
-		return false;
+	private boolean _isEmpty() {
+		return items.size() <= 0;
 	}
 
 
@@ -175,7 +170,7 @@ public class Cart {
 			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 			return false;
 		}
-		if (empty()) {
+		if (_isEmpty()) {
 			System.out.println("The cart is empty");
 			return false;
 		}

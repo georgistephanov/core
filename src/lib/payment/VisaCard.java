@@ -41,13 +41,18 @@ public final class VisaCard implements Card {
 		return false;
 	}
 
+
+	public void printFullInformation() {
+		System.out.println("\tCard #: " + _getCardNumber()
+			+ "\n\tBalance: $" + getBalance());
+	}
+
 	public double getBalance() {
-		// rounds to 2 decimal places
 		return (double) Math.round(balance * 100) / 100;
 	}
-	public String getCardNumber() {
-		return cardNumber.substring(0, 4) + " " + cardNumber.substring(4, 8) + " "
-				+ cardNumber.substring(8, 12) + " " + cardNumber.substring(12, 15);
+	private String _getCardNumber() {
+		return cardNumber.substring(0, 4) + "-" + cardNumber.substring(4, 8) + "-"
+				+ cardNumber.substring(8, 12) + "-" + cardNumber.substring(12, 16);
 	}
 	public boolean isCardActive() {
 		return cardActive;

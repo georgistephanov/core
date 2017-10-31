@@ -19,7 +19,7 @@ public class Product {
 
 	private String _description;
 
-	DecimalFormat f = new DecimalFormat("####.##");
+	private DecimalFormat f = new DecimalFormat("####.##");
 
 	private Product(Builder builder) {
 		_name = builder.name;
@@ -94,7 +94,7 @@ public class Product {
 
 	// TODO: Think about overwriting the toString() method
 	// Prints full product info
-	public void printProductInfo() {
+	void printProductInfo() {
 		System.out.println("Product ID: " + _productID + "\nName: " + _name
 				+ "\nPrice: " + f.format(_price) + "\nQuantity: " + _quantityAvailable + "\n");
 	}

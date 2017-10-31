@@ -4,11 +4,10 @@ import core.Engine;
 import core.PhysicalScanner;
 import lib.GeneralHelperFunctions;
 import product.Product;
-import product.ProductCatalog;
 import java.util.InputMismatchException;
 
 
-public final class UserMenu {
+final class UserMenu {
 	private BasicUser basicUser;
 	private Manager manager;
 	private Admin admin;
@@ -25,7 +24,7 @@ public final class UserMenu {
 		this.admin = admin;
 	}
 
-	public void initialiseMainMenu() {
+	void initialiseMainMenu() {
 		if (basicUser != null) {
 			// General menu
 			String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile >", "Cart >", "Exit"};
@@ -35,7 +34,7 @@ public final class UserMenu {
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
 				case 1:
-					ProductCatalog.printCatalog();
+					basicUser.printCatalog();
 					break;
 				case 2:
 					Product p = PhysicalScanner.getInstance().scanProduct();
@@ -58,28 +57,23 @@ public final class UserMenu {
 			}
 		}
 		else if (manager != null) {
-			String mainMenu[] = {"Menu: ", "View catalog", "Add product to the catalog", "Remove product from the catalog", "Profile >", "System settings >", "Exit"};
+			String mainMenu[] = {"Menu: ", "Catalog >", "Profile >", "System settings >", "Exit"};
 			GeneralHelperFunctions.generateMenu(mainMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
 				case 1:
-					ProductCatalog.printCatalog();
+					_managerCatalogMenu();
 					break;
 				case 2:
-					manager.addProductToTheCatalog();
+					_managerProfileMenu();
 					break;
 				case 3:
-					manager.removeProductFromCatalog();
-					break;
-				case 4:
-					_managerProfileMenu();
+					_managerSystemSettingsMenu();
 					break;
 				case 0:
 					Engine.terminateApplication();
-					break;
 				default:
-					return;
 			}
 		}
 		else if (admin != null) {
@@ -112,7 +106,6 @@ public final class UserMenu {
 			case 0:
 				return;
 			default:
-				break;
 		}
 
 		_basicUserProfileMenu();
@@ -176,7 +169,7 @@ public final class UserMenu {
 
 	/* ========== Card Menu ========== */
 	private void _basicUserCardMenu() {
-		String cardMenu[] = {"Card:", "Add new card", "Check balance", "Back"};
+		String cardMenu[] = {"Card:", "Add new card", "Print card information", "Back"};
 		GeneralHelperFunctions.generateMenu(cardMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -186,7 +179,7 @@ public final class UserMenu {
 				UserOperations.addNewCard(this.basicUser);
 				break;
 			case 2:
-				UserOperations.printCardBalance(this.basicUser);
+				UserOperations.printCardInformation(this.basicUser);
 				break;
 			case 0:
 				return;
@@ -265,5 +258,36 @@ public final class UserMenu {
 		}
 
 		_basicUserOrdersMenu();
+	}
+
+	/* ========== Catalog Menu ========== */
+	private void _managerCatalogMenu() {
+		String menu[] = {"Catalog:", "View catalog", "Add product", "Remove product", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0,9);
+		switch (opt) {
+			case 1:
+				manager.printCatalog();
+				break;
+			case 2:
+				manager.addProductToTheCatalog();
+				break;
+			case 3:
+				manager.removeProductFromCatalog();
+				break;
+			case 0:
+				return;
+			default:
+				break;
+		}
+
+		_managerCatalogMenu();
+	}
+
+
+	/* ========== Catalog Menu ========== */
+	private void _managerSystemSettingsMenu() {
+		// TODO: To be implemented
 	}
 }

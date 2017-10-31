@@ -9,7 +9,7 @@ public class BasicUser extends User {
 	/* ============== CONSTRUCTORS ============== */
 
 	// Main constructor which is used when an unregistered user is using the program
-	public BasicUser() {
+	BasicUser() {
 		String[] info = UserOperations.createUser();
 		MySQLAccess db = MySQLAccess.getMySQLObject();
 
@@ -26,7 +26,8 @@ public class BasicUser extends User {
 		}
 	}
 
-	public BasicUser(String username, Boolean premium) {
+	// Constructor when a user exists and has successfully logged in
+	BasicUser(String username, Boolean premium) {
 		if (premium) {
 			setObjectVariables(username, "Premium");
 		} else {

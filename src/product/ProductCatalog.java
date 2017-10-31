@@ -6,29 +6,24 @@ import data.*;
 // THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
 // WILL NOT EXIST WHEN A DB IS PRESENT
 public final class ProductCatalog {
-	// An array list which holds all the products
-	private static ArrayList<Product> catalog = new ArrayList<>();
 
-	static {
-		try {
-			MySQLAccess db = MySQLAccess.getMySQLObject();
-			catalog = db.getProductsFromDatabase();
-		}
-		catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
+	private static ArrayList<Product> _products = new ArrayList<>();
+
 
 	/* ============== PUBLIC METHODS ============== */
 
 	// Generates a catalog from the products in the database
-	public ProductCatalog() {
+	private ProductCatalog() {
 		// TODO: Consider whether to leave this as it is or the class should be redesigned
+	}
+
+	public static void initialiseCatalog() {
+		_products = MySQLAccess.getMySQLObject().getProductsFromDatabase();
 	}
 
 	public static boolean addProductToTheCatalog(Product p) {
 		if (p != null) {
-			catalog.add(p);
+			_products.add(p);
 			return true;
 		}
 
@@ -36,8 +31,8 @@ public final class ProductCatalog {
 	}
 
 	public static void printCatalog() {
-		if (!catalog.isEmpty()) {
-			for(Product p: catalog) {
+		if (!_products.isEmpty()) {
+			for(Product p: _products) {
 				p.printProductInfo();
 			}
 		}
@@ -49,7 +44,7 @@ public final class ProductCatalog {
 
 	public static Product getProduct(long id) {
 		Product p = null;
-		for (Product pr : catalog)
+		for (Product pr : _products)
 			if (pr.getID() == id) {
 				p = pr;
 				break;
@@ -58,11 +53,13 @@ public final class ProductCatalog {
 		return p;
 	}
 
+	public static boolean isAvailable() { return _products.isEmpty(); }
+
 
 	/* ============== PRIVATE METHODS ============== */
 
 	private static boolean _isProductAvailable(long id) {
-		for(Product p : catalog) {
+		for(Product p : _products) {
 			if (p.getID() == id)
 				return true;
 		}

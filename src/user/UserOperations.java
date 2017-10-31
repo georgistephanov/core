@@ -7,8 +7,8 @@ import java.util.ArrayList;
 final class UserOperations {
 	private static int login_max_try = 3;
 
-
 	private UserOperations() {}
+
 
 	static String[] createUser() {
 		String info[] = new String[2];
@@ -38,19 +38,6 @@ final class UserOperations {
 		return info;
 	}
 
-	static boolean login(String user, String pw) {
-		MySQLAccess db = MySQLAccess.getMySQLObject();
-
-		if (db.login(user, pw)) {
-			return true;
-		}
-		return false;
-	}
-
-	static double getCurrentBalance(User user) {
-		return user.getCard().getBalance();
-	}
-
 	static void printProfileInfo(User u) {
 		System.out.println("Account number:\t" + u.getAccountNumber());
 		System.out.println("Username:\t\t" + u.getUsername());
@@ -60,7 +47,7 @@ final class UserOperations {
 		System.out.println("Last name:\t" + u.getLastName());
 	}
 
-	static boolean changePassword(User b) {
+	static void changePassword(User b) {
 		System.out.print("Enter old password: ");
 		String oldPassword = Engine.inputScanner.next();
 
@@ -73,30 +60,27 @@ final class UserOperations {
 			if (!newPassword.equals(oldPassword)) {
 				if (db.changePassword(b.getUsername(), newPassword)) {
 					System.out.println("Password changed successfully!");
-					return true;
 				} else {
-					System.out.println("The database failed while storing the password.");
-					return false;
+					System.out.println("The database failed while storing the password. Please try again in a few moments.");
 				}
 			} else {
 				System.out.println("Your new password can't match the current one.");
-				return false;
 			}
 		} else {
-			return false;
+			System.out.println("Passwords don't match.");
 		}
 	}
 
-	static boolean addNewCard(User b) {
+	static void addNewCard(User b) {
 		System.out.println("\nAdd a card number (XXXX-XXXX-XXXX-XXXX)");
 		String cardNum = Engine.inputScanner.next();
 		Engine.inputScanner.nextLine();
 
+		// Checks the first of two possible input formats
 		if (cardNum.length() == 16) {
-			if(MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
-				return true;
-			}
-			else {
+			if (MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
+				System.out.println("The card has been added successfully.");
+			} else {
 				System.out.println("There was an error while establishing connection to the database. Please try again in a few moments.");
 			}
 		} else if (cardNum.length() == 19) {
@@ -106,10 +90,9 @@ final class UserOperations {
 				cardNum = card_num[0] + card_num[1] + card_num[2] + card_num[3];
 
 				if (cardNum.length() == 16) {
-					if(MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
-						return true;
-					}
-					else {
+					if (MySQLAccess.getMySQLObject().addCard(b.getID(), cardNum)) {
+						System.out.println("The card has been added successfully.");
+					} else {
 						System.out.println("There was an error while establishing connection to the database. Please try again in a few moments.");
 					}
 				}
@@ -117,12 +100,10 @@ final class UserOperations {
 		} else {
 			System.out.println("\nPlease enter the number in the correct format.");
 		}
-
-		return false;
 	}
 
-	static void printCardBalance(User b) {
-		System.out.println("Balance: $" + b.getCard().getBalance());
+	static void printCardInformation(User b) {
+		b.getCard().printFullInformation();
 	}
 
 	static void makeUserPremium() {
@@ -175,26 +156,23 @@ final class UserOperations {
 		}
 	}
 
+	private static String getUsernameFromInput() {
+		System.out.print("Username: ");
+		return Engine.inputScanner.next();
+	}
 
-	// FACTORY METHODS
-	static String[] askForUsernameAndPassword() {
-		String info[] = new String[2];
-
-		System.out.println("Username: ");
-		info[0] = Engine.inputScanner.next();
-
-		System.out.println("Password: ");
-		info[1] = Engine.inputScanner.next();
-
-		return info;
+	private static String getPasswordFromInput() {
+		System.out.print("Password: ");
+		return Engine.inputScanner.next();
 	}
 
 	static String initUser() {
 		if (login_max_try > 0) {
-			String info[] = askForUsernameAndPassword();
+			String username = getUsernameFromInput();
+			String password = getPasswordFromInput();
 
-			if (UserOperations.login(info[0], info[1])) {
-				return info[0];
+			if (MySQLAccess.getMySQLObject().login(username, password)) {
+				return username;
 			} else {
 				login_max_try--;
 				System.out.println("\n\n" + login_max_try + " tries left.");
@@ -204,6 +182,7 @@ final class UserOperations {
 			Engine.terminateApplication();
 		}
 
+		// Unreachable statement
 		return "";
 	}
 }

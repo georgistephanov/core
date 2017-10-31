@@ -23,5 +23,3 @@ public class Main {
    TODO: See if you can somehow use Abstract Factory to manage different product attributes depending
    TODO: on the category.
 */
-
-// TODO: Store purchase information about the user in the database

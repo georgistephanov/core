@@ -2,6 +2,7 @@ package user;
 
 import data.MySQLAccess;
 import lib.payment.VisaCard;
+import product.ProductCatalog;
 
 public abstract class User {
 	private int id;
@@ -47,54 +48,60 @@ public abstract class User {
 	/* ============== IMPLEMENTED CLASSES ============== */
 
 	// Method which sets the object variables when constructed
-	protected void setObjectVariables(String username, String accountType) {
+	void setObjectVariables(String username, String accountType) {
 		id = db.getIDFromUsername(username);
 		account_num += id;
 
 		this.username = username;
 		firstName = db.getFirstName(id);
 		lastName = db.getLastName(id);
-		System.out.println("\n\nHello, " + firstName);
 
 		this.accountType = accountType;
 		authorised = true;
 
 		card = new VisaCard(id);
-		cart = new Cart(card, (this.accountType.equalsIgnoreCase("premium") ? true : false));
 		if (!card.isCardActive()) {
 			System.out.println("There seems to be a missing credit card to this account. "
 					+ "You won't be able to make any purchases until you add one!");
 		}
+
+		boolean isPremium = this.accountType.equalsIgnoreCase("premium");
+		cart = new Cart(card, isPremium);
 	}
 
-	protected void displayCartItems() {
+	void displayCartItems() {
 		cart.showItems();
 	}
 
-	protected boolean beginCheckoutProcess() {
+	boolean beginCheckoutProcess() {
 		return cart.checkout();
 	}
 
-	protected void removeItemsFromCart() {
+	void removeItemsFromCart() {
 		cart.cancelLine();
 	}
 
 
 	/* ============== GETTERS ============== */
-	public long getAccountNumber() { return this.account_num; }
+	long getAccountNumber() { return this.account_num; }
 	public String getUsername() { return this.username; }
-	public String getAccountType() { return this.accountType; }
-	public Cart getCart() { return this.cart; }
-	public VisaCard getCard() { return this.card; }
+	String getAccountType() { return this.accountType; }
+	Cart getCart() { return this.cart; }
+	VisaCard getCard() { return this.card; }
 	public boolean isAuthorised() { return this.authorised; }
-	public String getFirstName() { return this.firstName; }
-	public String getLastName() { return this.lastName; }
+	String getFirstName() { return this.firstName; }
+	String getLastName() { return this.lastName; }
 
-	protected int getID() { return this.id; }
+	int getID() { return this.id; }
 
+
+	// Print the catalog
+	void printCatalog() {
+		ProductCatalog.printCatalog();
+	}
 
 	// Updates the users' first and last name from the database
-	public void updateName() {
+	void updateName() {
 		firstName = db.getFirstName(id);
 		lastName = db.getLastName(id);
 	}

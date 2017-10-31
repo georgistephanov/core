@@ -6,7 +6,7 @@ import product.ProductCatalog;
 
 public class Manager extends User {
 
-	public Manager(String username) {
+	Manager(String username) {
 		setObjectVariables(username, "Manager");
 	}
 
@@ -15,32 +15,32 @@ public class Manager extends User {
 		menu.initialiseMainMenu();
 	}
 
-	protected boolean addProductToTheCatalog() {
+	void addProductToTheCatalog() {
 		String newProductName = _createNewProduct();
 
 		if (newProductName != null) {
 			if (ProductCatalog.addProductToTheCatalog(MySQLAccess.getMySQLObject().getProductFromName(newProductName)))
-				return true;
+				System.out.println("Product successfully added to the catalog.");
 		}
 
-		return false;
+		System.out.println("The product has not been added to the catalog. Please try again in a few moments.");
 	}
 
-	protected boolean removeProductFromCatalog() {
+	 void removeProductFromCatalog() {
 		System.out.println("Enter product ID");
 		int id = Engine.inputScanner.nextInt();
 		Engine.inputScanner.nextLine();
 
 		if (id != 0) {
+
 			if (id > 123_456_00)
-				return MySQLAccess.getMySQLObject().removeProduct(id - 123_456_00);
+				MySQLAccess.getMySQLObject().removeProduct(id - 123_456_00);
 			else
-				return MySQLAccess.getMySQLObject().removeProduct(id);
+				MySQLAccess.getMySQLObject().removeProduct(id);
+
 		} else {
 			System.out.println("Invalid ID entered");
 		}
-
-		return false;
 	}
 
 	private String _createNewProduct() {
