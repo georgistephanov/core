@@ -17,9 +17,7 @@ public final class ProductCatalog {
 		// TODO: Consider whether to leave this as it is or the class should be redesigned
 	}
 
-	public static void initialiseCatalog() {
-		_products = MySQLAccess.getMySQLObject().getProductsFromDatabase();
-	}
+	public static void initialiseCatalog() { _products = MySQLAccess.getMySQLObject().getProductsFromDatabase(); }
 
 	public static boolean addProductToTheCatalog(Product p) {
 		if (p != null) {
@@ -53,7 +51,7 @@ public final class ProductCatalog {
 		return p;
 	}
 
-	public static boolean isAvailable() { return _products.isEmpty(); }
+	public static boolean isAvailable() { return !_products.isEmpty(); }
 
 
 	/* ============== PRIVATE METHODS ============== */

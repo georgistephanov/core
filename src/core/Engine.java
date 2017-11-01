@@ -22,6 +22,8 @@ public final class Engine {
 		running = true;
 		user = User.createUserInstance();
 
+		SystemDiagnostics.initialise();
+
 		// TODO: Try to decouple this and initialise it in its own class
 		ProductCatalog.initialiseCatalog();
 	}
@@ -37,10 +39,12 @@ public final class Engine {
 
 		System.out.println("Hello, " + this.user.getUsername());
 
+		// Perform system diagnostics test every 5 seconds
+		java.util.Timer timer = new java.util.Timer();
+		timer.scheduleAtFixedRate(SystemDiagnostics.getInstance(), 0, 5000);
+
 		// Infinite loop which represents the main menu
 		while (running) {
-			SystemDiagnostics.getInstance().testSystem();
-
 			try {
 				if (user.isAuthorised())
 					user.initialiseMainMenu();

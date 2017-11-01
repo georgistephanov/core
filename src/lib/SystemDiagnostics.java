@@ -4,28 +4,35 @@ import core.Engine;
 import data.MySQLAccess;
 import product.ProductCatalog;
 
-public class SystemDiagnostics {
+import java.time.Duration;
+import java.time.Instant;
+
+
+public class SystemDiagnostics extends java.util.TimerTask {
 	private static SystemDiagnostics _systemDiagnostics;
 
-	private int _timeRunning;
 	private boolean _engineRunning;
 	private boolean _databaseRunning;
 	private boolean _catalogAvailable;
 
-	private SystemDiagnostics() {
-		_timeRunning = 1;	//TODO: Detect this correctly
-	}
+	// In-class information data
+	private int _testsPerformed = 0;
+	private Instant _timestamp = Instant.now();
 
-	public static SystemDiagnostics getInstance() {
-		if (_systemDiagnostics == null) {
-			_systemDiagnostics = new SystemDiagnostics();
-		}
+	private SystemDiagnostics() { }
 
-		return _systemDiagnostics;
+	public static void initialise() { if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics(); }
+
+	public static SystemDiagnostics getInstance() {	return _systemDiagnostics; }
+
+	// Implements the run() class of TimerTask so that we can map it to a timer object
+	public void run() {
+		_testSystem();
+		_testsPerformed++;
 	}
 
 	// Controls the flow of the program. If there is something wrong it automatically terminates the application.
-	public void testSystem() {
+	private void _testSystem() {
 		_update();
 
 		if (_engineRunning && _databaseRunning && _catalogAvailable) {
@@ -46,9 +53,21 @@ public class SystemDiagnostics {
 		Engine.terminateApplication();
 	}
 
+	// Updates the control-flow variables
 	private void _update() {
 		_engineRunning = Engine.getInstance().isRunning();
 		_databaseRunning = MySQLAccess.getMySQLObject().isRunning();
 		_catalogAvailable = ProductCatalog.isAvailable();
+	}
+
+	// Prints the total time the program has been running
+	private void _printTimeActive() {
+		Duration duration = Duration.between(_timestamp, Instant.now());
+		long totalSeconds = duration.getSeconds();
+		int hours = (int) totalSeconds / 3600;
+		int minutes = (int) (totalSeconds % 3600) / 60;
+		int seconds = (int) totalSeconds % 60;
+
+		System.out.printf("Time active: %02d:%02d:%02d", hours, minutes, seconds);
 	}
 }
