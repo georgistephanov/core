@@ -1,6 +1,6 @@
 package data;
 
-import core.Engine;
+import lib.Logger;
 import product.Product;
 import java.util.ArrayList;
 import java.sql.*;
@@ -14,10 +14,10 @@ public final class MySQLAccess {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-
 	private MySQLAccess() {}
 	public static MySQLAccess getMySQLObject() { return db; }
 
+	Logger logger = Logger.getInstance();
 
 
 	/* ======== PUBLIC METHODS ======== */
@@ -26,7 +26,7 @@ public final class MySQLAccess {
 		ArrayList<Product> products = new ArrayList<>();
 
 		try {
-			connect = _prepareConnection("products");
+			connect = _prepareConnection("product");
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT * FROM product");
@@ -34,7 +34,7 @@ public final class MySQLAccess {
 			products = _createProductArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "getProductsFromDatabase");
 		}
 		finally {
 			_close();
@@ -54,7 +54,7 @@ public final class MySQLAccess {
 			usernames = _createStringArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: getUsernames()) " + e.toString());
+			logger.logError(e, "MySQLAccess", "getUsernames");
 		}
 		finally {
 			_close();
@@ -96,7 +96,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "passwordMatch");
 		}
 		finally {
 			_close();
@@ -117,7 +117,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: changePassword) " + e.toString());
+			logger.logError(e, "MySQLAccess", "changePassword");
 		}
 		finally {
 			_close();
@@ -139,10 +139,8 @@ public final class MySQLAccess {
 
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: registerUser()) Error while trying to add the user to the database.");
-			System.out.println(e.toString());
-			Engine.terminateApplication();
-			return false;
+			System.err.println("\nError while trying to add the user to the database.");
+			logger.logError(e, "MySQLAccess", "registerUser");
 		}
 		finally {
 			_close();
@@ -163,7 +161,7 @@ public final class MySQLAccess {
 			if (resultSet.next()) {
 				id = Integer.parseInt(resultSet.getString("id"));
 			} else {
-				System.out.println("(MySQLAccess: getIDFromUsername) No such user exists.");
+				System.out.println("No such user exists.");
 			}
 		}
 		catch (Exception e) {
@@ -190,7 +188,7 @@ public final class MySQLAccess {
 
 				return true;
 			} catch (Exception e) {
-				System.out.println("(MySQLAccess: addProductToTheDatabase) " + e.toString());
+				logger.logError(e, "MySQLAccess", "addProduct");
 			} finally {
 				_close();
 			}
@@ -224,7 +222,7 @@ public final class MySQLAccess {
 
 			}
 			catch (Exception e) {
-				_logErrorMessage(e, "removeProduct");
+				logger.logError(e, "MySQLAccess", "removeProduct");
 			}
 			finally {
 				_close();
@@ -255,7 +253,7 @@ public final class MySQLAccess {
 			return null;
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
+			logger.logError(e, "MySQLAccess", "getProductFromName");
 		}
 		finally {
 			_close();
@@ -274,7 +272,7 @@ public final class MySQLAccess {
 				return resultSet.getString("firstName");
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "getFirstName");
+			logger.logError(e, "MySQLAccess", "getFirstName");
 		}
 		finally {
 			_close();
@@ -293,7 +291,7 @@ public final class MySQLAccess {
 				return resultSet.getString("lastName");
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "getLastName");
+			logger.logError(e, "MySQLAccess", "getLastName");
 		}
 		finally {
 			_close();
@@ -313,7 +311,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "changeFirstName");
+			logger.logError(e, "MySQLAccess", "changeFirstName");
 		}
 		finally {
 			_close();
@@ -333,7 +331,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "changeLastName");
+			logger.logError(e, "MySQLAccess", "changeLastName");
 		}
 		finally {
 			_close();
@@ -353,7 +351,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "getCardNumber");
+			logger.logError(e, "MySQLAccess", "getCardNumber");
 		}
 		finally {
 			_close();
@@ -373,7 +371,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "getCardBalance");
+			logger.logError(e, "MySQLAccess", "getCardBalance");
 		}
 		finally {
 			_close();
@@ -393,7 +391,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "updateCardBalance");
+			logger.logError(e, "MySQLAccess", "updateCardBalance");
 		}
 		finally {
 			_close();
@@ -424,7 +422,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "addCard");
+			logger.logError(e, "MySQLAccess", "addCard");
 		}
 		finally {
 			_close();
@@ -445,7 +443,7 @@ public final class MySQLAccess {
 					System.out.println("User 100_123_" + id + " has been given premium status successfully.");
 				}
 				catch (Exception e) {
-					_logErrorMessage(e, "makeUserPremium");
+					logger.logError(e, "MySQLAccess", "makeUserPremium");
 				}
 				finally {
 					_close();
@@ -471,7 +469,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "printPreviousOrders");
+			logger.logError(e, "MySQLAccess", "printPreviousOrders");
 		}
 		finally {
 			_close();
@@ -509,7 +507,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "printFullPreviousOrder");
+			logger.logError(e, "MySQLAccess", "printFullPreviousOrder");
 		}
 		finally {
 			_close();
@@ -532,7 +530,7 @@ public final class MySQLAccess {
 
 	private boolean _userExists(int id) {
 		try {
-			connect = _prepareConnection("users");
+			connect = _prepareConnection("user");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM user WHERE id=" + id);
 
@@ -541,7 +539,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "_userExists : id");
+			logger.logError(e, "MySQLAccess", "_userExists");
 		}
 		finally {
 			_close();
@@ -590,7 +588,7 @@ public final class MySQLAccess {
 				connect.close();
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "_close");
 		}
 	}
 
@@ -608,7 +606,7 @@ public final class MySQLAccess {
 			return false;
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: _productAlreadyExists) " + e.toString());
+			logger.logError(e, "MySQLAccess", "_productAlreadyExists");
 		}
 		finally {
 			_close();
@@ -629,7 +627,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: _productAlreadyExists) " + e.toString());
+			logger.logError(e, "MySQLAccess", "_productExists");
 		}
 		finally {
 			_close();
@@ -658,7 +656,7 @@ public final class MySQLAccess {
 			return null;
 		}
 		catch (Exception e) {
-			System.out.println("(MySQLAccess: getProductFromName) " + e.toString());
+			logger.logError(e, "MySQLAccess", "getProductFromID");
 		}
 		finally {
 			_close();
@@ -670,10 +668,6 @@ public final class MySQLAccess {
 	private Connection _prepareConnection(String databaseToUse) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
-	}
-
-	private void _logErrorMessage(Exception e, String nameOfMethod) {
-		System.out.println("(MySQLAccess : " + nameOfMethod + ") " + e.toString());
 	}
 
 	/* These methods help the UserFactory */
@@ -692,7 +686,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "isAdmin");
 		}
 		finally {
 			_close();
@@ -716,7 +710,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "isManagerr");
 		}
 		finally {
 			_close();
@@ -740,7 +734,7 @@ public final class MySQLAccess {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logger.logError(e, "MySQLAccess", "isPremium");
 		}
 		finally {
 			_close();
@@ -758,7 +752,7 @@ public final class MySQLAccess {
 			return true;
 		}
 		catch (Exception e) {
-			_logErrorMessage(e, "isRunning()");
+			logger.logError(e, "MySQLAccess", "isRunning");
 		}
 		finally {
 			_close();

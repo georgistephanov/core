@@ -3,10 +3,8 @@ package lib;
 import core.Engine;
 import data.MySQLAccess;
 import product.ProductCatalog;
-
 import java.time.Duration;
 import java.time.Instant;
-
 
 public class SystemDiagnostics extends java.util.TimerTask {
 	private static SystemDiagnostics _systemDiagnostics;
@@ -17,6 +15,7 @@ public class SystemDiagnostics extends java.util.TimerTask {
 
 	// In-class information data
 	private int _testsPerformed = 0;
+	private int _testsPassed = 0;
 	private Instant _timestamp = Instant.now();
 
 	private SystemDiagnostics() { }
@@ -31,11 +30,21 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		_testsPerformed++;
 	}
 
+	// Prints the full system status from the manager/admin menu
+	public void printSystemInformation() {
+		System.out.println("==== System Information ====");
+		_printStatuses();
+		_printTimeActive();
+		_printChecksPerformed();
+		System.out.println("============================\n");
+	}
+
 	// Controls the flow of the program. If there is something wrong it automatically terminates the application.
 	private void _testSystem() {
 		_update();
 
 		if (_engineRunning && _databaseRunning && _catalogAvailable) {
+			_testsPassed++;
 			return;
 		} else {
 
@@ -60,6 +69,13 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		_catalogAvailable = ProductCatalog.isAvailable();
 	}
 
+	// Prints the components and their statuses
+	private void _printStatuses() {
+		System.out.println("Engine: " + (_engineRunning ? "running" : "not running"));
+		System.out.println("Database: " + (_databaseRunning ? "running" : "not running"));
+		System.out.println("Catalog: " + (_catalogAvailable ? "available" : "not available"));
+		System.out.println();
+	}
 	// Prints the total time the program has been running
 	private void _printTimeActive() {
 		Duration duration = Duration.between(_timestamp, Instant.now());
@@ -68,6 +84,13 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		int minutes = (int) (totalSeconds % 3600) / 60;
 		int seconds = (int) totalSeconds % 60;
 
-		System.out.printf("Time active: %02d:%02d:%02d", hours, minutes, seconds);
+		System.out.printf("Time active: %02d:%02d:%02d\n\n", hours, minutes, seconds);
+	}
+	// Prints the total amount of checks performed
+	private void _printChecksPerformed() {
+		System.out.println("System tests performed: " + _testsPerformed);
+		System.out.println("System tests passed: " + _testsPassed);
 	}
 }
+
+// TODO: Add run initial test to see if user has been authorised

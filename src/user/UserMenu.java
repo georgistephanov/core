@@ -288,6 +288,21 @@ final class UserMenu {
 
 	/* ========== Catalog Menu ========== */
 	private void _managerSystemSettingsMenu() {
-		// TODO: To be implemented
+		String menu[] = {"System settings", "System information", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+
+		switch (opt) {
+			case 1:
+				UserOperations.printSystemInformation();
+				break;
+			case 0:
+				return;
+			default:
+				break;
+		}
+
+		_managerSystemSettingsMenu();
 	}
 }

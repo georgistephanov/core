@@ -11,10 +11,6 @@ public class Main {
 }
 
 
-// TODO: Add methods to test if the system is running properly. Check for catalog present after start up and so on...
-
-// TODO: use java.util.timer for system diagnostics and system information
-
 // TODO: create a logger for all the errors to be logged in during the current session and save them to a file
 
 /* TODO: Use the factory method design pattern combined with dependency inversion to

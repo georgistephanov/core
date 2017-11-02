@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/data/MySQLAccess.java" line="149" />
+    <bookmark url="file://$PROJECT_DIR$/src/data/MySQLAccess.java" line="147" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce654145-c427-4b47-bef5-1b577612164d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/product/ProductCatalog.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/product/ProductCatalog.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/lib/Logger.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/core/Engine.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/core/Engine.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/lib/SystemDiagnostics.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/lib/SystemDiagnostics.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/UserMenu.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/UserMenu.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CORE Control Centre/user/UserOperations.class" afterPath="$PROJECT_DIR$/out/production/CORE Control Centre/user/UserOperations.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/Engine.java" afterPath="$PROJECT_DIR$/src/core/Engine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/Main.java" afterPath="$PROJECT_DIR$/src/core/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/MySQLAccess.java" afterPath="$PROJECT_DIR$/src/data/MySQLAccess.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/lib/SystemDiagnostics.java" afterPath="$PROJECT_DIR$/src/lib/SystemDiagnostics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/product/ProductCatalog.java" afterPath="$PROJECT_DIR$/src/product/ProductCatalog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/UserMenu.java" afterPath="$PROJECT_DIR$/src/user/UserMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/UserOperations.java" afterPath="$PROJECT_DIR$/src/user/UserOperations.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,18 +38,74 @@
           <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/core/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1152">
-                  <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+                <state relative-caret-position="611">
+                  <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Engine.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Logger.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/lib/Logger.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="480">
+                  <caret line="16" column="55" lean-forward="false" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MySQLAccess.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/data/MySQLAccess.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="923">
+                  <caret line="28" column="49" lean-forward="false" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="method#getUsernames#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#login#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#passwordMatch#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#changePassword#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#registerUser#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getIDFromUsername#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#addProduct#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#removeProduct#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getProductFromName#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getFirstName#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getLastName#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#changeFirstName#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#changeLastName#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getCardNumber#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getCardBalance#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#updateCardBalance#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#addCard#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#makeUserPremium#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#printPreviousOrders#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#printFullPreviousOrder#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_usernameExists#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_userExists#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_createProductArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_createStringArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_close#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_productAlreadyExists#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_productExists#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#getProductFromID#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#_prepareConnection#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#isAdmin#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#isManager#0;class#MySQLAccess#0" expanded="false" />
+                    <element signature="method#isPremium#0;class#MySQLAccess#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="960">
-                  <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+                <state relative-caret-position="768">
+                  <caret line="31" column="38" lean-forward="true" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -81,51 +143,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MySQLAccess.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/data/MySQLAccess.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="6144">
-                  <caret line="752" column="31" lean-forward="false" selection-start-line="752" selection-start-column="31" selection-end-line="752" selection-end-column="31" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="method#getUsernames#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#login#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#passwordMatch#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#changePassword#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#registerUser#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getIDFromUsername#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#addProduct#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#removeProduct#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getProductFromName#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getFirstName#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getLastName#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#changeFirstName#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#changeLastName#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getCardNumber#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getCardBalance#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#updateCardBalance#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#addCard#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#makeUserPremium#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#printPreviousOrders#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#printFullPreviousOrder#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_usernameExists#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_userExists#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_createStringArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_close#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_productAlreadyExists#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_productExists#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#getProductFromID#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_prepareConnection#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#_logErrorMessage#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#isAdmin#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#isManager#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#isPremium#0;class#MySQLAccess#0" expanded="false" />
-                    <element signature="method#isRunning#0;class#MySQLAccess#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -133,15 +150,14 @@
           <file leaf-file-name="UserMenu.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/user/UserMenu.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="41" column="57" lean-forward="false" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
+                <state relative-caret-position="1185">
+                  <caret line="305" column="37" lean-forward="true" selection-start-line="305" selection-start-column="37" selection-end-line="305" selection-end-column="37" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#_managerProfileMenu#0;class#UserMenu#0" expanded="false" />
                     <element signature="method#_basicUserCartMenu#0;class#UserMenu#0" expanded="false" />
                     <element signature="method#_managerEditProfileMenu#0;class#UserMenu#0" expanded="false" />
                     <element signature="method#_basicUserOrdersMenu#0;class#UserMenu#0" expanded="false" />
-                    <element signature="method#_managerSystemSettingsMenu#0;class#UserMenu#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -150,7 +166,7 @@
           <file leaf-file-name="ProductCatalog.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2448">
+                <state relative-caret-position="2400">
                   <caret line="53" column="37" lean-forward="false" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="37" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -162,7 +178,7 @@
           <file leaf-file-name="BasicUser.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1044">
+                <state relative-caret-position="1296">
                   <caret line="28" column="68" lean-forward="false" selection-start-line="28" selection-start-column="68" selection-end-line="28" selection-end-column="68" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -174,14 +190,15 @@
           <file leaf-file-name="SystemDiagnostics.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/lib/SystemDiagnostics.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="614">
-                  <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+                <state relative-caret-position="995">
+                  <caret line="95" column="64" lean-forward="false" selection-start-line="95" selection-start-column="64" selection-end-line="95" selection-end-column="64" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#run#0;class#SystemDiagnostics#0" expanded="false" />
+                    <element signature="method#printSystemInformation#0;class#SystemDiagnostics#0" expanded="false" />
                     <element signature="method#_testSystem#0;class#SystemDiagnostics#0" expanded="false" />
                     <element signature="method#_update#0;class#SystemDiagnostics#0" expanded="false" />
-                    <element signature="method#_printTimeActive#0;class#SystemDiagnostics#0" expanded="false" />
+                    <element signature="method#_printStatuses#0;class#SystemDiagnostics#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -190,16 +207,14 @@
           <file leaf-file-name="UserOperations.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="912">
-                  <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+                <state relative-caret-position="-783">
+                  <caret line="4" column="29" lean-forward="false" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
                   <folding>
-                    <element signature="imports" expanded="true" />
                     <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
-                    <element signature="e#3232#3233#0" expanded="true" />
-                    <element signature="e#3273#3274#0" expanded="true" />
+                    <element signature="method#printFullPreviousOrder#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
                     <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
@@ -335,14 +350,15 @@
         <option value="$PROJECT_DIR$/src/user/User.java" />
         <option value="$PROJECT_DIR$/src/user/Manager.java" />
         <option value="$PROJECT_DIR$/src/user/Cart.java" />
-        <option value="$PROJECT_DIR$/src/user/UserOperations.java" />
         <option value="$PROJECT_DIR$/src/lib/payment/VisaCard.java" />
-        <option value="$PROJECT_DIR$/src/user/UserMenu.java" />
-        <option value="$PROJECT_DIR$/src/core/Main.java" />
-        <option value="$PROJECT_DIR$/src/data/MySQLAccess.java" />
         <option value="$PROJECT_DIR$/src/product/ProductCatalog.java" />
         <option value="$PROJECT_DIR$/src/core/Engine.java" />
+        <option value="$PROJECT_DIR$/src/user/UserOperations.java" />
+        <option value="$PROJECT_DIR$/src/user/UserMenu.java" />
+        <option value="$PROJECT_DIR$/src/core/Main.java" />
         <option value="$PROJECT_DIR$/src/lib/SystemDiagnostics.java" />
+        <option value="$PROJECT_DIR$/src/data/MySQLAccess.java" />
+        <option value="$PROJECT_DIR$/src/lib/Logger.java" />
       </list>
     </option>
   </component>
@@ -370,7 +386,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -419,6 +434,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,11 +446,11 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="core" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\Java Playground\CORE Control Centre\lib" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="core" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -491,18 +507,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-14" y="-14" width="3868" height="2098" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32753786" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.50416666" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20583287" sideWeight="0.49583334" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46662927" sideWeight="0.49583334" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3992312" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -542,18 +557,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="33" />
+      <option name="time" value="37" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/user/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="10" column="35" lean-forward="false" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/core/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -577,13 +585,11 @@
         <state relative-caret-position="0">
           <caret line="0" column="13" lean-forward="true" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
             <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
-            <element signature="e#3232#3233#0" expanded="true" />
-            <element signature="e#3273#3274#0" expanded="true" />
+            <element signature="method#printFullPreviousOrder#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
@@ -697,13 +703,11 @@
         <state relative-caret-position="1080">
           <caret line="30" column="38" lean-forward="false" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
             <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
-            <element signature="e#3232#3233#0" expanded="true" />
-            <element signature="e#3273#3274#0" expanded="true" />
+            <element signature="method#printFullPreviousOrder#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
@@ -770,13 +774,11 @@
         <state relative-caret-position="1080">
           <caret line="30" column="38" lean-forward="false" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
             <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
             <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
-            <element signature="e#3232#3233#0" expanded="true" />
-            <element signature="e#3273#3274#0" expanded="true" />
+            <element signature="method#printFullPreviousOrder#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
             <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
@@ -895,28 +897,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
-            <element signature="e#3232#3233#0" expanded="true" />
-            <element signature="e#3273#3274#0" expanded="true" />
-            <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#getUsernameFromInput#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#getPasswordFromInput#0;class#UserOperations#0" expanded="false" />
-            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/user/Cart.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4368">
@@ -946,10 +926,112 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4320">
+          <caret line="99" column="38" lean-forward="false" selection-start-line="99" selection-start-column="38" selection-end-line="99" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2023#2024#0" expanded="true" />
+            <element signature="e#2047#2048#0" expanded="true" />
+            <element signature="e#2575#2576#0" expanded="true" />
+            <element signature="e#2611#2612#0" expanded="true" />
+            <element signature="method#updateName#0;class#User#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1296">
+          <caret line="28" column="68" lean-forward="false" selection-start-line="28" selection-start-column="68" selection-end-line="28" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2400">
+          <caret line="53" column="37" lean-forward="false" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/UserMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="305" column="37" lean-forward="true" selection-start-line="305" selection-start-column="37" selection-end-line="305" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#_managerProfileMenu#0;class#UserMenu#0" expanded="false" />
+            <element signature="method#_basicUserCartMenu#0;class#UserMenu#0" expanded="false" />
+            <element signature="method#_managerEditProfileMenu#0;class#UserMenu#0" expanded="false" />
+            <element signature="method#_basicUserOrdersMenu#0;class#UserMenu#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/UserOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-783">
+          <caret line="4" column="29" lean-forward="false" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
+          <folding>
+            <element signature="method#createUser#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#printProfileInfo#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#changePassword#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#addNewCard#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#printFullPreviousOrder#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#changeFirstName#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#changeLastName#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#_makeUserPremium#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#getUsernameFromInput#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#getPasswordFromInput#0;class#UserOperations#0" expanded="false" />
+            <element signature="method#initUser#0;class#UserOperations#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="768">
+          <caret line="31" column="38" lean-forward="true" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib/SystemDiagnostics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="995">
+          <caret line="95" column="64" lean-forward="false" selection-start-line="95" selection-start-column="64" selection-end-line="95" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#run#0;class#SystemDiagnostics#0" expanded="false" />
+            <element signature="method#printSystemInformation#0;class#SystemDiagnostics#0" expanded="false" />
+            <element signature="method#_testSystem#0;class#SystemDiagnostics#0" expanded="false" />
+            <element signature="method#_update#0;class#SystemDiagnostics#0" expanded="false" />
+            <element signature="method#_printStatuses#0;class#SystemDiagnostics#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/MySQLAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6144">
-          <caret line="752" column="31" lean-forward="false" selection-start-line="752" selection-start-column="31" selection-end-line="752" selection-end-column="31" />
+        <state relative-caret-position="923">
+          <caret line="28" column="49" lean-forward="false" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getUsernames#0;class#MySQLAccess#0" expanded="false" />
@@ -974,99 +1056,26 @@
             <element signature="method#printFullPreviousOrder#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_usernameExists#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_userExists#0;class#MySQLAccess#0" expanded="false" />
+            <element signature="method#_createProductArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_createStringArrayListFromResultSet#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_close#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_productAlreadyExists#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_productExists#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#getProductFromID#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#_prepareConnection#0;class#MySQLAccess#0" expanded="false" />
-            <element signature="method#_logErrorMessage#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isAdmin#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isManager#0;class#MySQLAccess#0" expanded="false" />
             <element signature="method#isPremium#0;class#MySQLAccess#0" expanded="false" />
-            <element signature="method#isRunning#0;class#MySQLAccess#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/User.java">
+    <entry file="file://$PROJECT_DIR$/src/lib/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4320">
-          <caret line="99" column="38" lean-forward="false" selection-start-line="99" selection-start-column="38" selection-end-line="99" selection-end-column="38" />
+        <state relative-caret-position="480">
+          <caret line="16" column="55" lean-forward="false" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2023#2024#0" expanded="true" />
-            <element signature="e#2047#2048#0" expanded="true" />
-            <element signature="e#2575#2576#0" expanded="true" />
-            <element signature="e#2611#2612#0" expanded="true" />
-            <element signature="method#updateName#0;class#User#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/BasicUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1044">
-          <caret line="28" column="68" lean-forward="false" selection-start-line="28" selection-start-column="68" selection-end-line="28" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/product/ProductCatalog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2448">
-          <caret line="53" column="37" lean-forward="false" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/UserMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="41" column="57" lean-forward="false" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#_managerProfileMenu#0;class#UserMenu#0" expanded="false" />
-            <element signature="method#_basicUserCartMenu#0;class#UserMenu#0" expanded="false" />
-            <element signature="method#_managerEditProfileMenu#0;class#UserMenu#0" expanded="false" />
-            <element signature="method#_basicUserOrdersMenu#0;class#UserMenu#0" expanded="false" />
-            <element signature="method#_managerSystemSettingsMenu#0;class#UserMenu#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/Engine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/lib/SystemDiagnostics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#run#0;class#SystemDiagnostics#0" expanded="false" />
-            <element signature="method#_testSystem#0;class#SystemDiagnostics#0" expanded="false" />
-            <element signature="method#_update#0;class#SystemDiagnostics#0" expanded="false" />
-            <element signature="method#_printTimeActive#0;class#SystemDiagnostics#0" expanded="false" />
           </folding>
         </state>
       </provider>
