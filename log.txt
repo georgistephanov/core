@@ -1,1 +1,3 @@
-02/11/2017 22:14:07  (MySQLAccess : getProductsFromDatabase())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+03/11/2017 19:03:49  (MySQLAccess : getProductsFromDatabase())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+

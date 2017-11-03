@@ -150,7 +150,7 @@ final class UserMenu {
 				basicUser.displayCartItems();
 				break;
 			case 2:
-				if (basicUser.beginCheckoutProcess())
+				if (basicUser.checkout(basicUser.getCheckoutDiscountPercentage()))
 					return;
 
 				break;

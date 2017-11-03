@@ -7,7 +7,7 @@ import product.ProductCatalog;
 public class Manager extends User {
 
 	Manager(String username) {
-		setObjectVariables(username, "Manager");
+		setObjectVariables(username, User.AccountType.MANAGER);
 	}
 
 	public void initialiseMainMenu() {

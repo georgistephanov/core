@@ -8,19 +8,14 @@ import lib.payment.*;
 
 
 class Cart {
-
 	private ArrayList<Product> items;
-	private double totalAmount;
 	private Card associatedCard;
+	private int _discountPercentage;
 
-	// Associates the correct type of user this cart belongs to
-	private boolean _premiumUser;
 
-	Cart(Card card, boolean isPremium) {
+	Cart(Card card) {
 		items = new ArrayList<>();
-		totalAmount = 0;
-		associatedCard = card != null ? card : null;
-		_premiumUser = isPremium;
+		associatedCard = card;
 	}
 
 
@@ -145,14 +140,10 @@ class Cart {
 			}
 		}
 
+		if (_discountPercentage >= 0 && _discountPercentage <= 90)
+			totalAmount = totalAmount * (100 - _discountPercentage) / 100;
+
 		return (double) Math.round(totalAmount * 100) / 100;
-	}
-
-	private double _premiumGetTotalAmount() {
-		double totalAmount = _getTotalAmount();
-
-		// discount 10%
-		return (double) Math.round(totalAmount * 90) / 100;
 	}
 
 
@@ -165,7 +156,7 @@ class Cart {
 
 	// TODO: Decouple this from the user and the card. Let the payment be called from the user
 	// The method responsible for all the logic regarding the checkout process
-	boolean checkout() {
+	boolean checkout(int discountPercentage) {
 		if (associatedCard == null) {
 			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 			return false;
@@ -174,6 +165,8 @@ class Cart {
 			System.out.println("The cart is empty");
 			return false;
 		}
+
+		this._discountPercentage = discountPercentage;
 
 		_printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
@@ -194,10 +187,8 @@ class Cart {
 
 		boolean paymentSuccessful;
 
-		if (this._premiumUser)
-			paymentSuccessful = associatedCard.makePayment(_premiumGetTotalAmount());
-		else
-			paymentSuccessful = associatedCard.makePayment(_getTotalAmount());
+		paymentSuccessful = associatedCard.makePayment(_getTotalAmount());
+
 
 		if (paymentSuccessful) {
 			System.out.println("Payment successful! New balance: $" + associatedCard.getBalance());
@@ -214,10 +205,12 @@ class Cart {
 		for (Product i : items) {
 			System.out.println("| " + i.getQuantityInCart() + " | $" + i.getPrice() + (i.getPrice() < 10 ? "\t\t| " : "\t| ") + i.getName());
 		}
-		System.out.println("\nTotal: $" + _getTotalAmount());
 
-		if (this._premiumUser)
-			System.out.println("Total after 10% discount: $" + _premiumGetTotalAmount());
+		if (_discountPercentage == 0) {
+			System.out.println("\nTotal: $" + _getTotalAmount());
+		} else {
+			System.out.println("\nTotal after " + _discountPercentage + "% discount: $" + _getTotalAmount());
+		}
 
 		System.out.println();
 	}

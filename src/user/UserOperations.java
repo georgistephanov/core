@@ -42,7 +42,8 @@ final class UserOperations {
 	static void printProfileInfo(User u) {
 		System.out.println("Account number:\t" + u.getAccountNumber());
 		System.out.println("Username:\t\t" + u.getUsername());
-		System.out.println("Account type:\t" + u.getAccountType());
+		System.out.println("Account type:\t" + u.getStringAccountType());
+		System.out.println("Discount:\t\t" + u.getCheckoutDiscountPercentage() + "%");
 
 		System.out.println("\nFirst name:\t" + u.getFirstName());
 		System.out.println("Last name:\t" + u.getLastName());

@@ -17,7 +17,7 @@ public final class MySQLAccess {
 	private MySQLAccess() {}
 	public static MySQLAccess getMySQLObject() { return db; }
 
-	Logger logger = Logger.getInstance();
+	private Logger logger = Logger.getInstance();
 
 
 	/* ======== PUBLIC METHODS ======== */
@@ -26,7 +26,7 @@ public final class MySQLAccess {
 		ArrayList<Product> products = new ArrayList<>();
 
 		try {
-			connect = _prepareConnection("product");
+			connect = _prepareConnection("products");
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT * FROM product");

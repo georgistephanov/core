@@ -4,7 +4,7 @@ package user;
 public class Admin extends User {
 
 	public Admin(String username) {
-		setObjectVariables(username, "Admin");
+		setObjectVariables(username, User.AccountType.ADMIN);
 	}
 
 	public void initialiseMainMenu() {

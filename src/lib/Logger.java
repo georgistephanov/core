@@ -14,7 +14,7 @@ public final class Logger {
 	private static Logger logger = new Logger();
 
 	// TODO: Fix this as it doesn't write to the file
-	private static final String LOG_FILE_PATH = "../../log.txt";
+	private static final String LOG_FILE_PATH = "log.txt";
 
 	private Logger() {}
 	public static Logger getInstance() { return logger; }
@@ -61,7 +61,7 @@ public final class Logger {
 
 		try {
 			fileWriter = new FileWriter(LOG_FILE_PATH, true);
-			fileWriter.write(errorMessage);
+			fileWriter.write(errorMessage + "\r\n\r\n");
 		}
 		catch (IOException e) {
 			System.err.println("IOException when trying to write to the log file.");

@@ -15,7 +15,7 @@ public class BasicUser extends User {
 
 		if (info[0] != null && info[1] != null) {
 			if (db.registerUser(info[0], info[1])) {
-				setObjectVariables(info[0], "Basic");
+				setObjectVariables(info[0], User.AccountType.BASIC);
 			} else {
 				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
 				Engine.terminateApplication();
@@ -29,9 +29,9 @@ public class BasicUser extends User {
 	// Constructor when a user exists and has successfully logged in
 	BasicUser(String username, Boolean premium) {
 		if (premium) {
-			setObjectVariables(username, "Premium");
+			setObjectVariables(username, User.AccountType.PREMIUM);
 		} else {
-			setObjectVariables(username, "Basic");
+			setObjectVariables(username, User.AccountType.BASIC);
 		}
 	}
 

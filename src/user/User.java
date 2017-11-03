@@ -11,7 +11,20 @@ public abstract class User {
 	private String username;
 	private String firstName, lastName;
 
-	private String accountType;
+	public enum AccountType {
+		BASIC(0), PREMIUM(10), MANAGER(15), ADMIN(0);
+
+		private int _discountPercentage;
+
+		AccountType(int discountPercentage) {
+			this._discountPercentage = discountPercentage;
+		}
+
+		int getDiscountPercentage() { return _discountPercentage; }
+	}
+
+	private AccountType _accountType;
+
 	private boolean authorised = false;
 
 	private VisaCard card;
@@ -41,14 +54,12 @@ public abstract class User {
 
 	/* ============== ABSTRACT CLASSES ============== */
 	public abstract void initialiseMainMenu();
-	//public abstract void userProfileMenu();
-
 
 
 	/* ============== IMPLEMENTED CLASSES ============== */
 
 	// Method which sets the object variables when constructed
-	void setObjectVariables(String username, String accountType) {
+	void setObjectVariables(String username, AccountType accountType) {
 		id = db.getIDFromUsername(username);
 		account_num += id;
 
@@ -56,7 +67,7 @@ public abstract class User {
 		firstName = db.getFirstName(id);
 		lastName = db.getLastName(id);
 
-		this.accountType = accountType;
+		this._accountType = accountType;
 		authorised = true;
 
 		card = new VisaCard(id);
@@ -65,16 +76,15 @@ public abstract class User {
 					+ "You won't be able to make any purchases until you add one!");
 		}
 
-		boolean isPremium = this.accountType.equalsIgnoreCase("premium");
-		cart = new Cart(card, isPremium);
+		cart = new Cart(card);
 	}
 
 	void displayCartItems() {
 		cart.showItems();
 	}
 
-	boolean beginCheckoutProcess() {
-		return cart.checkout();
+	boolean checkout(int discountPercentage) {
+		return cart.checkout(discountPercentage);
 	}
 
 	void removeItemsFromCart() {
@@ -85,12 +95,27 @@ public abstract class User {
 	/* ============== GETTERS ============== */
 	long getAccountNumber() { return this.account_num; }
 	public String getUsername() { return this.username; }
-	String getAccountType() { return this.accountType; }
 	Cart getCart() { return this.cart; }
 	VisaCard getCard() { return this.card; }
 	public boolean isAuthorised() { return this.authorised; }
+	AccountType getEnumAccountType() { return this._accountType; }
+	String getStringAccountType() {
+		switch (_accountType) {
+			case BASIC:
+				return "Basic";
+			case PREMIUM:
+				return "Premium";
+			case MANAGER:
+				return "Manager";
+			case ADMIN:
+				return "Admin";
+			default:
+				return "";
+		}
+	}
 	String getFirstName() { return this.firstName; }
 	String getLastName() { return this.lastName; }
+	int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
 
 	int getID() { return this.id; }
 
