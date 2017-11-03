@@ -1,7 +1,7 @@
 package lib.payment;
 
-import core.Engine;
-import data.MySQLAccess;
+import data.Database;
+import data.UserDatabase;
 
 public final class VisaCard implements Card {
 
@@ -9,9 +9,13 @@ public final class VisaCard implements Card {
 	private String cardNumber;
 	private boolean cardActive;
 
+	private UserDatabase userDatabase;
+
 	public VisaCard(int user_id) {
-		cardNumber = MySQLAccess.getMySQLObject().getCardNumber(user_id);
-		balance = MySQLAccess.getMySQLObject().getCardBalance(user_id);
+		userDatabase = new UserDatabase();
+
+		cardNumber = userDatabase.getCardNumber(user_id);
+		balance = userDatabase.getCardBalance(user_id);
 
 		if (cardNumber == null || balance == -1) {
 			cardActive = false;
@@ -27,7 +31,7 @@ public final class VisaCard implements Card {
 
 	public boolean makePayment(double amount) {
 		if (balance >= amount) {
-			if (MySQLAccess.getMySQLObject().updateCardBalance(cardNumber, balance - amount)) {
+			if (userDatabase.updateCardBalance(cardNumber, balance - amount)) {
 				balance -= amount;
 				return true;
 			} else {

@@ -7,17 +7,16 @@ import data.*;
 // WILL NOT EXIST WHEN A DB IS PRESENT
 public final class ProductCatalog {
 
+	private static ProductDatabase productDatabase;
 	private static ArrayList<Product> _products = new ArrayList<>();
 
 
 	/* ============== PUBLIC METHODS ============== */
 
-	// Generates a catalog from the products in the database
-	private ProductCatalog() {
-		// TODO: Consider whether to leave this as it is or the class should be redesigned
+	public static void initialiseCatalog() {
+		productDatabase = new ProductDatabase();
+		_products = productDatabase.getProductsFromDatabase();
 	}
-
-	public static void initialiseCatalog() { _products = MySQLAccess.getMySQLObject().getProductsFromDatabase(); }
 
 	public static boolean addProductToTheCatalog(Product p) {
 		if (p != null) {

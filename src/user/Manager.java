@@ -1,13 +1,17 @@
 package user;
 
 import core.Engine;
-import data.MySQLAccess;
+import data.Database;
+import data.ProductDatabase;
 import product.ProductCatalog;
 
 public class Manager extends User {
+	// This class uses extensively the ProductDatabase class
+	ProductDatabase productDatabase;
 
 	Manager(String username) {
 		setObjectVariables(username, User.AccountType.MANAGER);
+		productDatabase = new ProductDatabase();
 	}
 
 	public void initialiseMainMenu() {
@@ -19,7 +23,7 @@ public class Manager extends User {
 		String newProductName = _createNewProduct();
 
 		if (newProductName != null) {
-			if (ProductCatalog.addProductToTheCatalog(MySQLAccess.getMySQLObject().getProductFromName(newProductName)))
+			if (ProductCatalog.addProductToTheCatalog(productDatabase.getProductFromName(newProductName)))
 				System.out.println("Product successfully added to the catalog.");
 		}
 
@@ -34,9 +38,9 @@ public class Manager extends User {
 		if (id != 0) {
 
 			if (id > 123_456_00)
-				MySQLAccess.getMySQLObject().removeProduct(id - 123_456_00);
+				productDatabase.removeProduct(id - 123_456_00);
 			else
-				MySQLAccess.getMySQLObject().removeProduct(id);
+				productDatabase.removeProduct(id);
 
 		} else {
 			System.out.println("Invalid ID entered");
@@ -55,7 +59,7 @@ public class Manager extends User {
 			int quantity = Engine.inputScanner.nextInt();
 			//Engine.inputScanner.next();
 
-			if (MySQLAccess.getMySQLObject().addProduct(name, price, quantity)) {
+			if (productDatabase.addProduct(name, price, quantity)) {
 				System.out.println("Product successfully added to the database.");
 				return name;
 			} else {

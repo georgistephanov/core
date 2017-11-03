@@ -1,6 +1,6 @@
 package user;
 
-import data.MySQLAccess;
+import data.UserDatabase;
 import lib.payment.VisaCard;
 import product.ProductCatalog;
 
@@ -30,19 +30,21 @@ public abstract class User {
 	private VisaCard card;
 	private Cart cart;
 
-	private static MySQLAccess db = MySQLAccess.getMySQLObject();
+	UserDatabase database;
 
 	/* ============== STATIC FACTORY METHOD ============== */
 	public static User createUserInstance() {
+		UserDatabase staticDatabase = new UserDatabase();
+
 		//System.out.println("Do you have an account? (y/n)");
 		//if (GeneralHelperFunctions.askForDecision()) {
 			String username = UserOperations.initUser();
 
-			if (db.isAdmin(username)) {
+			if (staticDatabase.isAdmin(username)) {
 				return new Admin(username);
-			} else if (db.isManager(username)) {
+			} else if (staticDatabase.isManager(username)) {
 				return new Manager(username);
-			} else if (db.isPremium(username)) {
+			} else if (staticDatabase.isPremium(username)) {
 				return new BasicUser(username, true);
 			} else {
 				return new BasicUser(username, false);
@@ -60,12 +62,14 @@ public abstract class User {
 
 	// Method which sets the object variables when constructed
 	void setObjectVariables(String username, AccountType accountType) {
-		id = db.getIDFromUsername(username);
+		database = new UserDatabase();
+
+		id = database.getIDFromUsername(username);
 		account_num += id;
 
 		this.username = username;
-		firstName = db.getFirstName(id);
-		lastName = db.getLastName(id);
+		firstName = database.getFirstName(id);
+		lastName = database.getLastName(id);
 
 		this._accountType = accountType;
 		authorised = true;
@@ -127,8 +131,8 @@ public abstract class User {
 
 	// Updates the users' first and last name from the database
 	void updateName() {
-		firstName = db.getFirstName(id);
-		lastName = db.getLastName(id);
+		firstName = database.getFirstName(id);
+		lastName = database.getLastName(id);
 	}
 
 }

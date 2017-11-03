@@ -1,7 +1,8 @@
 package lib;
 
 import core.Engine;
-import data.MySQLAccess;
+import data.ProductDatabase;
+import data.UserDatabase;
 import product.ProductCatalog;
 import java.time.Duration;
 import java.time.Instant;
@@ -13,6 +14,10 @@ public class SystemDiagnostics extends java.util.TimerTask {
 	private boolean _databaseRunning;
 	private boolean _catalogAvailable;
 
+	// Holding instances of both databases so that they aren't constructed on every update
+	private static UserDatabase _userDatabase;
+	private static ProductDatabase _productDatabase;
+
 	// In-class information data
 	private int _testsPerformed = 0;
 	private int _testsPassed = 0;
@@ -20,7 +25,11 @@ public class SystemDiagnostics extends java.util.TimerTask {
 
 	private SystemDiagnostics() { }
 
-	public static void initialise() { if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics(); }
+	public static void initialise() {
+		if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics();
+		if (_userDatabase == null) _userDatabase = new UserDatabase();
+		if (_productDatabase == null) _productDatabase = new ProductDatabase();
+	}
 
 	public static SystemDiagnostics getInstance() {	return _systemDiagnostics; }
 
@@ -65,8 +74,13 @@ public class SystemDiagnostics extends java.util.TimerTask {
 	// Updates the control-flow variables
 	private void _update() {
 		_engineRunning = Engine.getInstance().isRunning();
-		_databaseRunning = MySQLAccess.getMySQLObject().isRunning();
 		_catalogAvailable = ProductCatalog.isAvailable();
+		_databaseRunning = _checkDatabases();
+	}
+
+	// Checks whether all databases are running
+	private boolean _checkDatabases() {
+		return _userDatabase.isRunning() && _productDatabase.isRunning();
 	}
 
 	// Prints the components and their statuses

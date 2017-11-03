@@ -1,7 +1,7 @@
 package user;
 
 import core.Engine;
-import data.MySQLAccess;
+import data.UserDatabase;
 
 
 public class BasicUser extends User {
@@ -10,11 +10,10 @@ public class BasicUser extends User {
 
 	// Main constructor which is used when an unregistered user is using the program
 	BasicUser() {
-		String[] info = UserOperations.createUser();
-		MySQLAccess db = MySQLAccess.getMySQLObject();
+		String[] info = UserOperations.createUser();;
 
 		if (info[0] != null && info[1] != null) {
-			if (db.registerUser(info[0], info[1])) {
+			if (database.registerUser(info[0], info[1])) {
 				setObjectVariables(info[0], User.AccountType.BASIC);
 			} else {
 				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
