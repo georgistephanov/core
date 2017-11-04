@@ -1,8 +1,12 @@
 package data;
 
 import product.Product;
+import user.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UserDatabase extends Database {
 
@@ -492,6 +496,42 @@ public class UserDatabase extends Database {
 		}
 		finally {
 			_close();
+		}
+	}
+	public void addOrder(User user, double amountPaid, ArrayList<Product> items) {
+		try {
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DATE, 1);
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+			String orderDate = dateFormatter.format(calendar.getTime());
+
+			connect = _prepareConnection();
+			preparedStatement = connect.prepareStatement("INSERT INTO orders VALUES (default, ?, ?, ?)");
+			preparedStatement.setInt(1, user.getID());
+			preparedStatement.setDouble(2, amountPaid);
+			preparedStatement.setString(3, orderDate);
+			preparedStatement.executeUpdate();
+
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT id FROM orders ORDER BY id DESC LIMIT 1");
+			int orderID = 0;
+			if (resultSet.next()) {
+				orderID = resultSet.getInt("id");
+			}
+
+			for (Product item : items) {
+				double pricePaid = item.getPrice() * (100 - user.getCheckoutDiscountPercentage()) / 100;
+
+				preparedStatement = connect.prepareStatement("INSERT INTO order_products VALUES (?, ?, ?)");
+				preparedStatement.setInt(1, orderID);
+				preparedStatement.setInt(2, item.getBaseID());
+				preparedStatement.setDouble(3, pricePaid);
+				preparedStatement.executeUpdate();
+			}
+		}
+		catch (Exception e) {
+			logger.logError(e, "UserDatabase", "addOrder");
 		}
 	}
 

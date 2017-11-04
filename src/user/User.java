@@ -80,7 +80,7 @@ public abstract class User {
 					+ "You won't be able to make any purchases until you add one!");
 		}
 
-		cart = new Cart(card);
+		cart = new Cart(this);
 	}
 
 	void displayCartItems() {
@@ -119,9 +119,9 @@ public abstract class User {
 	}
 	String getFirstName() { return this.firstName; }
 	String getLastName() { return this.lastName; }
-	int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
+	public int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
 
-	int getID() { return this.id; }
+	public int getID() { return this.id; }
 
 
 	// Print the catalog

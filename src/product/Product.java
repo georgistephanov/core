@@ -70,6 +70,7 @@ public class Product {
 	}
 	public String getName() { return _name; }
 	public long getID() { return _productID; }
+	public int getBaseID() { return (int) _productID - 123_456_00; }
 
 
 	// Subtracts the quantity bought from the initial available quantity

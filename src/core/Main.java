@@ -9,5 +9,3 @@ public class Main {
 
 	}
 }
-
-// TODO: Add the completed orders to the database

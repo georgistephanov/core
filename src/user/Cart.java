@@ -1,5 +1,6 @@
 package user;
 
+import data.UserDatabase;
 import lib.GeneralHelperFunctions;
 import product.*;
 import java.text.DecimalFormat;
@@ -9,13 +10,13 @@ import lib.payment.*;
 
 class Cart {
 	private ArrayList<Product> items;
-	private Card associatedCard;
+	private User associatedUser;
 	private int _discountPercentage;
 
 
-	Cart(Card card) {
+	Cart(User user) {
 		items = new ArrayList<>();
-		associatedCard = card;
+		associatedUser = user;
 	}
 
 
@@ -157,7 +158,7 @@ class Cart {
 	// TODO: Decouple this from the user and the card. Let the payment be called from the user
 	// The method responsible for all the logic regarding the checkout process
 	boolean checkout(int discountPercentage) {
-		if (associatedCard == null) {
+		if (associatedUser.getCard() == null) {
 			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 			return false;
 		}
@@ -187,16 +188,21 @@ class Cart {
 
 		boolean paymentSuccessful;
 
-		paymentSuccessful = associatedCard.makePayment(_getTotalAmount());
+		paymentSuccessful = associatedUser.getCard().makePayment(_getTotalAmount());
 
 
 		if (paymentSuccessful) {
-			System.out.println("Payment successful! New balance: $" + associatedCard.getBalance());
+			System.out.println("Payment successful! New balance: $" + associatedUser.getCard().getBalance());
 			_generateReceipt();
+			_addOrderInformationToDatabase();
 			return true;
 		}
 
 		return false;
+	}
+
+	private void _addOrderInformationToDatabase() {
+		new UserDatabase().addOrder(associatedUser, _getTotalAmount(), items);
 	}
 
 	// Prints a confirmation message with all the info needed for a checkout
