@@ -17,6 +17,7 @@ class Cart {
 	Cart(User user) {
 		items = new ArrayList<>();
 		associatedUser = user;
+		_discountPercentage = user.getCheckoutDiscountPercentage();
 	}
 
 
@@ -151,13 +152,8 @@ class Cart {
 
 	/* ============== CHECKOUT METHODS ============== */
 
-	// For checkout logic refer to CORE Cashless on your phone's notes
-	// TODO: After checkout store the purchase info + receipt in the database
-	// TODO: This shall be done after the database structure is re-done
-
-	// TODO: Decouple this from the user and the card. Let the payment be called from the user
 	// The method responsible for all the logic regarding the checkout process
-	boolean checkout(int discountPercentage) {
+	boolean checkout() {
 		if (associatedUser.getCard() == null) {
 			System.out.println("There is no card associated with this account. Please add a card from the profile tab in order to proceed with the checkout");
 			return false;
@@ -167,8 +163,6 @@ class Cart {
 			return false;
 		}
 
-		this._discountPercentage = discountPercentage;
-
 		_printCheckoutConfirmation();
 		System.out.println("Do you want to process the order?");
 
@@ -177,9 +171,9 @@ class Cart {
 				items = new ArrayList<>();
 				return true;
 			}
-		} else
+		} else {
 			System.out.println("Canceling checkout...");
-
+		}
 
 		return false;
 	}
@@ -222,7 +216,6 @@ class Cart {
 	}
 
 	// Prints the receipt and stores it in the database
-	// TODO: Store the receipt in the database
 	private void _generateReceipt() {
 		// TODO: Make it look like a real receipt
 		_printCheckoutConfirmation();

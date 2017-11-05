@@ -87,8 +87,8 @@ public abstract class User {
 		cart.showItems();
 	}
 
-	boolean checkout(int discountPercentage) {
-		return cart.checkout(discountPercentage);
+	boolean checkout() {
+		return cart.checkout();
 	}
 
 	void removeItemsFromCart() {

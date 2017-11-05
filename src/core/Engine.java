@@ -11,6 +11,8 @@ import java.util.Scanner;
 public final class Engine {
 	private final static Engine e = new Engine();
 
+
+	// TODO: Make the scanner private and provide an accessor for it to encapsulate it
 	private User user;
 	public static Scanner inputScanner;
 	private boolean running;

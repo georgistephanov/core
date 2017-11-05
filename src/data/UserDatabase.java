@@ -474,7 +474,9 @@ public class UserDatabase extends Database {
 				// in the for loop via a function call to getProductFromID();
 				while (resultSet.next()) {
 					productIDs.add(resultSet.getInt("product_id"));
-					productPrices.add(resultSet.getDouble("price"));
+
+					double pricePaid = (double) Math.round(resultSet.getDouble("price") * 100) / 100;
+					productPrices.add(pricePaid);
 				}
 
 				// Print the full order information

@@ -45,7 +45,6 @@ public final class VisaCard implements Card {
 		return false;
 	}
 
-
 	public void printFullInformation() {
 		System.out.println("\tCard #: " + _getCardNumber()
 			+ "\n\tBalance: $" + getBalance());

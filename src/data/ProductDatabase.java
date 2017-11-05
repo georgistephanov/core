@@ -149,6 +149,39 @@ public class ProductDatabase extends Database {
 		}
 	}
 
+	public void printProductSuggestionsFromSearchQuery(String query) {
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM product");
+
+			String keywords[] = query.split(" ");
+			ArrayList<Integer> foundProductsID = new ArrayList<>();
+
+			while (resultSet.next()) {
+				String productName = resultSet.getString("name");
+
+				for (String keyword : keywords) {
+					if (productName.contains(keyword)) {
+						foundProductsID.add(resultSet.getInt("id"));
+						break;
+					}
+				}
+			}
+
+			_printSearchQueryInformation(foundProductsID, query);
+		}
+		catch (Exception e) {
+			logger.logError(e, "ProductDatabase", "printProductSuggestionsFromSearchQuery");
+		}
+		finally {
+			_close();
+		}
+	}
+
+	private void _printSearchQueryInformation(ArrayList<Integer> foundProducts, String query) {
+		// TODO: Print the found results
+	}
 
 
 	/* ================ Private Methods ================ */

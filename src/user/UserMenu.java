@@ -27,20 +27,14 @@ final class UserMenu {
 	void initialiseMainMenu() {
 		if (basicUser != null) {
 			// General menu
-			String mainMenu[] = {"Menu:", "View catalog", "Scan product", "Profile >", "Cart >", "Exit"};
+			String mainMenu[] = {"Menu:", "Catalog >", "Profile >", "Cart >", "Exit"};
 			GeneralHelperFunctions.generateMenu(mainMenu);
 
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
 				case 1:
-					basicUser.printCatalog();
-					break;
-				case 2:
-					Product p = PhysicalScanner.getInstance().scanProduct();
-					if ( p != null) {
-						basicUser.getCart().addToCart(p);
-					}
+					_basicUserCatalogMenu();
 					break;
 				case 3:
 					_basicUserProfileMenu();
@@ -150,7 +144,7 @@ final class UserMenu {
 				basicUser.displayCartItems();
 				break;
 			case 2:
-				if (basicUser.checkout(basicUser.getCheckoutDiscountPercentage()))
+				if (basicUser.checkout())
 					return;
 
 				break;
@@ -287,6 +281,34 @@ final class UserMenu {
 
 
 	/* ========== Catalog Menu ========== */
+	private void _basicUserCatalogMenu() {
+		String menu[] = {"Catalog:", "View catalog", "Search product by name", "Scan product", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+
+		switch (opt) {
+			case 1:
+				basicUser.printCatalog();
+				break;
+			case 2:
+				UserOperations.searchProductByName();
+				break;
+			case 3:
+				Product p = PhysicalScanner.getInstance().scanProduct();
+				if ( p != null) {
+					basicUser.getCart().addToCart(p);
+				}
+				break;
+			case 0:
+				return;
+			default:
+				break;
+		}
+
+		_basicUserCatalogMenu();
+	}
+
 	private void _managerSystemSettingsMenu() {
 		String menu[] = {"System settings", "System information", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);

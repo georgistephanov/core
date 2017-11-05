@@ -2,6 +2,7 @@ package user;
 
 import core.Engine;
 import data.Database;
+import data.ProductDatabase;
 import data.UserDatabase;
 import lib.SystemDiagnostics;
 import java.util.ArrayList;
@@ -122,6 +123,15 @@ final class UserOperations {
 		Engine.inputScanner.nextLine();
 
 		userDatabase.printFullPreviousOrder(orderNumber);
+	}
+
+	static void searchProductByName() {
+		System.out.print("\n\tEnter search query: ");
+
+		String searchQuery = Engine.inputScanner.nextLine();
+		System.out.println("Search query: " + searchQuery);
+
+		new ProductDatabase().printProductSuggestionsFromSearchQuery(searchQuery);
 	}
 
 	static void printSystemInformation() {
