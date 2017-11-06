@@ -14,9 +14,10 @@ final class UserOperations {
 	private UserOperations() {}
 
 
-	// TODO: Refactor this using two separate methods for getting the username/password instead of returning array of strings
-	static String[] createUser() {
-		String info[] = new String[2];
+	// TODO: Hash the passwords
+	static String createUser() {
+		String username;
+		String password;
 		ArrayList<String> usernames = userDatabase.getUsernames();
 		boolean usernameExists;
 
@@ -26,7 +27,7 @@ final class UserOperations {
 			usernameExists = false;
 
 			System.out.print("\nUsername: ");
-			info[0] = Engine.inputScanner.next();
+			username = getUsernameFromInput();
 
 			for (String u : usernames) {
 				if (info[0].equals(u)) {
@@ -37,10 +38,25 @@ final class UserOperations {
 		} while (usernameExists);
 
 		System.out.print("Password: ");
-		info[1] = Engine.inputScanner.next();
+		password = getPasswordFromInput();
 
-		System.out.println("\n\nThank you for becoming a part of Giorgio's.\n");
-		return info;
+		if (password != null) {
+
+			if ( new UserDatabase().registerUser(username, password) ) {
+				System.out.println("\n\nThank you for becoming a part of Giorgio's.\n");
+				return username;
+			}
+			else {
+				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
+				Engine.terminateApplication();
+			}
+
+		} else {
+			System.out.println("Invalid username and/or password.");
+			Engine.terminateApplication();
+		}
+
+		return null;
 	}
 
 	static void changePassword(User b) {

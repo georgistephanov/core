@@ -4,6 +4,8 @@ import data.UserDatabase;
 import lib.payment.VisaCard;
 import product.ProductCatalog;
 
+
+// TODO: The user should be able to log out
 public abstract class User {
 	private int id;
 
@@ -98,7 +100,7 @@ public abstract class User {
 
 	/* ============== GETTERS ============== */
 	long getAccountNumber() { return this.account_num; }
-	public String getUsername() { return this.username; }
+	String getUsername() { return this.username; }
 	Cart getCart() { return this.cart; }
 	VisaCard getCard() { return this.card; }
 	public boolean isAuthorised() { return this.authorised; }
@@ -117,7 +119,7 @@ public abstract class User {
 				return "";
 		}
 	}
-	String getFirstName() { return this.firstName; }
+	public String getFirstName() { return this.firstName; }
 	String getLastName() { return this.lastName; }
 	public int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
 

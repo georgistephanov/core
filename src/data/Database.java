@@ -12,7 +12,7 @@ public abstract class Database {
 	ResultSet resultSet = null;
 
 	private String databaseToUse;
-	private String fileName; //TODO: keep the name of the file here to avoid writing it on every log
+	private String fileName;
 
 	private Logger logger = Logger.getInstance();
 

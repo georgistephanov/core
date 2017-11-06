@@ -7,6 +7,12 @@ import product.ProductCatalog;
 import java.time.Duration;
 import java.time.Instant;
 
+
+// TODO: Make this class use the Observer pattern and listen for
+// TODO: updates from the Engine mainly so that if some crucial
+// TODO: component changes it should run some tests to check
+// TODO: whether the system is okay to continue running.
+
 public class SystemDiagnostics extends java.util.TimerTask {
 	private static SystemDiagnostics _systemDiagnostics;
 
@@ -37,6 +43,19 @@ public class SystemDiagnostics extends java.util.TimerTask {
 	public void run() {
 		_testSystem();
 		_testsPerformed++;
+	}
+
+	// Runs the needed tests after the login prompt
+	public void runStartupTest() {
+		if ( !(Engine.getInstance().isUserAuthorised()) ) {
+			System.out.println("(SYS_DIAGNOSTICS) No authorised user");
+			Engine.terminateApplication();
+		}
+
+		_testSystem();
+
+		System.out.println("Startup test performed successfully.");
+		System.out.println("CORE Control Centre running...");
 	}
 
 	// Prints the full system status from the manager/admin menu
@@ -106,5 +125,3 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		System.out.println("System tests passed: " + _testsPassed);
 	}
 }
-
-// TODO: Add run initial test to see if user has been authorised

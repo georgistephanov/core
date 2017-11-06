@@ -13,7 +13,6 @@ import java.util.Date;
 public final class Logger {
 	private static Logger logger = new Logger();
 
-	// TODO: Fix this as it doesn't write to the file
 	private static final String LOG_FILE_PATH = "log.txt";
 
 	private Logger() {}

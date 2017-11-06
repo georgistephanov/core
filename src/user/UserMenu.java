@@ -231,7 +231,6 @@ final class UserMenu {
 	}
 
 	/* ========== Orders Menu ========== */
-	// TODO: Store the order to the database
 	private void _basicUserOrdersMenu() {
 		String ordersMenu[] = {"Orders:", "Previous orders", "See specific order", "Back"};
 		GeneralHelperFunctions.generateMenu(ordersMenu);
