@@ -93,14 +93,10 @@ public class Product {
 	}
 
 
-	// TODO: Think about overwriting the toString() method
-	// Prints full product info
-	void printProductInfo() {
-		System.out.println("Product ID: " + _productID + "\nName: " + _name
-				+ "\nPrice: " + f.format(_price) + "\nQuantity: " + _quantityAvailable + "\n");
-	}
-	// Prints short product info
-	public void printShortProductInfo() {
-		System.out.println(_quantityInCart + " " + _name + ", $" + f.format(_price));
+	public String toString() {
+		return "\nProduct ID: " + _productID
+				+ "\nName: " + _name
+				+ "\nPrice: " + f.format(_price)
+				+ "\nQuantity: " + _quantityAvailable;
 	}
 }

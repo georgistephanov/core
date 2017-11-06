@@ -7,15 +7,13 @@ import data.*;
 // WILL NOT EXIST WHEN A DB IS PRESENT
 public final class ProductCatalog {
 
-	private static ProductDatabase productDatabase;
 	private static ArrayList<Product> _products = new ArrayList<>();
 
 
 	/* ============== PUBLIC METHODS ============== */
 
 	public static void initialiseCatalog() {
-		productDatabase = new ProductDatabase();
-		_products = productDatabase.getProductsFromDatabase();
+		_products = new ProductDatabase().getProductsFromDatabase();
 	}
 
 	public static boolean addProductToTheCatalog(Product p) {
@@ -30,7 +28,7 @@ public final class ProductCatalog {
 	public static void printCatalog() {
 		if (!_products.isEmpty()) {
 			for(Product p: _products) {
-				p.printProductInfo();
+				System.out.println(p.toString());
 			}
 		}
 	}

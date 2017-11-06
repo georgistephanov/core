@@ -72,4 +72,8 @@ public class Manager extends User {
 
 		return null;
 	}
+
+	public String toString() {
+		return super.toString() + "\n\nDiscount:\t" + getCheckoutDiscountPercentage() + "%";
+	}
 }

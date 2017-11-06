@@ -36,10 +36,10 @@ final class UserMenu {
 				case 1:
 					_basicUserCatalogMenu();
 					break;
-				case 3:
+				case 2:
 					_basicUserProfileMenu();
 					break;
-				case 4:
+				case 3:
 					_basicUserCartMenu();
 					break;
 				case 0:
@@ -86,7 +86,7 @@ final class UserMenu {
 
 		switch (opt) {
 			case 1:
-				UserOperations.printProfileInfo(basicUser);
+				System.out.println(basicUser.toString());
 				break;
 			case 2:
 				_basicUserEditProfileMenu();
@@ -112,7 +112,7 @@ final class UserMenu {
 
 		switch (opt) {
 			case 1:
-				UserOperations.printProfileInfo(this.manager);
+				System.out.println(manager.toString());
 				break;
 			case 2:
 				_managerEditProfileMenu();

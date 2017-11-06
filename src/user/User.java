@@ -106,13 +106,13 @@ public abstract class User {
 	String getStringAccountType() {
 		switch (_accountType) {
 			case BASIC:
-				return "Basic";
+				return "Basic user";
 			case PREMIUM:
-				return "Premium";
+				return "Premium user";
 			case MANAGER:
 				return "Manager";
 			case ADMIN:
-				return "Admin";
+				return "Administrator";
 			default:
 				return "";
 		}
@@ -123,6 +123,13 @@ public abstract class User {
 
 	public int getID() { return this.id; }
 
+	public String toString() {
+		return "\nAccount number:\t" 	+ this.account_num
+			 + "\nUsername:\t" 		+ this.username
+			 + "\nAccount type:\t" 	+ this.getStringAccountType()
+			 + "\n\nFirst name:\t" 	+ this.firstName
+			 + "\nLast name:\t" 		+ this.lastName;
+	}
 
 	// Print the catalog
 	void printCatalog() {

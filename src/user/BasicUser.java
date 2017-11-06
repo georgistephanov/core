@@ -34,6 +34,10 @@ public class BasicUser extends User {
 		}
 	}
 
+	public String toString() {
+		return super.toString() + "\n\nDiscount:\t" + getCheckoutDiscountPercentage() + "%";
+	}
+
 	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
 	public void initialiseMainMenu() {
 		UserMenu menu = new UserMenu(this);
