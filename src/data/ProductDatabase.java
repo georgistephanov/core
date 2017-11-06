@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ProductDatabase extends Database {
 
 	public ProductDatabase() {
-		super("products");
+		super("products", "ProductDatabase");
 	}
 
 
@@ -26,7 +26,7 @@ public class ProductDatabase extends Database {
 			products = _createProductArrayListFromResultSet(resultSet);
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getProductsFromDatabase");
+			logError(e, "getProductsFromDatabase");
 		}
 		finally {
 			_close();
@@ -54,7 +54,7 @@ public class ProductDatabase extends Database {
 			return null;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getProductFromID");
+			logError(e, "getProductFromID");
 		}
 		finally {
 			_close();
@@ -82,7 +82,7 @@ public class ProductDatabase extends Database {
 			return null;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getProductFromName");
+			logError(e, "getProductFromName");
 		}
 		finally {
 			_close();
@@ -105,7 +105,7 @@ public class ProductDatabase extends Database {
 
 				return true;
 			} catch (Exception e) {
-				logger.logError(e, "Database", "addProduct");
+				logError(e, "addProduct");
 			} finally {
 				_close();
 			}
@@ -138,7 +138,7 @@ public class ProductDatabase extends Database {
 
 			}
 			catch (Exception e) {
-				logger.logError(e, "Database", "removeProduct");
+				logError(e, "removeProduct");
 			}
 			finally {
 				_close();
@@ -172,13 +172,12 @@ public class ProductDatabase extends Database {
 			_printSearchQueryInformation(foundProductsID, query);
 		}
 		catch (Exception e) {
-			logger.logError(e, "ProductDatabase", "printProductSuggestionsFromSearchQuery");
+			logError(e, "printProductSuggestionsFromSearchQuery");
 		}
 		finally {
 			_close();
 		}
 	}
-
 	private void _printSearchQueryInformation(ArrayList<Integer> foundProducts, String query) {
 		// TODO: Print the found results
 	}
@@ -200,7 +199,7 @@ public class ProductDatabase extends Database {
 			return false;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "_productExists");
+			logError(e, "_productExists");
 		}
 		finally {
 			_close();
@@ -208,7 +207,6 @@ public class ProductDatabase extends Database {
 
 		return true;
 	}
-
 	private boolean _productExists(int id) {
 		try {
 			connect = _prepareConnection();
@@ -221,7 +219,7 @@ public class ProductDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "_productExists");
+			logError(e, "_productExists");
 		}
 		finally {
 			_close();
@@ -229,8 +227,6 @@ public class ProductDatabase extends Database {
 
 		return false;
 	}
-
-
 	private ArrayList<Product> _createProductArrayListFromResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<Product> products = new ArrayList<>();
 

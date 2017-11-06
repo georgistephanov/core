@@ -14,6 +14,7 @@ final class UserOperations {
 	private UserOperations() {}
 
 
+	// TODO: Refactor this using two separate methods for getting the username/password instead of returning array of strings
 	static String[] createUser() {
 		String info[] = new String[2];
 		ArrayList<String> usernames = userDatabase.getUsernames();

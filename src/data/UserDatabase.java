@@ -2,19 +2,24 @@ package data;
 
 import product.Product;
 import user.User;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+
 
 public class UserDatabase extends Database {
 
 	public UserDatabase() {
-		super("users");
+		// The first parameter is the database to be used
+		// The second parameter is the filename which will be used by the logger
+		super("users", "UserDatabase");
 	}
 
-	/* These methods help the UserFactory */
+	/*  These methods are used by UserFactory to determine whether
+	*   the user is premium user, manager or admin in order to create
+	*   the correct user object. They take the username with which
+	*   the user has been logged in.
+	* */
 	public boolean isAdmin(String username) {
 		boolean admin = false;
 
@@ -30,7 +35,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "isAdmin");
+			logError(e, "isAdmin");
 		}
 		finally {
 			_close();
@@ -53,7 +58,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "isManagerr");
+			logError(e, "isManagerr");
 		}
 		finally {
 			_close();
@@ -76,7 +81,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "isPremium");
+			logError(e, "isPremium");
 		}
 		finally {
 			_close();
@@ -116,7 +121,7 @@ public class UserDatabase extends Database {
 		}
 		catch (Exception e) {
 			System.err.println("\nError while trying to add the user to the database.");
-			logger.logError(e, "Database", "registerUser");
+			logError(e, "registerUser");
 		}
 		finally {
 			_close();
@@ -136,7 +141,7 @@ public class UserDatabase extends Database {
 					System.out.println("User 100_123_" + id + " has been given premium status successfully.");
 				}
 				catch (Exception e) {
-					logger.logError(e, "Database", "makeUserPremium");
+					logError(e, "makeUserPremium");
 				}
 				finally {
 					_close();
@@ -168,7 +173,7 @@ public class UserDatabase extends Database {
 			return true;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "addCard");
+			logError(e, "addCard");
 		}
 		finally {
 			_close();
@@ -193,7 +198,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "passwordMatch");
+			logError(e, "passwordMatch");
 		}
 		finally {
 			_close();
@@ -213,7 +218,7 @@ public class UserDatabase extends Database {
 			return true;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "changePassword");
+			logError(e, "changePassword");
 		}
 		finally {
 			_close();
@@ -233,7 +238,7 @@ public class UserDatabase extends Database {
 			usernames = _createStringArrayListFromResultSet(resultSet, "username");
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getUsernames");
+			logError(e, "getUsernames");
 		}
 		finally {
 			_close();
@@ -251,7 +256,7 @@ public class UserDatabase extends Database {
 				return resultSet.getString("firstName");
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getFirstName");
+			logError(e, "getFirstName");
 		}
 		finally {
 			_close();
@@ -269,7 +274,7 @@ public class UserDatabase extends Database {
 				return resultSet.getString("lastName");
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getLastName");
+			logError(e, "getLastName");
 		}
 		finally {
 			_close();
@@ -288,7 +293,7 @@ public class UserDatabase extends Database {
 			return true;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "changeFirstName");
+			logError(e, "changeFirstName");
 		}
 		finally {
 			_close();
@@ -307,7 +312,7 @@ public class UserDatabase extends Database {
 			return true;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "changeLastName");
+			logError(e, "changeLastName");
 		}
 		finally {
 			_close();
@@ -332,7 +337,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			logError(e, "getIDFromUsername");
 		}
 		finally {
 			_close();
@@ -363,7 +368,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "_userExists");
+			logError(e, "_userExists");
 		}
 		finally {
 			_close();
@@ -386,7 +391,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getCardNumber");
+			logError(e, "getCardNumber");
 		}
 		finally {
 			_close();
@@ -405,7 +410,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "getCardBalance");
+			logError(e, "getCardBalance");
 		}
 		finally {
 			_close();
@@ -415,6 +420,7 @@ public class UserDatabase extends Database {
 	}
 
 	// TODO: Try to encapsulate this so that it couldn't be manipulated from outside
+	// TODO: Or actually remove it because this isn't a real functionality there would be
 	public boolean updateCardBalance(String cardNumber, double newBalance) {
 		try {
 			connect = _prepareConnection();
@@ -426,7 +432,7 @@ public class UserDatabase extends Database {
 			return true;
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "updateCardBalance");
+			logError(e, "updateCardBalance");
 		}
 		finally {
 			_close();
@@ -453,7 +459,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "printPreviousOrders");
+			logError(e, "printPreviousOrders");
 		}
 		finally {
 			_close();
@@ -494,7 +500,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "Database", "printFullPreviousOrder");
+			logError(e, "printFullPreviousOrder");
 		}
 		finally {
 			_close();
@@ -533,7 +539,7 @@ public class UserDatabase extends Database {
 			}
 		}
 		catch (Exception e) {
-			logger.logError(e, "UserDatabase", "addOrder");
+			logError(e, "addOrder");
 		}
 	}
 

@@ -14,9 +14,10 @@ public abstract class Database {
 	private String databaseToUse;
 	private String fileName; //TODO: keep the name of the file here to avoid writing it on every log
 
-	Database(String databaseToUse) { this.databaseToUse = databaseToUse; }
+	private Logger logger = Logger.getInstance();
 
-	Logger logger = Logger.getInstance();
+
+	Database(String databaseToUse, String filename) { this.databaseToUse = databaseToUse; this.fileName = filename; }
 
 
 	ArrayList<String> _createStringArrayListFromResultSet(ResultSet resultSet, String columnLabel) throws SQLException {
@@ -48,6 +49,10 @@ public abstract class Database {
 	Connection _prepareConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
+	}
+
+	void logError(Exception e, String methodName) {
+		logger.logError(e, fileName, methodName);
 	}
 
 	void _close() {
