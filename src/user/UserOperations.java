@@ -14,7 +14,6 @@ final class UserOperations {
 	private UserOperations() {}
 
 
-	// TODO: Hash the passwords
 	static String createUser() {
 		String username;
 		String password;
@@ -30,7 +29,7 @@ final class UserOperations {
 			username = getUsernameFromInput();
 
 			for (String u : usernames) {
-				if (info[0].equals(u)) {
+				if (username.equals(u)) {
 					System.out.println("Username already exists! Please pick another one.");
 					usernameExists = true;
 				}
@@ -61,11 +60,11 @@ final class UserOperations {
 
 	static void changePassword(User b) {
 		System.out.print("Enter old password: ");
-		String oldPassword = Engine.inputScanner.next();
+		String oldPassword = Engine.getInputScanner().next();
 
 		if (userDatabase.passwordMatch(b.getUsername(), oldPassword)) {
 			System.out.print("Enter new password: ");
-			String newPassword = Engine.inputScanner.next();
+			String newPassword = Engine.getInputScanner().next();
 
 			if (!newPassword.equals(oldPassword)) {
 				if (userDatabase.changePassword(b.getUsername(), newPassword)) {
@@ -83,8 +82,8 @@ final class UserOperations {
 
 	static void addNewCard(User b) {
 		System.out.println("\nAdd a card number (XXXX-XXXX-XXXX-XXXX)");
-		String cardNum = Engine.inputScanner.next();
-		Engine.inputScanner.nextLine();
+		String cardNum = Engine.getInputScanner().next();
+		Engine.getInputScanner().nextLine();
 
 		// Checks the first of two possible input formats
 		if (cardNum.length() == 16) {
@@ -126,8 +125,8 @@ final class UserOperations {
 
 	static void printFullPreviousOrder() {
 		System.out.print("Order number: ");
-		int orderNumber = Engine.inputScanner.nextInt();
-		Engine.inputScanner.nextLine();
+		int orderNumber = Engine.getInputScanner().nextInt();
+		Engine.getInputScanner().nextLine();
 
 		userDatabase.printFullPreviousOrder(orderNumber);
 	}
@@ -135,7 +134,7 @@ final class UserOperations {
 	static void searchProductByName() {
 		System.out.print("\n\tEnter search query: ");
 
-		String searchQuery = Engine.inputScanner.nextLine();
+		String searchQuery = Engine.getInputScanner().nextLine();
 		System.out.println("Search query: " + searchQuery);
 
 		new ProductDatabase().printProductSuggestionsFromSearchQuery(searchQuery);
@@ -149,7 +148,7 @@ final class UserOperations {
 
 	static void changeFirstName(User u) {
 		System.out.println("What is your first name?");
-		String newFirstName = Engine.inputScanner.next();
+		String newFirstName = Engine.getInputScanner().next();
 
 		if (userDatabase.changeFirstName(u.getID(), newFirstName)) {
 			u.updateName();
@@ -158,7 +157,7 @@ final class UserOperations {
 
 	static void changeLastName(User u) {
 		System.out.println("What is your last name?");
-		String newLastName = Engine.inputScanner.next();
+		String newLastName = Engine.getInputScanner().next();
 
 		if (userDatabase.changeLastName(u.getID(), newLastName)) {
 			u.updateName();
@@ -167,8 +166,8 @@ final class UserOperations {
 
 	private static void _makeUserPremium() {
 		System.out.println("Enter user id: ");
-		int id = Engine.inputScanner.nextInt();
-		Engine.inputScanner.nextLine();
+		int id = Engine.getInputScanner().nextInt();
+		Engine.getInputScanner().nextLine();
 
 		if (id != 0) {
 			if (id > 100_123_00)
@@ -180,12 +179,12 @@ final class UserOperations {
 
 	private static String getUsernameFromInput() {
 		System.out.print("Username: ");
-		return Engine.inputScanner.next();
+		return Engine.getInputScanner().next();
 	}
 
 	private static String getPasswordFromInput() {
 		System.out.print("Password: ");
-		return Engine.inputScanner.next();
+		return Engine.getInputScanner().next();
 	}
 
 	static String initUser() {

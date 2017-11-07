@@ -1,6 +1,7 @@
 package user;
 
 import data.UserDatabase;
+import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 import product.ProductCatalog;
 
@@ -32,7 +33,7 @@ public abstract class User {
 	private VisaCard card;
 	private Cart cart;
 
-	UserDatabase database;
+	private UserDatabase database = new UserDatabase();
 
 	/* ============== STATIC FACTORY METHOD ============== */
 	public static User createUserInstance() {
@@ -56,6 +57,15 @@ public abstract class User {
 		//}
 	}
 
+	// Notify the SystemDiagnostics observer
+	void logout() {
+		System.out.println("Are you sure you want to logout?");
+		if (GeneralHelperFunctions.askForDecision()) {
+			this.authorised = false;
+			System.out.println("\nYou have successfully logged out.");
+		}
+	}
+
 	/* ============== ABSTRACT CLASSES ============== */
 	public abstract void initialiseMainMenu();
 
@@ -64,8 +74,6 @@ public abstract class User {
 
 	// Method which sets the object variables when constructed
 	void setObjectVariables(String username, AccountType accountType) {
-		database = new UserDatabase();
-
 		id = database.getIDFromUsername(username);
 		account_num += id;
 

@@ -1,10 +1,13 @@
 package data;
 
+import core.Engine;
 import product.Product;
 import user.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class UserDatabase extends Database {
@@ -239,6 +242,9 @@ public class UserDatabase extends Database {
 		}
 		catch (Exception e) {
 			logError(e, "getUsernames");
+
+			// This is crucial for the login process in order to prevent exposing system information.
+			Engine.terminateApplication();
 		}
 		finally {
 			_close();
@@ -472,27 +478,47 @@ public class UserDatabase extends Database {
 			resultSet = statement.executeQuery("SELECT * FROM order_products WHERE order_id=" + orderNumber);
 
 			if (resultSet.isBeforeFirst()) {
-				// TODO: These could be mapped together
-				ArrayList<Integer> productIDs = new ArrayList<>();
-				ArrayList<Double> productPrices = new ArrayList<>();
+				/*
+				 * This class maps together the product id and its price when bought.
+				 * It stores them into two separate queues. The set method uses the add()
+				 * methods of the queue to add the value to the corresponding field.
+				 * The get method uses the remove() method of the queue which returns
+				 * and removes the value from the queue. This class is specifically
+				 * designed for this method, but could be reused anywhere else where
+				 * needed.
+				 */
+				class ProductInfo<T, V> {
+					private Queue<T> productIDs;
+					private Queue<V> productPrices;
+
+					private ProductInfo() { productIDs = new LinkedList<>(); productPrices = new LinkedList<>();	}
+
+					private void addProductID(T productID) { productIDs.add(productID); }
+					private void addProductPrice(V productPrice) { productPrices.add(productPrice); }
+					private T getProductID() { return productIDs.remove(); }
+					private V getProductPrice() { return productPrices.remove(); }
+					private int getNumberOfElements() { return productIDs.size(); }
+				}
+
+				ProductInfo<Integer, Double> productInfo = new ProductInfo<>();
 
 				// These should be filled here as another database connection is created
 				// in the for loop via a function call to getProductFromID();
 				while (resultSet.next()) {
-					productIDs.add(resultSet.getInt("product_id"));
-
-					double pricePaid = (double) Math.round(resultSet.getDouble("price") * 100) / 100;
-					productPrices.add(pricePaid);
+					Double pricePaid = (double) Math.round(resultSet.getDouble("price") * 100) / 100;
+					productInfo.addProductPrice(pricePaid);
+					productInfo.addProductID(resultSet.getInt("product_id"));
 				}
 
 				// Print the full order information
 				ProductDatabase productDatabase = new ProductDatabase();
 
 				System.out.println("Order #" + 187_453_00 + orderNumber);
-				for (int i = 0; i < productIDs.size(); i++) {
-					Product product = productDatabase.getProductFromID(productIDs.get(i));
-					if (product != null)
-						System.out.println("\t" + product.getName() + "\t\t$" + productPrices.get(i));
+				while (productInfo.getNumberOfElements() > 0) {
+					Product product = productDatabase.getProductFromID(productInfo.getProductID());
+					if (product != null) {
+						System.out.println("\t" + product.getName() + "\t\t$" + productInfo.getProductPrice());
+					}
 				}
 
 			} else {

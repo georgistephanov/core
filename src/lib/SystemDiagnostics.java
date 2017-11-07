@@ -53,9 +53,6 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		}
 
 		_testSystem();
-
-		System.out.println("Startup test performed successfully.");
-		System.out.println("CORE Control Centre running...");
 	}
 
 	// Prints the full system status from the manager/admin menu

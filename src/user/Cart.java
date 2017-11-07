@@ -217,7 +217,6 @@ class Cart {
 
 	// Prints the receipt and stores it in the database
 	private void _generateReceipt() {
-		// TODO: Make it look like a real receipt
 		_printCheckoutConfirmation();
 		System.out.println("The transaction has been made successfully.\nYou may take the products with you!");
 		System.out.println("Thank you for shopping at Giorgio's! Have a good day! :)");

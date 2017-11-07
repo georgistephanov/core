@@ -79,7 +79,8 @@ final class UserMenu {
 
 	/* ========== Profile Menu ========== */
 	private void _basicUserProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile", "Edit profile >", "Card >", "Orders >", "Back"};
+		String profileMenu[] = {"Profile:", "View profile", "Edit profile >", "Card >", "Orders >", "9Logout", "Back"};
+
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
@@ -97,6 +98,10 @@ final class UserMenu {
 			case 4:
 				_basicUserOrdersMenu();
 				break;
+			case 9:
+				// TODO: This doesn't make the right call
+				basicUser.logout();
+				return;
 			case 0:
 				return;
 			default:

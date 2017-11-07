@@ -32,8 +32,8 @@ public class Manager extends User {
 
 	 void removeProductFromCatalog() {
 		System.out.println("Enter product ID");
-		int id = Engine.inputScanner.nextInt();
-		Engine.inputScanner.nextLine();
+		int id = Engine.getInputScanner().nextInt();
+		Engine.getInputScanner().nextLine();
 
 		if (id != 0) {
 
@@ -50,14 +50,14 @@ public class Manager extends User {
 	private String _createNewProduct() {
 		try {
 			System.out.print("Name of the product: ");
-			String name = Engine.inputScanner.nextLine();
+			String name = Engine.getInputScanner().nextLine();
 
 			System.out.print("\nPrice: ");
-			double price = Engine.inputScanner.nextDouble();
+			double price = Engine.getInputScanner().nextDouble();
 
 			System.out.print("\nQuantity: ");
-			int quantity = Engine.inputScanner.nextInt();
-			//Engine.inputScanner.next();
+			int quantity = Engine.getInputScanner().nextInt();
+			//Engine.getInputScanner().next();
 
 			if (productDatabase.addProduct(name, price, quantity)) {
 				System.out.println("Product successfully added to the database.");

@@ -1,9 +1,5 @@
 package user;
 
-import core.Engine;
-import data.UserDatabase;
-
-
 public class BasicUser extends User {
 
 	/* ============== CONSTRUCTORS ============== */

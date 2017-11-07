@@ -1,5 +1,6 @@
 package core;
 
+import lib.GeneralHelperFunctions;
 import lib.SystemDiagnostics;
 import product.ProductCatalog;
 import user.User;
@@ -12,9 +13,8 @@ public final class Engine {
 	private final static Engine e = new Engine();
 
 
-	// TODO: Make the scanner private and provide an accessor for it to encapsulate it
 	private User user;
-	public static Scanner inputScanner;
+	private static Scanner inputScanner;
 	private boolean running;
 
 
@@ -22,7 +22,7 @@ public final class Engine {
 	private Engine() {
 		inputScanner = new Scanner(System.in);
 		running = true;
-		user = User.createUserInstance();
+		user = promptUserLogin();
 
 		// TODO: Try to decouple this and initialise it in its own class
 		ProductCatalog.initialiseCatalog();
@@ -30,16 +30,23 @@ public final class Engine {
 		SystemDiagnostics.initialise();
 	}
 
+	private User promptUserLogin() {
+		User newUser = User.createUserInstance();
+
+		System.out.println("\n========== Welcome to CORE Control Centre! ==========\n");
+		System.out.println("\tHello, " + newUser.getFirstName());
+
+		return newUser;
+	}
+
 
 	/* ====== PUBLIC METHODS ====== */
 	public static Engine getInstance() { return e; }
+	public static Scanner getInputScanner() { return inputScanner; }
 
 	// This is the main method which is responsible for the engine
 	void execute() {
 		SystemDiagnostics.getInstance().runStartupTest();
-
-		System.out.println("\n========== Welcome to CORE Control Centre! ==========\n");
-		System.out.println("\tHello, " + this.user.getFirstName());
 
 		// Perform system diagnostics test every 5 seconds
 		java.util.Timer timer = new java.util.Timer();
@@ -48,16 +55,26 @@ public final class Engine {
 		// Infinite loop which represents the main menu
 		while (running) {
 			try {
-				if (user.isAuthorised())
+				if (user.isAuthorised()) {
 					user.initialiseMainMenu();
+				} else {
+					System.out.println("\n\nWould you like to log in with different account?");
+
+					if (GeneralHelperFunctions.askForDecision()) {
+						promptUserLogin();
+					} else {
+						printExitMessage();
+						terminateApplication();
+					}
+				}
 
 			} catch (InputMismatchException exc) {
 				System.out.println("\nPlease provide a correct input!");
 			}
 		}
 
-		System.out.println("\n\n\tThank you for using CORE Cashless!");
-		System.out.print("\tExiting...\n\n");
+		printExitMessage();
+		terminateApplication();
 	}
 
 	public boolean isUserAuthorised() { return this.user.isAuthorised(); }
@@ -69,5 +86,8 @@ public final class Engine {
 	}
 
 	/* ====== PRIVATE METHODS ====== */
-
+	private void printExitMessage() {
+		System.out.println("\n\n\tThank you for using CORE Control Centre!");
+		System.out.print("\tExiting...\n\n");
+	}
 }
