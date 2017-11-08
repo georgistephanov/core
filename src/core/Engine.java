@@ -1,6 +1,7 @@
 package core;
 
 import lib.GeneralHelperFunctions;
+import lib.Logger;
 import lib.SystemDiagnostics;
 import product.ProductCatalog;
 import user.User;
@@ -33,7 +34,7 @@ public final class Engine {
 	private User promptUserLogin() {
 		User newUser = User.createUserInstance();
 
-		System.out.println("\n========== Welcome to CORE Control Centre! ==========\n");
+		GeneralHelperFunctions.printBlockMessage(" Welcome to CORE Control Centre! ");
 		System.out.println("\tHello, " + newUser.getFirstName());
 
 		return newUser;
@@ -61,21 +62,23 @@ public final class Engine {
 					System.out.println("\n\nWould you like to log in with different account?");
 
 					if (GeneralHelperFunctions.askForDecision()) {
-						promptUserLogin();
+						this.user = promptUserLogin();
 					} else {
 						printExitMessage();
 						terminateApplication();
 					}
 				}
 
-			} catch (InputMismatchException exc) {
-				System.out.println("\nPlease provide a correct input!");
+			} catch (Exception e) {
+				Logger.getInstance().logError(e, "Engine", "execute");
 			}
 		}
 
 		printExitMessage();
 		terminateApplication();
 	}
+
+	public void stopRunning() { this.running = false; }
 
 	public boolean isUserAuthorised() { return this.user.isAuthorised(); }
 
@@ -87,7 +90,6 @@ public final class Engine {
 
 	/* ====== PRIVATE METHODS ====== */
 	private void printExitMessage() {
-		System.out.println("\n\n\tThank you for using CORE Control Centre!");
-		System.out.print("\tExiting...\n\n");
+		GeneralHelperFunctions.printBlockMessage("Thank you for using CORE Control Centre!", "Exiting...");
 	}
 }

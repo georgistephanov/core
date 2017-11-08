@@ -19,10 +19,10 @@ public class UserDatabase extends Database {
 	}
 
 	/*  These methods are used by UserFactory to determine whether
-	*   the user is premium user, manager or admin in order to create
-	*   the correct user object. They take the username with which
-	*   the user has been logged in.
-	* */
+	 *   the user is premium user, manager or admin in order to create
+	 *   the correct user object. They take the username with which
+	 *   the user has been logged in.
+	 */
 	public boolean isAdmin(String username) {
 		boolean admin = false;
 

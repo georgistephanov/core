@@ -43,8 +43,7 @@ final class UserMenu {
 					_basicUserCartMenu();
 					break;
 				case 0:
-					Engine.terminateApplication();
-				case -1:
+					Engine.getInstance().stopRunning();
 					break;
 				default:
 					throw new InputMismatchException();
@@ -66,7 +65,8 @@ final class UserMenu {
 					_managerSystemSettingsMenu();
 					break;
 				case 0:
-					Engine.terminateApplication();
+					Engine.getInstance().stopRunning();
+					break;
 				default:
 			}
 		}
@@ -83,7 +83,7 @@ final class UserMenu {
 
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 
 		switch (opt) {
 			case 1:
@@ -99,7 +99,6 @@ final class UserMenu {
 				_basicUserOrdersMenu();
 				break;
 			case 9:
-				// TODO: This doesn't make the right call
 				basicUser.logout();
 				return;
 			case 0:
@@ -110,10 +109,10 @@ final class UserMenu {
 		_basicUserProfileMenu();
 	}
 	private void _managerProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Make user premium", "Back"};
+		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Make user premium", "9Logout", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 
 		switch (opt) {
 			case 1:
@@ -124,10 +123,9 @@ final class UserMenu {
 				break;
 			case 3:
 				UserOperations.makeUserPremium();
-			case -1:
-				System.out.println("Incorrect input! Please try again.");
-				_managerProfileMenu();
-				break;
+			case 9:
+				manager.logout();
+				return;
 			case 0:
 				return;
 			default:

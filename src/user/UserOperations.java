@@ -1,7 +1,6 @@
 package user;
 
 import core.Engine;
-import data.Database;
 import data.ProductDatabase;
 import data.UserDatabase;
 import lib.SystemDiagnostics;

@@ -79,4 +79,33 @@ public class GeneralHelperFunctions {
 			}
 		}
 	}
+
+	/**
+	 * This message takes either one or multiple strings and prints them
+	 * between two rows of equal signs (====) with the correct length.
+	 */
+	public static void printBlockMessage(String... message) {
+		if (message != null && message.length > 0) {
+
+			// Getting the longest line length, which will be the length of the block borders
+			int longestLineLength = -1;
+			for (String m : message) {
+				if (m.length() > longestLineLength)
+					longestLineLength = m.length();
+			}
+
+			// Generating the correct amount of equal signs which would enclose the message
+			StringBuilder blockLine = new StringBuilder();
+			for (int i = 0; i < longestLineLength; i++) {
+				blockLine.append("=");
+			}
+
+			// Printing the block message
+			System.out.println("\n" + blockLine.toString());
+			for (String m : message) {
+				System.out.println(m);
+			}
+			System.out.println(blockLine.toString() + "\n");
+		}
+	}
 }

@@ -62,7 +62,7 @@ public abstract class User {
 		System.out.println("Are you sure you want to logout?");
 		if (GeneralHelperFunctions.askForDecision()) {
 			this.authorised = false;
-			System.out.println("\nYou have successfully logged out.");
+			GeneralHelperFunctions.printBlockMessage("You have successfully logged out.");
 		}
 	}
 
