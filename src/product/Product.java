@@ -99,4 +99,8 @@ public class Product {
 				+ "\nPrice: " + f.format(_price)
 				+ "\nQuantity: " + _quantityAvailable;
 	}
+
+	public String toShortString() {
+		return _productID + "\t" + _name + "\t$" + f.format(_price);
+	}
 }

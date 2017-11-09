@@ -25,3 +25,15 @@
 08/11/2017 20:02:10  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
 
 
+09/11/2017 18:45:53  (UserDatabase : getUsernames())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+09/11/2017 18:52:26  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+09/11/2017 19:00:43  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+09/11/2017 19:00:44  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+

@@ -425,8 +425,6 @@ public class UserDatabase extends Database {
 		return -1;
 	}
 
-	// TODO: Try to encapsulate this so that it couldn't be manipulated from outside
-	// TODO: Or actually remove it because this isn't a real functionality there would be
 	public boolean updateCardBalance(String cardNumber, double newBalance) {
 		try {
 			connect = _prepareConnection();

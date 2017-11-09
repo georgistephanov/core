@@ -1,10 +1,13 @@
 package data;
 
+import lib.GeneralHelperFunctions;
 import product.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductDatabase extends Database {
 
@@ -156,13 +159,13 @@ public class ProductDatabase extends Database {
 			resultSet = statement.executeQuery("SELECT * FROM product");
 
 			String keywords[] = query.split(" ");
-			ArrayList<Integer> foundProductsID = new ArrayList<>();
+			Set<Integer> foundProductsID = new HashSet<>();
 
 			while (resultSet.next()) {
 				String productName = resultSet.getString("name");
 
 				for (String keyword : keywords) {
-					if (productName.contains(keyword)) {
+					if (productName.toLowerCase().contains(keyword.toLowerCase())) {
 						foundProductsID.add(resultSet.getInt("id"));
 						break;
 					}
@@ -178,8 +181,25 @@ public class ProductDatabase extends Database {
 			_close();
 		}
 	}
-	private void _printSearchQueryInformation(ArrayList<Integer> foundProducts, String query) {
-		// TODO: Print the found results
+	private void _printSearchQueryInformation(Set<Integer> foundProducts, String query) {
+		// This is for debug only, as the IntelliJ console doesn't support '\b' char
+		// Otherwise, GeneralHelperFunctions.printBlockMessage() is being used
+		System.out.println("\n==============================================\n"
+						+ (foundProducts.size() + " products found for search query: " + query)
+						+ "\n==============================================");
+		//GeneralHelperFunctions.printBlockMessage(foundProducts.size() + " products found for search query: " + query);
+
+		if (foundProducts.size() > 0) {
+			Product product;
+			for (Integer id : foundProducts) {
+				product = getProductFromID(id);
+
+				if (product != null) {
+					System.out.println(product.toShortString());
+				}
+			}
+			System.out.println();
+		}
 	}
 
 

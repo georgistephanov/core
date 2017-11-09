@@ -3,8 +3,6 @@ package product;
 import java.util.ArrayList;
 import data.*;
 
-// THIS CLASS SIMULATES REAL DATABASE AT THE MOMENT
-// WILL NOT EXIST WHEN A DB IS PRESENT
 public final class ProductCatalog {
 
 	private static ArrayList<Product> _products = new ArrayList<>();

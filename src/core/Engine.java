@@ -5,7 +5,6 @@ import lib.Logger;
 import lib.SystemDiagnostics;
 import product.ProductCatalog;
 import user.User;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -25,9 +24,7 @@ public final class Engine {
 		running = true;
 		user = promptUserLogin();
 
-		// TODO: Try to decouple this and initialise it in its own class
 		ProductCatalog.initialiseCatalog();
-
 		SystemDiagnostics.initialise();
 	}
 

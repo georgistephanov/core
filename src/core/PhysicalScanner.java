@@ -1,19 +1,13 @@
 package core;
-
 import lib.GeneralHelperFunctions;
 import product.Product;
 import product.ProductCatalog;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-/*
-	A class representing a physical scanner. The phone will be used as
-	such when implemented on android and the camera will be used to
-	scan various barcodes.
+/**
+ * 	A class representing a physical scanner. The phone will be used as
+ *  such when implemented on android and the camera will be used to
+ *  scan various barcodes.
  */
-// This class implements the Singleton Pattern
-// TODO This could implement the observer pattern so that the scanner constantly waits for the id to be passed
 public final class PhysicalScanner {
 
 	/* ======== Class Members ======== */

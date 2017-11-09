@@ -5,13 +5,12 @@ import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 import product.ProductCatalog;
 
+import java.util.HashMap;
+import java.util.Map;
 
-// TODO: The user should be able to log out
+
 public abstract class User {
-	private int id;
-
 	private long account_num = 100_123_00;
-	private String username;
 	private String firstName, lastName;
 
 	public enum AccountType {
@@ -25,8 +24,25 @@ public abstract class User {
 
 		int getDiscountPercentage() { return _discountPercentage; }
 	}
-
 	private AccountType _accountType;
+
+	/**
+	 * 	Type-safe heterogeneous container, which will hold one String
+	 *	for the username and one Integer for the ID, so that it provides
+	 *	global easy access to them.
+	 */
+	private class Information {
+		private Map<Class<?>, Object> info = new HashMap<>();
+
+		private <T> void putInformation(Class<T> classType, T instance) {
+			info.put(classType, classType.cast(instance));
+		}
+
+		<T> T getInformation(Class<T> classType) {
+			return classType.cast(info.get(classType));
+		}
+	}
+	private Information information;
 
 	private boolean authorised = false;
 
@@ -74,10 +90,14 @@ public abstract class User {
 
 	// Method which sets the object variables when constructed
 	void setObjectVariables(String username, AccountType accountType) {
-		id = database.getIDFromUsername(username);
+
+		int id = database.getIDFromUsername(username);
 		account_num += id;
 
-		this.username = username;
+		information = new Information();
+		information.putInformation(String.class, username);
+		information.putInformation(Integer.class, id);
+
 		firstName = database.getFirstName(id);
 		lastName = database.getLastName(id);
 
@@ -107,8 +127,10 @@ public abstract class User {
 
 
 	/* ============== GETTERS ============== */
+	String getUsername() { return information.getInformation(String.class); }
+	public int getID() { return information.getInformation(Integer.class); }
+
 	long getAccountNumber() { return this.account_num; }
-	String getUsername() { return this.username; }
 	Cart getCart() { return this.cart; }
 	VisaCard getCard() { return this.card; }
 	public boolean isAuthorised() { return this.authorised; }
@@ -131,11 +153,10 @@ public abstract class User {
 	String getLastName() { return this.lastName; }
 	public int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
 
-	public int getID() { return this.id; }
 
 	public String toString() {
 		return "\nAccount number:\t" 	+ this.account_num
-			 + "\nUsername:\t" 		+ this.username
+			 + "\nUsername:\t" 		+ getUsername()
 			 + "\nAccount type:\t" 	+ this.getStringAccountType()
 			 + "\n\nFirst name:\t" 	+ this.firstName
 			 + "\nLast name:\t" 		+ this.lastName;
@@ -148,8 +169,8 @@ public abstract class User {
 
 	// Updates the users' first and last name from the database
 	void updateName() {
-		firstName = database.getFirstName(id);
-		lastName = database.getLastName(id);
+		firstName = database.getFirstName(getID());
+		lastName = database.getLastName(getID());
 	}
 
 }
