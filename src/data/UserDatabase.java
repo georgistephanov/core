@@ -208,6 +208,31 @@ public class UserDatabase extends Database {
 
 		return false;
 	}
+	public void deleteUser(int id) {
+		try {
+			if (_userExists(id)) {
+				connect = _prepareConnection();
+
+				preparedStatement = connect.prepareStatement("DELETE FROM user WHERE id=?");
+				preparedStatement.setInt(1, id);
+				preparedStatement.executeUpdate();
+
+				preparedStatement = connect.prepareStatement("DELETE FROM user_info WHERE id=?");
+				preparedStatement.setInt(1, id);
+				preparedStatement.executeUpdate();
+
+				System.out.println("User 123_456_" + id + " successfully deleted.");
+			} else {
+				System.out.println("No user with this id exists.");
+			}
+		}
+		catch (Exception e) {
+			logError(e, "deleteUser");
+		}
+		finally {
+			_close();
+		}
+	}
 
 	public void makeUserPremium(int id) {
 		giveUserPrivileges(id, 1);
@@ -546,7 +571,6 @@ public class UserDatabase extends Database {
 
 		return -1;
 	}
-
 	public boolean updateCardBalance(String cardNumber, double newBalance) {
 		try {
 			connect = _prepareConnection();
@@ -566,7 +590,6 @@ public class UserDatabase extends Database {
 
 		return false;
 	}
-
 
 
 	/* =============== Order Methods =============== */
@@ -686,6 +709,30 @@ public class UserDatabase extends Database {
 		}
 		catch (Exception e) {
 			logError(e, "addOrder");
+		}
+	}
+	public void printPreviousOrders() {
+		try {
+			int numOrdersPrinted = 20;
+
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM orders");
+
+			System.out.println("\nPrevious orders:\n"
+					+ "\t|    User    | Order number |    Date    |   Price\t|" );
+			while (resultSet.next() && numOrdersPrinted > 0) {
+				System.out.println("\t| " + 123_456_00 + resultSet.getInt("user_id") + " | #" + 187_453_00 + resultSet.getInt("id")
+						+ "   | " + resultSet.getDate("date")
+						+ " |  $" + resultSet.getDouble("amount_paid") + "\t|");
+				numOrdersPrinted--;
+			}
+		}
+		catch (Exception e) {
+			logError(e, "printPreviousOrders");
+		}
+		finally {
+			_close();
 		}
 	}
 

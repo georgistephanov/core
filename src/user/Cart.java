@@ -79,7 +79,11 @@ class Cart {
 
 	// Prints a brief information about the products in the cart
 	void showItems() {
-		_printCheckoutConfirmation();
+		if ( !items.isEmpty() ) {
+			_printCheckoutConfirmation();
+		} else {
+			System.out.println("\nYour cart is empty.");
+		}
 	}
 
 	// Cancels the current line and removes the products from the cart
@@ -159,7 +163,7 @@ class Cart {
 			return false;
 		}
 		if (_isEmpty()) {
-			System.out.println("The cart is empty");
+			System.out.println("The cart is empty.");
 			return false;
 		}
 

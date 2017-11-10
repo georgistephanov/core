@@ -119,6 +119,9 @@ final class UserOperations {
 		_makeUserPremium();
 	}
 
+	static void printPreviousOrders() {
+		userDatabase.printPreviousOrders();
+	}
 	static void printPreviousOrders(User u) {
 		userDatabase.printPreviousOrders(u.getID());
 	}
@@ -154,9 +157,7 @@ final class UserOperations {
 		userDatabase.getUserByUsernameOrID(query);
 	}
 	static void adminGiveUserPrivileges() {
-		System.out.print("Enter user id: ");
-		int id = Engine.getInputScanner().nextInt();
-		Engine.flushInputScanner();
+		int id = getIdFromInput();
 
 		String giveUserPrivileges[] = {"What privileges would you like to give them?", "Premium", "Manager", "Admin", "None"};
 		GeneralHelperFunctions.generateMenu(giveUserPrivileges);
@@ -176,7 +177,10 @@ final class UserOperations {
 				break;
 		}
 	}
-
+	static void adminDeleteUser() {
+		int id = getIdFromInput();
+		userDatabase.deleteUser(id);
+	}
 
 
 
@@ -221,6 +225,14 @@ final class UserOperations {
 	private static String getPasswordFromInput() {
 		System.out.print("Password: ");
 		return Engine.getInputScanner().next();
+	}
+
+	private static int getIdFromInput() {
+		System.out.print("Enter user id: ");
+		int id = Engine.getInputScanner().nextInt();
+		Engine.flushInputScanner();
+
+		return id;
 	}
 
 	static String initUser() {

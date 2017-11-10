@@ -46,3 +46,15 @@
 10/11/2017 16:05:28  (UserDatabase : giveUserPrivileges())  com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''manager'=true WHERE id=21' at line 1
 
 
+10/11/2017 17:07:31  (UserDatabase : deleteUser())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: No operations allowed after connection closed.
+
+
+10/11/2017 17:26:05  (Engine : execute())  java.lang.NullPointerException
+
+
+10/11/2017 17:26:31  (Engine : execute())  java.lang.NullPointerException
+
+
+10/11/2017 17:32:14  (Engine : execute())  java.lang.NullPointerException
+
+

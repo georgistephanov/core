@@ -54,10 +54,11 @@ public class Manager extends User {
 
 			System.out.print("\nPrice: ");
 			double price = Engine.getInputScanner().nextDouble();
+			Engine.flushInputScanner();
 
 			System.out.print("\nQuantity: ");
 			int quantity = Engine.getInputScanner().nextInt();
-			//Engine.getInputScanner().next();
+			Engine.flushInputScanner();
 
 			if (productDatabase.addProduct(name, price, quantity)) {
 				System.out.println("Product successfully added to the database.");

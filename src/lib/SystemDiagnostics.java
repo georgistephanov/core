@@ -13,6 +13,10 @@ import java.time.Instant;
 // TODO: component changes it should run some tests to check
 // TODO: whether the system is okay to continue running.
 
+// TODO: Add counter how many times the program has been executed correctly and how many by an error
+// TODO: Count the total tests performed ever + the total tests passed/failed
+// TODO: Add option for the admin to change the frequency of the tests
+
 public class SystemDiagnostics extends java.util.TimerTask {
 	private static SystemDiagnostics _systemDiagnostics;
 

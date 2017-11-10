@@ -21,12 +21,10 @@ final class UserMenu {
 		this((User) basicUser);
 		this.basicUser = basicUser;
 	}
-
 	UserMenu(Manager manager) {
 		this((User) manager);
 		this.manager = manager;
 	}
-
 	UserMenu(Admin admin) {
 		this((User) admin);
 		this.admin = admin;
@@ -34,10 +32,8 @@ final class UserMenu {
 
 	void initialiseMainMenu() {
 		if (basicUser != null) {
-			// General menu
 			String userMenu[] = {"Menu:", "Catalog >", "Profile >", "Cart >", "Exit"};
 			GeneralHelperFunctions.generateMenu(userMenu);
-
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
@@ -45,10 +41,10 @@ final class UserMenu {
 					_basicUserCatalogMenu();
 					break;
 				case 2:
-					_basicUserProfileMenu();
+					_userProfileMenu();
 					break;
 				case 3:
-					_basicUserCartMenu();
+					_cartMenu();
 					break;
 				case 0:
 					Engine.getInstance().stopRunning();
@@ -58,7 +54,7 @@ final class UserMenu {
 			}
 		}
 		else if (manager != null) {
-			String managerMenu[] = {"Menu:", "Catalog >", "Profile >", "System settings >", "Exit"};
+			String managerMenu[] = {"Menu:", "Catalog >", "Cart >", "Profile >", "Manager menu >", "Exit"};
 			GeneralHelperFunctions.generateMenu(managerMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -67,10 +63,13 @@ final class UserMenu {
 					_managerCatalogMenu();
 					break;
 				case 2:
-					_managerProfileMenu();
+					_cartMenu();
 					break;
 				case 3:
-					_managerSystemSettingsMenu();
+					_userProfileMenu();
+					break;
+				case 4:
+					_managerMenu();
 					break;
 				case 0:
 					Engine.getInstance().stopRunning();
@@ -85,7 +84,7 @@ final class UserMenu {
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
 				case 1:
-					//_adminUserSettingsMenu();
+					_adminEditUsers();
 					break;
 				case 2:
 					//_adminSystemSettingsMenu();
@@ -105,16 +104,20 @@ final class UserMenu {
 
 
 	/* ========== Profile Menu ========== */
-	private void _basicUserProfileMenu() {
+	private void _userProfileMenu() {
 		String profileMenu[] = {"Profile:", "View profile", "Edit profile >", "Card >", "Orders >", "9Logout", "Back"};
-
 		GeneralHelperFunctions.generateMenu(profileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
-
 		switch (opt) {
 			case 1:
-				System.out.println(basicUser.toString());
+				if (basicUser != null)
+					System.out.println(basicUser.toString());
+				else if (manager != null)
+					System.out.println(manager.toString());
+				else
+					System.out.println(activeUser.toString());
+
 				break;
 			case 2:
 				_editProfile();
@@ -123,45 +126,20 @@ final class UserMenu {
 				_basicUserCardMenu();
 				break;
 			case 4:
-				_basicUserOrdersMenu();
+				_userOrdersMenu();
 				break;
 			case 9:
-				basicUser.logout();
+				activeUser.logout();
 				return;
 			case 0:
 				return;
 			default:
 		}
 
-		_basicUserProfileMenu();
-	}
-	private void _managerProfileMenu() {
-		String profileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Make user premium", "9Logout", "Back"};
-		GeneralHelperFunctions.generateMenu(profileMenu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
-
-		switch (opt) {
-			case 1:
-				System.out.println(manager.toString());
-				break;
-			case 2:
-				_editProfile();
-				break;
-			case 3:
-				UserOperations.makeUserPremium();
-			case 9:
-				manager.logout();
-				return;
-			case 0:
-				return;
-			default:
-		}
-
-		_managerProfileMenu();
+		_userProfileMenu();
 	}
 	private void _adminProfileMenu() {
-		String adminProfileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Edit users >", "9Logout", "Back"};
+		String adminProfileMenu[] = {"Profile:", "View profile info", "Edit profile >", "9Logout", "Back"};
 		GeneralHelperFunctions.generateMenu(adminProfileMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -171,9 +149,6 @@ final class UserMenu {
 				break;
 			case 2:
 				_editProfile();
-				break;
-			case 3:
-				_adminEditUsers();
 				break;
 			case 9:
 				admin.logout();
@@ -190,7 +165,7 @@ final class UserMenu {
 	// TODO: Add logic to detect previous user sessions and time being logged in
 
 	/* ========== Cart Menu ========== */
-	private void _basicUserCartMenu() {
+	private void _cartMenu() {
 		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
 		GeneralHelperFunctions.generateMenu(cartMenu);
 
@@ -198,15 +173,15 @@ final class UserMenu {
 
 		switch(opt) {
 			case 1:
-				basicUser.displayCartItems();
+				activeUser.displayCartItems();
 				break;
 			case 2:
-				if (basicUser.checkout())
+				if (activeUser.checkout()) {
 					return;
-
+				}
 				break;
 			case 3:
-				basicUser.removeItemsFromCart();
+				activeUser.removeItemsFromCart();
 				break;
 			case 0:
 				return;
@@ -214,7 +189,7 @@ final class UserMenu {
 				break;
 		}
 
-		_basicUserCartMenu();
+		_cartMenu();
 	}
 
 
@@ -266,7 +241,7 @@ final class UserMenu {
 	}
 
 	/* ========== Orders Menu ========== */
-	private void _basicUserOrdersMenu() {
+	private void _userOrdersMenu() {
 		String ordersMenu[] = {"Orders:", "Previous orders", "See specific order", "Back"};
 		GeneralHelperFunctions.generateMenu(ordersMenu);
 
@@ -274,7 +249,7 @@ final class UserMenu {
 
 		switch (opt) {
 			case 1:
-				UserOperations.printPreviousOrders(this.basicUser);
+				UserOperations.printPreviousOrders(activeUser);
 				break;
 			case 2:
 				UserOperations.printFullPreviousOrder();
@@ -285,32 +260,7 @@ final class UserMenu {
 				break;
 		}
 
-		_basicUserOrdersMenu();
-	}
-
-	/* ========== Catalog Menu ========== */
-	private void _managerCatalogMenu() {
-		String menu[] = {"Catalog:", "View catalog", "Add product", "Remove product", "Back"};
-		GeneralHelperFunctions.generateMenu(menu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0,9);
-		switch (opt) {
-			case 1:
-				manager.printCatalog();
-				break;
-			case 2:
-				manager.addProductToTheCatalog();
-				break;
-			case 3:
-				manager.removeProductFromCatalog();
-				break;
-			case 0:
-				return;
-			default:
-				break;
-		}
-
-		_managerCatalogMenu();
+		_userOrdersMenu();
 	}
 
 
@@ -342,14 +292,51 @@ final class UserMenu {
 
 		_basicUserCatalogMenu();
 	}
-	private void _managerSystemSettingsMenu() {
-		String menu[] = {"System settings", "System information", "Back"};
+	private void _managerCatalogMenu() {
+		String menu[] = {"Catalog:", "View catalog", "Scan product", "Add product to the catalog", "Remove product from the catalog", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0,9);
+		switch (opt) {
+			case 1:
+				manager.printCatalog();
+				break;
+			case 2:
+				Product p = PhysicalScanner.getInstance().scanProduct();
+				if (p != null) {
+					manager.getCart().addToCart(p);
+				}
+				break;
+			case 3:
+				manager.addProductToTheCatalog();
+				break;
+			case 4:
+				manager.removeProductFromCatalog();
+				break;
+			case 0:
+				return;
+			default:
+				break;
+		}
+
+		_managerCatalogMenu();
+	}
+
+
+	private void _managerMenu() {
+		String menu[] = {"Manager menu", "View previous orders", "Make user premium", "System information", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 
 		switch (opt) {
 			case 1:
+				UserOperations.printPreviousOrders();
+				break;
+			case 2:
+				UserOperations.makeUserPremium();
+				break;
+			case 3:
 				UserOperations.printSystemInformation();
 				break;
 			case 0:
@@ -358,7 +345,7 @@ final class UserMenu {
 				break;
 		}
 
-		_managerSystemSettingsMenu();
+		_managerMenu();
 	}
 
 	/* ========== Admin specific ========== */
@@ -375,7 +362,7 @@ final class UserMenu {
 				UserOperations.adminGiveUserPrivileges();
 				break;
 			case 3:
-				//UserOperations.adminDeleteUser();
+				UserOperations.adminDeleteUser();
 				break;
 			case 0:
 				return;
