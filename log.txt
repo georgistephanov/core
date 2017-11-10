@@ -37,3 +37,12 @@
 09/11/2017 19:00:44  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
 
 
+10/11/2017 15:01:44  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+10/11/2017 15:42:31  (UserDatabase : getUserByID())  com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'didi' in 'where clause'
+
+
+10/11/2017 16:05:28  (UserDatabase : giveUserPrivileges())  com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''manager'=true WHERE id=21' at line 1
+
+

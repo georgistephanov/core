@@ -1,6 +1,7 @@
 package data;
 
 import core.Engine;
+import lib.GeneralHelperFunctions;
 import product.Product;
 import user.User;
 import java.text.SimpleDateFormat;
@@ -97,7 +98,7 @@ public class UserDatabase extends Database {
 	/* =============== User Methods =============== */
 	public boolean login(String username, String password) {
 
-		boolean usernameExists = _usernameExists(username);
+		boolean usernameExists = _userExists(username);
 
 		if (usernameExists) {
 			if (passwordMatch(username, password)) {
@@ -131,28 +132,6 @@ public class UserDatabase extends Database {
 		}
 
 		return true;
-	}
-	public void makeUserPremium(int id) {
-		if (id != 0) {
-			if (_userExists(id)) {
-				try {
-					connect = _prepareConnection();
-					preparedStatement = connect.prepareStatement("UPDATE user SET premium=true WHERE id=?");
-					preparedStatement.setInt(1, id);
-					preparedStatement.executeUpdate();
-
-					System.out.println("User 100_123_" + id + " has been given premium status successfully.");
-				}
-				catch (Exception e) {
-					logError(e, "makeUserPremium");
-				}
-				finally {
-					_close();
-				}
-			} else {
-				System.out.println("No such user exists.");
-			}
-		}
 	}
 	public boolean addCard(int user_id, String cardNum) {
 		try {
@@ -230,6 +209,56 @@ public class UserDatabase extends Database {
 		return false;
 	}
 
+	public void makeUserPremium(int id) {
+		giveUserPrivileges(id, 1);
+	}
+	public void makeUserManager(int id) {
+		giveUserPrivileges(id, 2);
+	}
+	public void makeUserAdmin(int id) {
+		giveUserPrivileges(id, 3);
+	}
+	private void giveUserPrivileges(int id, int option) {
+		if (id > 0) {
+			if (_userExists(id)) {
+				try {
+					connect = _prepareConnection();
+
+					String status = "";
+					switch (option) {
+						case 1:
+							status = "premium";
+							preparedStatement = connect.prepareStatement("UPDATE user SET premium=true WHERE id=?");
+							break;
+						case 2:
+							status = "manager";
+							preparedStatement = connect.prepareStatement("UPDATE user SET manager=true WHERE id=?");
+							break;
+						case 3:
+							status = "admin";
+							preparedStatement = connect.prepareStatement("UPDATE user SET admin=true WHERE id=?");
+							break;
+						default:
+							System.out.println("Wrong option parameter provided.");
+							return;
+					}
+					preparedStatement.setInt(1, id);
+					preparedStatement.executeUpdate();
+
+					System.out.println("User 100_123_" + id + " has been given " + status + " status successfully.");
+				} catch (Exception e) {
+					logError(e, "giveUserPrivileges");
+				} finally {
+					_close();
+				}
+			} else {
+				System.out.println("No user exists with this id");
+			}
+		} else {
+			System.out.println("Invalid input.");
+		}
+	}
+
 	public ArrayList<String> getUsernames() {
 		ArrayList<String> usernames = new ArrayList<>();
 
@@ -291,11 +320,20 @@ public class UserDatabase extends Database {
 	public boolean changeFirstName(int id, String newName) {
 		try {
 			connect = _prepareConnection();
-			preparedStatement = connect.prepareStatement("UPDATE user_info SET firstName=? WHERE id=?");
-			preparedStatement.setString(1, newName);
-			preparedStatement.setInt(2, id);
-			preparedStatement.executeUpdate();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM user_info WHERE id=" + id);
 
+			if (resultSet.next()) {
+				preparedStatement = connect.prepareStatement("UPDATE user_info SET firstName=? WHERE id=?");
+				preparedStatement.setString(1, newName);
+				preparedStatement.setInt(2, id);
+				preparedStatement.executeUpdate();
+			} else {
+				preparedStatement = connect.prepareStatement("INSERT INTO user_info VALUES (?, ?, default)");
+				preparedStatement.setInt(1, id);
+				preparedStatement.setString(2, newName);
+				preparedStatement.executeUpdate();
+			}
 			return true;
 		}
 		catch (Exception e) {
@@ -310,10 +348,20 @@ public class UserDatabase extends Database {
 	public boolean changeLastName(int id, String newName) {
 		try {
 			connect = _prepareConnection();
-			preparedStatement = connect.prepareStatement("UPDATE user_info SET lastName=? WHERE id=?");
-			preparedStatement.setString(1, newName);
-			preparedStatement.setInt(2, id);
-			preparedStatement.executeUpdate();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM user_info WHERE id=" + id);
+
+			if (resultSet.next()) {
+				preparedStatement = connect.prepareStatement("UPDATE user_info SET lastName=? WHERE id=?");
+				preparedStatement.setString(1, newName);
+				preparedStatement.setInt(2, id);
+				preparedStatement.executeUpdate();
+			} else {
+				preparedStatement = connect.prepareStatement("INSERT INTO user_info VALUES (?, default, ?)");
+				preparedStatement.setInt(1, id);
+				preparedStatement.setString(2, newName);
+				preparedStatement.executeUpdate();
+			}
 
 			return true;
 		}
@@ -351,8 +399,82 @@ public class UserDatabase extends Database {
 
 		return id;
 	}
+	public void getUserByUsernameOrID(String query) {
+		int id = -1;
+		String username = "";
 
-	private boolean _usernameExists(String username) {
+		// Check if the input is Id or username
+		if (query.matches("^\\d+$")) {
+			id = Integer.parseInt(query);
+		} else {
+			username = query;
+		}
+
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+
+			// Execute the correct query depending on the user input (Id or username)
+			if (id != -1) {
+				resultSet = statement.executeQuery("SELECT * FROM user WHERE id=" + id);
+			} else {
+				resultSet = statement.executeQuery("SELECT * FROM user WHERE username='" + username + "'");
+			}
+
+			// Getting the information from the user table
+			if (resultSet.next()) {
+				id = resultSet.getInt("id");
+				String accountType;
+
+				if (Integer.parseInt(resultSet.getString("admin")) == 1) {
+					accountType = "Admin";
+				}
+				else if (Integer.parseInt(resultSet.getString("manager")) == 1) {
+					accountType = "Manager";
+				}
+				else if (Integer.parseInt(resultSet.getString("premium")) == 1) {
+					accountType = "Premium user";
+				}
+				else {
+					accountType = "Basic user";
+				}
+
+				// These are the string variables that are going to be used to print the block message
+				String userID = "User id: " + id;
+				String userName = "Username: " + resultSet.getString("username");
+				String userFirstName = "First name: ";
+				String userLastName = "Last name: ";
+				String userAccountType = "Account type: " + accountType;
+
+				// Getting the information from the user_info table
+				resultSet = statement.executeQuery("SELECT * FROM user_info WHERE id=" + id);
+
+				if (resultSet.next()) {
+					if (resultSet.getString("firstName") != null) {
+						userFirstName += resultSet.getString("firstName");
+					}
+					if (resultSet.getString("lastName") != null) {
+						userLastName += resultSet.getString("lastName");
+					}
+				}
+
+				userLastName += "\n";
+
+				// Printing the user information in a block message
+				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType);
+			} else {
+				System.out.println("\nNo such user exists.");
+			}
+		}
+		catch (Exception e) {
+			logError(e, "getUserByID");
+		}
+		finally {
+			_close();
+		}
+	}
+
+	private boolean _userExists(String username) {
 		ArrayList<String> usernames = getUsernames();
 
 		for (String u : usernames) {

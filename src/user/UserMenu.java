@@ -11,24 +11,32 @@ final class UserMenu {
 	private BasicUser basicUser;
 	private Manager manager;
 	private Admin admin;
+	private User activeUser;
 
-	UserMenu(BasicUser user) {
-		this.basicUser = user;
+	private UserMenu(User user) {
+		activeUser = user;
+	}
+
+	UserMenu(BasicUser basicUser) {
+		this((User) basicUser);
+		this.basicUser = basicUser;
 	}
 
 	UserMenu(Manager manager) {
+		this((User) manager);
 		this.manager = manager;
 	}
 
 	UserMenu(Admin admin) {
+		this((User) admin);
 		this.admin = admin;
 	}
 
 	void initialiseMainMenu() {
 		if (basicUser != null) {
 			// General menu
-			String mainMenu[] = {"Menu:", "Catalog >", "Profile >", "Cart >", "Exit"};
-			GeneralHelperFunctions.generateMenu(mainMenu);
+			String userMenu[] = {"Menu:", "Catalog >", "Profile >", "Cart >", "Exit"};
+			GeneralHelperFunctions.generateMenu(userMenu);
 
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -50,8 +58,8 @@ final class UserMenu {
 			}
 		}
 		else if (manager != null) {
-			String mainMenu[] = {"Menu: ", "Catalog >", "Profile >", "System settings >", "Exit"};
-			GeneralHelperFunctions.generateMenu(mainMenu);
+			String managerMenu[] = {"Menu:", "Catalog >", "Profile >", "System settings >", "Exit"};
+			GeneralHelperFunctions.generateMenu(managerMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
@@ -71,7 +79,26 @@ final class UserMenu {
 			}
 		}
 		else if (admin != null) {
+			String adminMenu[] = {"Admin menu:", "User settings", "System settings >", "Profile >", "Exit"};
+			GeneralHelperFunctions.generateMenu(adminMenu);
 
+			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+			switch (opt) {
+				case 1:
+					//_adminUserSettingsMenu();
+					break;
+				case 2:
+					//_adminSystemSettingsMenu();
+					break;
+				case 3:
+					_adminProfileMenu();
+					break;
+				case 0:
+					Engine.getInstance().stopRunning();
+					break;
+				default:
+
+			}
 		}
 	}
 
@@ -90,7 +117,7 @@ final class UserMenu {
 				System.out.println(basicUser.toString());
 				break;
 			case 2:
-				_basicUserEditProfileMenu();
+				_editProfile();
 				break;
 			case 3:
 				_basicUserCardMenu();
@@ -119,7 +146,7 @@ final class UserMenu {
 				System.out.println(manager.toString());
 				break;
 			case 2:
-				_managerEditProfileMenu();
+				_editProfile();
 				break;
 			case 3:
 				UserOperations.makeUserPremium();
@@ -133,7 +160,34 @@ final class UserMenu {
 
 		_managerProfileMenu();
 	}
+	private void _adminProfileMenu() {
+		String adminProfileMenu[] = {"Profile:", "View profile info", "Edit profile >", "Edit users >", "9Logout", "Back"};
+		GeneralHelperFunctions.generateMenu(adminProfileMenu);
 
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		switch (opt) {
+			case 1:
+				System.out.println(admin.toString());
+				break;
+			case 2:
+				_editProfile();
+				break;
+			case 3:
+				_adminEditUsers();
+				break;
+			case 9:
+				admin.logout();
+				return;
+			case 0:
+				return;
+			default:
+
+		}
+
+		_adminProfileMenu();
+	}
+
+	// TODO: Add logic to detect previous user sessions and time being logged in
 
 	/* ========== Cart Menu ========== */
 	private void _basicUserCartMenu() {
@@ -188,49 +242,27 @@ final class UserMenu {
 
 
 	/* ========== Edit profile Menu ========== */
-	private void _basicUserEditProfileMenu() {
+	private void _editProfile() {
 		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Change password", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 		switch (opt) {
 			case 1:
-				UserOperations.changeFirstName(this.basicUser);
+				UserOperations.changeFirstName(activeUser);
 				break;
 			case 2:
-				UserOperations.changeLastName(this.basicUser);
+				UserOperations.changeLastName(activeUser);
 				break;
 			case 3:
-				UserOperations.changePassword(this.basicUser);
+				UserOperations.changePassword(activeUser);
 				break;
 			case 0:
 				return;
 			default:
 		}
 
-		_basicUserEditProfileMenu();
-	}
-	private void _managerEditProfileMenu() {
-		String menu[] = {"Which field would you like to edit?", "First name", "Last name", "Change password", "Back"};
-		GeneralHelperFunctions.generateMenu(menu);
-
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
-		switch (opt) {
-			case 1:
-				UserOperations.changeFirstName(this.manager);
-				break;
-			case 2:
-				UserOperations.changeLastName(this.manager);
-				break;
-			case 3:
-				UserOperations.changePassword(this.manager);
-				break;
-			case 0:
-				return;
-			default:
-		}
-
-		_managerEditProfileMenu();
+		_editProfile();
 	}
 
 	/* ========== Orders Menu ========== */
@@ -310,7 +342,6 @@ final class UserMenu {
 
 		_basicUserCatalogMenu();
 	}
-
 	private void _managerSystemSettingsMenu() {
 		String menu[] = {"System settings", "System information", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
@@ -328,5 +359,30 @@ final class UserMenu {
 		}
 
 		_managerSystemSettingsMenu();
+	}
+
+	/* ========== Admin specific ========== */
+	private void _adminEditUsers() {
+		String menu[] = {"Edit users:", "View user information", "Give user privileges", "Delete user", "Back"};
+		GeneralHelperFunctions.generateMenu(menu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		switch (opt) {
+			case 1:
+				UserOperations.adminViewUserInformation();
+				break;
+			case 2:
+				UserOperations.adminGiveUserPrivileges();
+				break;
+			case 3:
+				//UserOperations.adminDeleteUser();
+				break;
+			case 0:
+				return;
+			default:
+
+		}
+
+		_adminEditUsers();
 	}
 }

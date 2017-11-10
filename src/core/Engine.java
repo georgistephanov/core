@@ -41,6 +41,7 @@ public final class Engine {
 	/* ====== PUBLIC METHODS ====== */
 	public static Engine getInstance() { return e; }
 	public static Scanner getInputScanner() { return inputScanner; }
+	public static void flushInputScanner() { inputScanner.nextLine(); }
 
 	// This is the main method which is responsible for the engine
 	void execute() {

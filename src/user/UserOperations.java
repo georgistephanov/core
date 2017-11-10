@@ -3,6 +3,7 @@ package user;
 import core.Engine;
 import data.ProductDatabase;
 import data.UserDatabase;
+import lib.GeneralHelperFunctions;
 import lib.SystemDiagnostics;
 import java.util.ArrayList;
 
@@ -142,6 +143,42 @@ final class UserOperations {
 	static void printSystemInformation() {
 		SystemDiagnostics.getInstance().printSystemInformation();
 	}
+
+
+	/* ======== ADMIN METHODS ======== */
+	static void adminViewUserInformation() {
+		System.out.print("Enter user id or username: ");
+		String query = Engine.getInputScanner().next();
+		Engine.flushInputScanner();
+
+		userDatabase.getUserByUsernameOrID(query);
+	}
+	static void adminGiveUserPrivileges() {
+		System.out.print("Enter user id: ");
+		int id = Engine.getInputScanner().nextInt();
+		Engine.flushInputScanner();
+
+		String giveUserPrivileges[] = {"What privileges would you like to give them?", "Premium", "Manager", "Admin", "None"};
+		GeneralHelperFunctions.generateMenu(giveUserPrivileges);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+		switch (opt) {
+			case 1:
+				userDatabase.makeUserPremium(id);
+				break;
+			case 2:
+				userDatabase.makeUserManager(id);
+				break;
+			case 3:
+				userDatabase.makeUserAdmin(id);
+				break;
+			default:
+				break;
+		}
+	}
+
+
+
 
 	/* ======== PRIVATE METHODS ======== */
 
