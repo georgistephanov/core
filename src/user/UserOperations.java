@@ -7,6 +7,8 @@ import lib.GeneralHelperFunctions;
 import lib.SystemDiagnostics;
 import java.util.ArrayList;
 
+// TODO: Leave here only common methods for two or more classes. Everything else goes to its own class
+
 final class UserOperations {
 	private static UserDatabase userDatabase = new UserDatabase();
 	private static int login_max_try = 3;
@@ -83,7 +85,7 @@ final class UserOperations {
 	static void addNewCard(User b) {
 		System.out.println("\nAdd a card number (XXXX-XXXX-XXXX-XXXX)");
 		String cardNum = Engine.getInputScanner().next();
-		Engine.getInputScanner().nextLine();
+		Engine.flushInputScanner();
 
 		// Checks the first of two possible input formats
 		if (cardNum.length() == 16) {
@@ -149,6 +151,7 @@ final class UserOperations {
 
 
 	/* ======== ADMIN METHODS ======== */
+	// TODO: Add last visit
 	static void adminViewUserInformation() {
 		System.out.print("Enter user id or username: ");
 		String query = Engine.getInputScanner().next();

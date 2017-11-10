@@ -78,13 +78,13 @@ final class UserMenu {
 			}
 		}
 		else if (admin != null) {
-			String adminMenu[] = {"Admin menu:", "User settings", "System settings >", "Profile >", "Exit"};
+			String adminMenu[] = {"Admin menu:", "User settings >", "System settings >", "Profile >", "Exit"};
 			GeneralHelperFunctions.generateMenu(adminMenu);
 
 			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 			switch (opt) {
 				case 1:
-					_adminEditUsers();
+					_adminUserSettings();
 					break;
 				case 2:
 					//_adminSystemSettingsMenu();
@@ -123,7 +123,7 @@ final class UserMenu {
 				_editProfile();
 				break;
 			case 3:
-				_basicUserCardMenu();
+				_cardMenu();
 				break;
 			case 4:
 				_userOrdersMenu();
@@ -194,7 +194,7 @@ final class UserMenu {
 
 
 	/* ========== Card Menu ========== */
-	private void _basicUserCardMenu() {
+	private void _cardMenu() {
 		String cardMenu[] = {"Card:", "Add new card", "Print card information", "Back"};
 		GeneralHelperFunctions.generateMenu(cardMenu);
 
@@ -202,17 +202,17 @@ final class UserMenu {
 
 		switch (opt) {
 			case 1:
-				UserOperations.addNewCard(this.basicUser);
+				UserOperations.addNewCard(activeUser);
 				break;
 			case 2:
-				UserOperations.printCardInformation(this.basicUser);
+				UserOperations.printCardInformation(activeUser);
 				break;
 			case 0:
 				return;
 			default:
 		}
 
-		_basicUserCardMenu();
+		_cardMenu();
 	}
 
 
@@ -349,8 +349,8 @@ final class UserMenu {
 	}
 
 	/* ========== Admin specific ========== */
-	private void _adminEditUsers() {
-		String menu[] = {"Edit users:", "View user information", "Give user privileges", "Delete user", "Back"};
+	private void _adminUserSettings() {
+		String menu[] = {"Edit users:", "View user information", "Give user privileges", "View previous user sessions", "Delete user", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -362,6 +362,9 @@ final class UserMenu {
 				UserOperations.adminGiveUserPrivileges();
 				break;
 			case 3:
+				//UserOperations.adminViewUserSessions();
+				break;
+			case 4:
 				UserOperations.adminDeleteUser();
 				break;
 			case 0:
@@ -370,6 +373,6 @@ final class UserMenu {
 
 		}
 
-		_adminEditUsers();
+		_adminUserSettings();
 	}
 }

@@ -57,6 +57,7 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		}
 
 		_testSystem();
+		_testsPerformed++;
 	}
 
 	// Prints the full system status from the manager/admin menu

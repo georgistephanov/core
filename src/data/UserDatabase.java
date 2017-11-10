@@ -103,6 +103,22 @@ public class UserDatabase extends Database {
 		if (usernameExists) {
 			if (passwordMatch(username, password)) {
 				System.out.println("\nLogging you in...");
+
+				// Register the start of the session
+				try {
+					connect = _prepareConnection();
+					preparedStatement = connect.prepareStatement("INSERT INTO session VALUES (?, ?, NULL)");
+					preparedStatement.setInt(1, getIDFromUsername(username));
+					preparedStatement.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+					preparedStatement.executeUpdate();
+				}
+				catch (Exception e) {
+					logError(e, "login");
+				}
+				finally {
+					_close();
+				}
+
 				return true;
 			}
 		} else {
@@ -470,6 +486,7 @@ public class UserDatabase extends Database {
 				String userFirstName = "First name: ";
 				String userLastName = "Last name: ";
 				String userAccountType = "Account type: " + accountType;
+				String userLastVisit = "";
 
 				// Getting the information from the user_info table
 				resultSet = statement.executeQuery("SELECT * FROM user_info WHERE id=" + id);
@@ -483,10 +500,23 @@ public class UserDatabase extends Database {
 					}
 				}
 
+				// Get the last visited information if available
+				resultSet = statement.executeQuery("SELECT * FROM session WHERE id=" + id + " ORDER BY end ASC");
+				if (resultSet.next()) {
+					java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					java.util.Date lastVisit = resultSet.getDate("end");
+
+					if (lastVisit == null) {
+						lastVisit = resultSet.getDate("start");
+					}
+
+					userLastVisit = "\nLast visit: " + dateFormat.format(lastVisit);
+				}
+
 				userLastName += "\n";
 
 				// Printing the user information in a block message
-				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType);
+				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType, userLastVisit);
 			} else {
 				System.out.println("\nNo such user exists.");
 			}

@@ -103,7 +103,9 @@ public class GeneralHelperFunctions {
 			// Printing the block message
 			System.out.println("\n" + blockLine.toString());
 			for (String m : message) {
-				System.out.println(m);
+				if (m.length() > 0) {
+					System.out.println(m);
+				}
 			}
 			System.out.println(blockLine.toString() + "\n");
 		}

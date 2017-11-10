@@ -7,6 +7,7 @@ import product.ProductCatalog;
 import user.User;
 import java.util.Scanner;
 
+// TODO: Doesn't create the correct user object if the first username/password is wrong
 
 // Engine class which implements the Singleton pattern
 public final class Engine {
@@ -83,6 +84,7 @@ public final class Engine {
 	public boolean isRunning() { return running; }
 
 	public static void terminateApplication() {
+		// TODO: Somehow logout the user before exiting the application
 		System.exit(0);
 	}
 

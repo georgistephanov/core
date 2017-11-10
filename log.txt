@@ -58,3 +58,15 @@
 10/11/2017 17:32:14  (Engine : execute())  java.lang.NullPointerException
 
 
+10/11/2017 20:14:33  (UserDatabase : getUserByID())  java.lang.NullPointerException
+
+
+10/11/2017 20:14:48  (UserDatabase : getUserByID())  java.lang.NullPointerException
+
+
+10/11/2017 20:14:53  (UserDatabase : getUserByID())  java.lang.NullPointerException
+
+
+10/11/2017 20:15:57  (UserDatabase : getUserByID())  java.lang.NullPointerException
+
+
