@@ -162,8 +162,6 @@ final class UserMenu {
 		_adminProfileMenu();
 	}
 
-	// TODO: Add logic to detect previous user sessions and time being logged in
-
 	/* ========== Cart Menu ========== */
 	private void _cartMenu() {
 		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
@@ -350,7 +348,7 @@ final class UserMenu {
 
 	/* ========== Admin specific ========== */
 	private void _adminUserSettings() {
-		String menu[] = {"Edit users:", "View user information", "Give user privileges", "View previous user sessions", "Delete user", "Back"};
+		String menu[] = {"User settings:", "View user information", "View last 10 sessions", "Give user privileges", "Delete user", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
@@ -359,10 +357,10 @@ final class UserMenu {
 				UserOperations.adminViewUserInformation();
 				break;
 			case 2:
-				UserOperations.adminGiveUserPrivileges();
+				UserOperations.adminPrintLastUserSessions();
 				break;
 			case 3:
-				//UserOperations.adminViewUserSessions();
+				UserOperations.adminGiveUserPrivileges();
 				break;
 			case 4:
 				UserOperations.adminDeleteUser();

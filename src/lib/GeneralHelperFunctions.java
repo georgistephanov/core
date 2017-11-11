@@ -1,6 +1,8 @@
 package lib;
 
 import core.Engine;
+
+import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 
 public class GeneralHelperFunctions {
@@ -109,5 +111,19 @@ public class GeneralHelperFunctions {
 			}
 			System.out.println(blockLine.toString() + "\n");
 		}
+	}
+
+	/**
+	 * Returns formatted time out of seconds in the format
+	 * hh:mm:ss.
+	 * @param seconds
+	 * @return String with the formatted time
+	 */
+	public static String getFormattedTimeFromSeconds(int totalSeconds) {
+		int hours = totalSeconds / 3600;
+		int minutes = (totalSeconds % 3600) / 60;
+		int seconds = totalSeconds % 60;
+
+		return String.format("%02d:%02d:%02d", hours, minutes, seconds);
 	}
 }

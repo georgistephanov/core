@@ -30,6 +30,13 @@ public final class Engine implements lib.observer.Subject {
 		user = promptUserLogin();
 
 		ProductCatalog.initialiseCatalog();
+
+		// Shutdown hook to logout the user when the application is closed
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			if (SystemDiagnostics.getInstance().isUserAuthorised()) {
+				this.user.hardLogout();
+			}
+		}));
 	}
 
 	/* ====== Implementation of Subject methods ====== */
@@ -110,9 +117,6 @@ public final class Engine implements lib.observer.Subject {
 	public boolean isRunning() { return running; }
 
 	public void terminateApplication() {
-		if (SystemDiagnostics.getInstance().isUserAuthorised()) {
-			this.user.hardLogout();
-		}
 		System.exit(0);
 	}
 

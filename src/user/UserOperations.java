@@ -157,7 +157,7 @@ final class UserOperations {
 		String query = Engine.getInputScanner().next();
 		Engine.flushInputScanner();
 
-		userDatabase.getUserByUsernameOrID(query);
+		userDatabase.getUserInformationByUsernameOrID(query);
 	}
 	static void adminGiveUserPrivileges() {
 		int id = getIdFromInput();
@@ -184,7 +184,9 @@ final class UserOperations {
 		int id = getIdFromInput();
 		userDatabase.deleteUser(id);
 	}
-
+	static void adminPrintLastUserSessions() {
+		userDatabase.printLastUserSessions();
+	}
 
 
 	/* ======== PRIVATE METHODS ======== */

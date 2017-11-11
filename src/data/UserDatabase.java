@@ -280,7 +280,7 @@ public class UserDatabase extends Database {
 				try {
 					connect = _prepareConnection();
 
-					String status = "";
+					String status;
 					switch (option) {
 						case 1:
 							status = "premium";
@@ -455,31 +455,27 @@ public class UserDatabase extends Database {
 
 		return id;
 	}
-	public void getUserByUsernameOrID(String query) {
-		int id = -1;
-		String username = "";
+	public void getUserInformationByUsernameOrID(String query) {
+		int id;
 
-		// Check if the input is Id or username
+		// Get the correct user id based on the query
 		if (query.matches("^\\d+$")) {
 			id = Integer.parseInt(query);
 		} else {
-			username = query;
+			id = getIDFromUsername(query);
 		}
 
+		_printUserInformation(id);
+
+	}
+	private void _printUserInformation(int id) {
 		try {
 			connect = _prepareConnection();
 			statement = connect.createStatement();
-
-			// Execute the correct query depending on the user input (Id or username)
-			if (id != -1) {
-				resultSet = statement.executeQuery("SELECT * FROM user WHERE id=" + id);
-			} else {
-				resultSet = statement.executeQuery("SELECT * FROM user WHERE username='" + username + "'");
-			}
+			resultSet = statement.executeQuery("SELECT * FROM user WHERE id=" + id);
 
 			// Getting the information from the user table
 			if (resultSet.next()) {
-				id = resultSet.getInt("id");
 				String accountType;
 
 				if (Integer.parseInt(resultSet.getString("admin")) == 1) {
@@ -512,32 +508,24 @@ public class UserDatabase extends Database {
 						userFirstName += resultSet.getString("firstName");
 					}
 					if (resultSet.getString("lastName") != null) {
-						userLastName += resultSet.getString("lastName") + "\n";
+						userLastName += resultSet.getString("lastName");
 					}
 				}
+				userLastName += "\n";
 
 				// Get the last visited information if available
 				resultSet = statement.executeQuery("SELECT * FROM session WHERE id=" + id + " ORDER BY start DESC");
 				if (resultSet.next()) {
 					java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-					java.util.Date lastVisit = resultSet.getTimestamp("start");
+					java.util.Date lastVisitLogin = resultSet.getTimestamp("start");
+					java.util.Date lastVisitLogout = resultSet.getTimestamp("end");
 
-					if (lastVisit == null) {
-						lastVisit = resultSet.getDate("start");
-					}
-
-					userLastVisit += dateFormat.format(lastVisit);
-
+					userLastVisit += dateFormat.format(lastVisitLogin);
 					String timeString;
 
-					java.util.Date lastVisitLogout = resultSet.getTimestamp("end");
 					if (lastVisitLogout != null) {
-						int totalSeconds = (int) (lastVisitLogout.getTime() - lastVisit.getTime()) / 1000;
-						int hours = totalSeconds / 3600;
-						int minutes = (totalSeconds % 3600) / 60;
-						int seconds = totalSeconds % 60;
-
-						timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+						int totalSeconds = (int) (lastVisitLogout.getTime() - lastVisitLogin.getTime()) / 1000;
+						timeString = GeneralHelperFunctions.getFormattedTimeFromSeconds(totalSeconds);
 					} else {
 						if (id == 18) {
 							timeString = "Current";
@@ -545,7 +533,6 @@ public class UserDatabase extends Database {
 							timeString = "Not recorded";
 						}
 					}
-
 					userLastVisitLength += timeString;
 
 				} else {
@@ -555,12 +542,52 @@ public class UserDatabase extends Database {
 
 				// Printing the user information in a block message
 				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType, userLastVisit, userLastVisitLength);
-			} else {
+			}
+			else {
 				System.out.println("\nNo such user exists.");
 			}
 		}
 		catch (Exception e) {
-			logError(e, "getUserByID");
+			logError(e, "_printUserInformation");
+		}
+		finally {
+			_close();
+		}
+	}
+	public void printLastUserSessions() {
+		int AMOUNT_SESSIONS_TO_PRINT = 10;
+
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM session ORDER BY start DESC LIMIT " + AMOUNT_SESSIONS_TO_PRINT + 1);
+
+			java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+			// running resultSet.next() so that it skips the first entry, which happens to be the current one
+			resultSet.next();
+
+			while (resultSet.next()) {
+				java.util.Date login = resultSet.getTimestamp("start");
+				java.util.Date logout = resultSet.getTimestamp("end");
+
+				String userId = "User: 123_456_" + String.valueOf(resultSet.getInt("id"));
+				String userLogin = "Login time: " + dateFormat.format(login);
+				String userSessionLength = "Session length: ";
+
+				if (logout != null) {
+					int totalSeconds = (int) (logout.getTime() - login.getTime()) / 1000;
+					System.out.println("total secs: " + totalSeconds);
+					userSessionLength += GeneralHelperFunctions.getFormattedTimeFromSeconds(totalSeconds);
+				} else {
+					userSessionLength += "Not recorded";
+				}
+
+				GeneralHelperFunctions.printBlockMessage(userId, userLogin, userSessionLength);
+			}
+		}
+		catch (Exception e) {
+			logError(e, "printLastUserSessions");
 		}
 		finally {
 			_close();
