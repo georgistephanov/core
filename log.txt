@@ -70,3 +70,6 @@
 10/11/2017 20:15:57  (UserDatabase : getUserByID())  java.lang.NullPointerException
 
 
+11/11/2017 14:41:03  (UserDatabase : getUsernames())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+

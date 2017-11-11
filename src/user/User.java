@@ -1,10 +1,10 @@
 package user;
 
+import core.Engine;
 import data.UserDatabase;
 import lib.GeneralHelperFunctions;
 import lib.payment.VisaCard;
 import product.ProductCatalog;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,13 +73,24 @@ public abstract class User {
 		//}
 	}
 
-	// Notify the SystemDiagnostics observer
-	void logout() {
+	public void logout() {
 		System.out.println("Are you sure you want to logout?");
 		if (GeneralHelperFunctions.askForDecision()) {
 			this.authorised = false;
 			GeneralHelperFunctions.printBlockMessage("You have successfully logged out.");
 		}
+
+		updateSessionUponLogout();
+		Engine.getInstance().userLoggedOut();
+	}
+	// This user logs out the user upon exit without asking for permission
+	public void hardLogout() {
+		this.authorised = false;
+		updateSessionUponLogout();
+	}
+
+	private void updateSessionUponLogout() {
+		database.logout(getID());
 	}
 
 	/* ============== ABSTRACT CLASSES ============== */

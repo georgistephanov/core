@@ -107,9 +107,9 @@ public class UserDatabase extends Database {
 				// Register the start of the session
 				try {
 					connect = _prepareConnection();
-					preparedStatement = connect.prepareStatement("INSERT INTO session VALUES (?, ?, NULL)");
+					preparedStatement = connect.prepareStatement("INSERT INTO session VALUES (?, default, NULL)");
 					preparedStatement.setInt(1, getIDFromUsername(username));
-					preparedStatement.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+					//preparedStatement.setDate(2, new java.sql.Date(System.currentTimeMillis()));
 					preparedStatement.executeUpdate();
 				}
 				catch (Exception e) {
@@ -126,6 +126,21 @@ public class UserDatabase extends Database {
 		}
 
 		return false;
+	}
+	public void logout(int id) {
+		try {
+			connect = _prepareConnection();
+			preparedStatement = connect.prepareStatement("UPDATE session SET end=default WHERE id=? ORDER BY start DESC LIMIT 1");
+			//preparedStatement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e) {
+			logError(e, "logout");
+		}
+		finally {
+			_close();
+		}
 	}
 	public boolean registerUser(String username, String password) {
 		try {
@@ -314,7 +329,7 @@ public class UserDatabase extends Database {
 			logError(e, "getUsernames");
 
 			// This is crucial for the login process in order to prevent exposing system information.
-			Engine.terminateApplication();
+			Engine.getInstance().terminateApplication();
 		}
 		finally {
 			_close();
@@ -486,7 +501,8 @@ public class UserDatabase extends Database {
 				String userFirstName = "First name: ";
 				String userLastName = "Last name: ";
 				String userAccountType = "Account type: " + accountType;
-				String userLastVisit = "";
+				String userLastVisit = "\nLast visit: ";
+				String userLastVisitLength = "Session length: ";
 
 				// Getting the information from the user_info table
 				resultSet = statement.executeQuery("SELECT * FROM user_info WHERE id=" + id);
@@ -496,27 +512,49 @@ public class UserDatabase extends Database {
 						userFirstName += resultSet.getString("firstName");
 					}
 					if (resultSet.getString("lastName") != null) {
-						userLastName += resultSet.getString("lastName");
+						userLastName += resultSet.getString("lastName") + "\n";
 					}
 				}
 
 				// Get the last visited information if available
-				resultSet = statement.executeQuery("SELECT * FROM session WHERE id=" + id + " ORDER BY end ASC");
+				resultSet = statement.executeQuery("SELECT * FROM session WHERE id=" + id + " ORDER BY start DESC");
 				if (resultSet.next()) {
 					java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-					java.util.Date lastVisit = resultSet.getDate("end");
+					java.util.Date lastVisit = resultSet.getTimestamp("start");
 
 					if (lastVisit == null) {
 						lastVisit = resultSet.getDate("start");
 					}
 
-					userLastVisit = "\nLast visit: " + dateFormat.format(lastVisit);
+					userLastVisit += dateFormat.format(lastVisit);
+
+					String timeString;
+
+					java.util.Date lastVisitLogout = resultSet.getTimestamp("end");
+					if (lastVisitLogout != null) {
+						int totalSeconds = (int) (lastVisitLogout.getTime() - lastVisit.getTime()) / 1000;
+						int hours = totalSeconds / 3600;
+						int minutes = (totalSeconds % 3600) / 60;
+						int seconds = totalSeconds % 60;
+
+						timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+					} else {
+						if (id == 18) {
+							timeString = "Current";
+						} else {
+							timeString = "Not recorded";
+						}
+					}
+
+					userLastVisitLength += timeString;
+
+				} else {
+					userLastVisit += "Never";
+					userLastVisitLength += "Never";
 				}
 
-				userLastName += "\n";
-
 				// Printing the user information in a block message
-				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType, userLastVisit);
+				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType, userLastVisit, userLastVisitLength);
 			} else {
 				System.out.println("\nNo such user exists.");
 			}

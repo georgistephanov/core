@@ -3,16 +3,17 @@ package core;
 import lib.GeneralHelperFunctions;
 import lib.Logger;
 import lib.SystemDiagnostics;
+import lib.observer.Observer;
 import product.ProductCatalog;
 import user.User;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // TODO: Doesn't create the correct user object if the first username/password is wrong
-
-// Engine class which implements the Singleton pattern
-public final class Engine {
+public final class Engine implements lib.observer.Subject {
 	private final static Engine e = new Engine();
-
+	private ArrayList<Observer> observers;
 
 	private User user;
 	private static Scanner inputScanner;
@@ -21,14 +22,34 @@ public final class Engine {
 
 	/* ====== CONSTRUCTOR ====== */
 	private Engine() {
+		observers = new ArrayList<>();
+		registerObserver(SystemDiagnostics.getInstance());
+
 		inputScanner = new Scanner(System.in);
 		running = true;
 		user = promptUserLogin();
 
 		ProductCatalog.initialiseCatalog();
-		SystemDiagnostics.initialise();
 	}
 
+	/* ====== Implementation of Subject methods ====== */
+	public void registerObserver(Observer o) {
+		observers.add(o);
+	}
+
+	public void removeObserver(Observer o) {
+		if (observers.contains(o)) {
+			observers.remove(o);
+		}
+	}
+
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update();
+		}
+	}
+
+	/* ====== Login method ====== */
 	private User promptUserLogin() {
 		User newUser = User.createUserInstance();
 
@@ -44,13 +65,14 @@ public final class Engine {
 	public static Scanner getInputScanner() { return inputScanner; }
 	public static void flushInputScanner() { inputScanner.nextLine(); }
 
-	// This is the main method which is responsible for the engine
+	/* === This is the main method which is responsible for the engine === */
 	void execute() {
-		SystemDiagnostics.getInstance().runStartupTest();
+		SystemDiagnostics systemDiagnostics = SystemDiagnostics.getInstance();
+		notifyObservers();
 
-		// Perform system diagnostics test every 5 seconds
+		// Perform system diagnostics test every 10 seconds
 		java.util.Timer timer = new java.util.Timer();
-		timer.scheduleAtFixedRate(SystemDiagnostics.getInstance(), 0, 5000);
+		timer.scheduleAtFixedRate(systemDiagnostics, 0, 10000);
 
 		// Infinite loop which represents the main menu
 		while (running) {
@@ -62,6 +84,7 @@ public final class Engine {
 
 					if (GeneralHelperFunctions.askForDecision()) {
 						this.user = promptUserLogin();
+						notifyObservers();
 					} else {
 						printExitMessage();
 						terminateApplication();
@@ -73,18 +96,23 @@ public final class Engine {
 			}
 		}
 
+		timer.cancel();
 		printExitMessage();
 		terminateApplication();
 	}
 
 	public void stopRunning() { this.running = false; }
 
+	// This method is called from the User's method logout() to avoid making it subject as well
+	public void userLoggedOut() { notifyObservers(); }
 	public boolean isUserAuthorised() { return this.user.isAuthorised(); }
 
 	public boolean isRunning() { return running; }
 
-	public static void terminateApplication() {
-		// TODO: Somehow logout the user before exiting the application
+	public void terminateApplication() {
+		if (SystemDiagnostics.getInstance().isUserAuthorised()) {
+			this.user.hardLogout();
+		}
 		System.exit(0);
 	}
 

@@ -17,9 +17,10 @@ import java.time.Instant;
 // TODO: Count the total tests performed ever + the total tests passed/failed
 // TODO: Add option for the admin to change the frequency of the tests
 
-public class SystemDiagnostics extends java.util.TimerTask {
+public class SystemDiagnostics extends java.util.TimerTask implements lib.observer.Observer {
 	private static SystemDiagnostics _systemDiagnostics;
 
+	private boolean _userAuthorised;
 	private boolean _engineRunning;
 	private boolean _databaseRunning;
 	private boolean _catalogAvailable;
@@ -35,30 +36,40 @@ public class SystemDiagnostics extends java.util.TimerTask {
 
 	private SystemDiagnostics() { }
 
-	public static void initialise() {
+	private static void initialise() {
 		if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics();
 		if (_userDatabase == null) _userDatabase = new UserDatabase();
 		if (_productDatabase == null) _productDatabase = new ProductDatabase();
 	}
 
-	public static SystemDiagnostics getInstance() {	return _systemDiagnostics; }
+	public static SystemDiagnostics getInstance() {
+		if (_systemDiagnostics == null) {
+			initialise();
+		}
 
-	// Implements the run() class of TimerTask so that we can map it to a timer object
-	public void run() {
-		_testSystem();
-		_testsPerformed++;
+		return _systemDiagnostics;
 	}
 
-	// Runs the needed tests after the login prompt
+	// Implements the run() method of TimerTask so that we can map it to a timer object
+	public void run() {
+		_testSystem();
+	}
+
+	// Implements the update() method of the Observer interface
+	public void update() {
+		_userAuthorised = Engine.getInstance().isUserAuthorised();
+		_testSystem();
+	}
+
+	/* Runs the needed tests after the login prompt
 	public void runStartupTest() {
 		if ( !(Engine.getInstance().isUserAuthorised()) ) {
 			System.out.println("(SYS_DIAGNOSTICS) No authorised user");
-			Engine.terminateApplication();
+			Engine.getInstance().terminateApplication();
 		}
 
 		_testSystem();
-		_testsPerformed++;
-	}
+	}*/
 
 	// Prints the full system status from the manager/admin menu
 	public void printSystemInformation() {
@@ -69,16 +80,22 @@ public class SystemDiagnostics extends java.util.TimerTask {
 		System.out.println("============================\n");
 	}
 
+	// Returns whether there is a logged in user in the application so that it could be used on termination
+	public boolean isUserAuthorised() {
+		return _userAuthorised;
+	}
+
 	// Controls the flow of the program. If there is something wrong it automatically terminates the application.
 	private void _testSystem() {
-		_update();
+		_testsPerformed++;
+		_updateStatusVariables();
 
 		if (_engineRunning && _databaseRunning && _catalogAvailable) {
 			_testsPassed++;
 			return;
 		} else {
 
-			// Trying to resolve the issues
+			// TODO: Try to resolve the issues
 
 			if (!_engineRunning) {
 				System.out.println("(SYS_DIAGNOSTICS) Engine has stopped running");
@@ -89,11 +106,11 @@ public class SystemDiagnostics extends java.util.TimerTask {
 			}
 		}
 
-		Engine.terminateApplication();
+		Engine.getInstance().terminateApplication();
 	}
 
 	// Updates the control-flow variables
-	private void _update() {
+	private void _updateStatusVariables() {
 		_engineRunning = Engine.getInstance().isRunning();
 		_catalogAvailable = ProductCatalog.isAvailable();
 		_databaseRunning = _checkDatabases();

@@ -49,12 +49,12 @@ final class UserOperations {
 			}
 			else {
 				System.out.println("(BasicUser: BasicUser()) Unable to register user.");
-				Engine.terminateApplication();
+				Engine.getInstance().terminateApplication();
 			}
 
 		} else {
 			System.out.println("Invalid username and/or password.");
-			Engine.terminateApplication();
+			Engine.getInstance().terminateApplication();
 		}
 
 		return null;
@@ -251,7 +251,7 @@ final class UserOperations {
 				initUser();
 			}
 		} else {
-			Engine.terminateApplication();
+			Engine.getInstance().terminateApplication();
 		}
 
 		// Unreachable statement
