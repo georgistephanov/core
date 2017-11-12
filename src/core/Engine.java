@@ -74,12 +74,8 @@ public final class Engine implements lib.observer.Subject {
 
 	/* === This is the main method which is responsible for the engine === */
 	void execute() {
-		SystemDiagnostics systemDiagnostics = SystemDiagnostics.getInstance();
+		SystemDiagnostics.getInstance().startTimer();
 		notifyObservers();
-
-		// Perform system diagnostics test every 10 seconds
-		java.util.Timer timer = new java.util.Timer();
-		timer.scheduleAtFixedRate(systemDiagnostics, 0, 10000);
 
 		// Infinite loop which represents the main menu
 		while (running) {
@@ -103,7 +99,7 @@ public final class Engine implements lib.observer.Subject {
 			}
 		}
 
-		timer.cancel();
+		SystemDiagnostics.getInstance().stopTimer();
 		printExitMessage();
 		terminateApplication();
 	}

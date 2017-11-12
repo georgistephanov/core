@@ -1,21 +1,14 @@
 package lib;
 
 import core.Engine;
-import data.ProductDatabase;
-import data.UserDatabase;
+import data.*;
 import product.ProductCatalog;
 import java.time.Duration;
 import java.time.Instant;
 
 
-// TODO: Make this class use the Observer pattern and listen for
-// TODO: updates from the Engine mainly so that if some crucial
-// TODO: component changes it should run some tests to check
-// TODO: whether the system is okay to continue running.
-
 // TODO: Add counter how many times the program has been executed correctly and how many by an error
 // TODO: Count the total tests performed ever + the total tests passed/failed
-// TODO: Add option for the admin to change the frequency of the tests
 
 public class SystemDiagnostics extends java.util.TimerTask implements lib.observer.Observer {
 	private static SystemDiagnostics _systemDiagnostics;
@@ -24,6 +17,9 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 	private boolean _engineRunning;
 	private boolean _databaseRunning;
 	private boolean _catalogAvailable;
+
+	// Timer variable which executes the tests periodically
+	private java.util.Timer timer;
 
 	// Holding instances of both databases so that they aren't constructed on every update
 	private static UserDatabase _userDatabase;
@@ -40,6 +36,9 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics();
 		if (_userDatabase == null) _userDatabase = new UserDatabase();
 		if (_productDatabase == null) _productDatabase = new ProductDatabase();
+
+		// This performs the cleanup operations first thing when the program is run
+		_performDatabaseCleanup();
 	}
 
 	public static SystemDiagnostics getInstance() {
@@ -50,6 +49,23 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		return _systemDiagnostics;
 	}
 
+
+	// Methods to provide accessing points for the TimerTask to execute the updates
+	public void startTimer() {
+		int timerRate = new SystemDatabase().getTimerRate();
+
+		if (timerRate > 0) {
+			timer = new java.util.Timer();
+			timer.scheduleAtFixedRate(_systemDiagnostics, 0, new SystemDatabase().getTimerRate());
+		} else {
+			// Do not run the timer
+		}
+	}
+	public void stopTimer() {
+		if (timer != null) {
+			timer.cancel();
+		}
+	}
 	// Implements the run() method of TimerTask so that we can map it to a timer object
 	public void run() {
 		_testSystem();
@@ -60,16 +76,6 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		_userAuthorised = Engine.getInstance().isUserAuthorised();
 		_testSystem();
 	}
-
-	/* Runs the needed tests after the login prompt
-	public void runStartupTest() {
-		if ( !(Engine.getInstance().isUserAuthorised()) ) {
-			System.out.println("(SYS_DIAGNOSTICS) No authorised user");
-			Engine.getInstance().terminateApplication();
-		}
-
-		_testSystem();
-	}*/
 
 	// Prints the full system status from the manager/admin menu
 	public void printSystemInformation() {
@@ -142,5 +148,10 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 	private void _printChecksPerformed() {
 		System.out.println("System tests performed: " + _testsPerformed);
 		System.out.println("System tests passed: " + _testsPassed);
+	}
+	// Performs database cleanup when the application is started
+	private static void _performDatabaseCleanup() {
+		// Clean the empty sessions
+		_userDatabase.deleteInvalidUserSessions();
 	}
 }

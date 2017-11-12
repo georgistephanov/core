@@ -87,7 +87,7 @@ final class UserMenu {
 					_adminUserSettings();
 					break;
 				case 2:
-					//_adminSystemSettingsMenu();
+					_adminSystemSettingsMenu();
 					break;
 				case 3:
 					_adminProfileMenu();
@@ -372,5 +372,26 @@ final class UserMenu {
 		}
 
 		_adminUserSettings();
+	}
+	private void _adminSystemSettingsMenu() {
+		String systemSettingsMenu[] = {"System settings:", "View system information", "Change system settings", "Back"};
+		GeneralHelperFunctions.generateMenu(systemSettingsMenu);
+
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		switch (opt) {
+			case 1:
+				// Show the total tests performed ever
+				UserOperations.printSystemInformation();
+				break;
+			case 2:
+				UserOperations.adminChangeSystemVariables();
+				break;
+			case 0:
+				return;
+			default:
+
+		}
+
+		_adminSystemSettingsMenu();
 	}
 }

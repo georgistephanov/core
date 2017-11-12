@@ -79,3 +79,30 @@
 11/11/2017 18:51:18  (UserDatabase : printLastUserSessions())  java.lang.NullPointerException
 
 
+12/11/2017 18:38:40  (SystemDatabase : getTImerRate())  com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'time_between_variables' in 'field list'
+
+
+12/11/2017 18:38:45  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:38:49  (UserDatabase : logout())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:39:18  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:39:22  (UserDatabase : logout())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:40:12  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:40:16  (UserDatabase : logout())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:41:15  (Database : isRunning())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+
+12/11/2017 18:41:19  (UserDatabase : logout())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+
+

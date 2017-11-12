@@ -544,7 +544,7 @@ public class UserDatabase extends Database {
 				GeneralHelperFunctions.printBlockMessage(userID, userName, userFirstName, userLastName, userAccountType, userLastVisit, userLastVisitLength);
 			}
 			else {
-				System.out.println("\nNo such user exists.");
+				// No such user exists
 			}
 		}
 		catch (Exception e) {
@@ -825,6 +825,23 @@ public class UserDatabase extends Database {
 		}
 		catch (Exception e) {
 			logError(e, "printPreviousOrders");
+		}
+		finally {
+			_close();
+		}
+	}
+
+
+	/* =============== Cleanup Methods =============== */
+	// This method must run before the user has been logged in, because it will delete their current session
+	public void deleteInvalidUserSessions() {
+		try {
+			connect = _prepareConnection();
+			preparedStatement = connect.prepareStatement("DELETE FROM session WHERE end IS NULL");
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e) {
+			logError(e, "deleteInvalidUserSessions");
 		}
 		finally {
 			_close();

@@ -2,6 +2,7 @@ package user;
 
 import core.Engine;
 import data.ProductDatabase;
+import data.SystemDatabase;
 import data.UserDatabase;
 import lib.GeneralHelperFunctions;
 import lib.SystemDiagnostics;
@@ -151,7 +152,6 @@ final class UserOperations {
 
 
 	/* ======== ADMIN METHODS ======== */
-	// TODO: Add last visit
 	static void adminViewUserInformation() {
 		System.out.print("Enter user id or username: ");
 		String query = Engine.getInputScanner().next();
@@ -186,6 +186,26 @@ final class UserOperations {
 	}
 	static void adminPrintLastUserSessions() {
 		userDatabase.printLastUserSessions();
+	}
+	static void adminChangeSystemVariables() {
+		SystemDatabase systemDatabase = new SystemDatabase();
+
+		if ( systemDatabase.printSystemVariablesAsMenu() ) {
+			// Printed the menu with the variables and options as to which to change
+			int opt = GeneralHelperFunctions.inputIntegerOption(0, 1);
+			switch (opt) {
+				case 1:
+					systemDatabase.changeTestTimeRate();
+					break;
+				case 0:
+					return;
+				default:
+					adminChangeSystemVariables();
+			}
+		} else {
+			// Didn't do anything due to database problems
+			return;
+		}
 	}
 
 

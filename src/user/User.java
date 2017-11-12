@@ -166,11 +166,13 @@ public abstract class User {
 
 
 	public String toString() {
-		return "\nAccount number:\t" 	+ this.account_num
-			 + "\nUsername:\t" 		+ getUsername()
-			 + "\nAccount type:\t" 	+ this.getStringAccountType()
-			 + "\n\nFirst name:\t" 	+ this.firstName
-			 + "\nLast name:\t" 		+ this.lastName;
+		return "\n============================="
+			 + "\nAccount number:\t" 	+ this.account_num
+			 + "\nUsername:\t\t"		+ getUsername()
+			 + "\nAccount type:\t" 		+ this.getStringAccountType()
+			 + "\n\nFirst name:\t\t" 		+ this.firstName
+			 + "\nLast name:\t\t" 		+ this.lastName
+			 + "\n=============================";
 	}
 
 	// Print the catalog
