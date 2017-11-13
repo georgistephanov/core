@@ -468,6 +468,58 @@ public class UserDatabase extends Database {
 		_printUserInformation(id);
 
 	}
+	public void printLastUserSessions() {
+		int AMOUNT_SESSIONS_TO_PRINT = 10;
+
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM session ORDER BY start DESC LIMIT " + AMOUNT_SESSIONS_TO_PRINT + 1);
+
+			java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+			// running resultSet.next() so that it skips the first entry, which happens to be the current one
+			resultSet.next();
+
+			while (resultSet.next()) {
+				java.util.Date login = resultSet.getTimestamp("start");
+				java.util.Date logout = resultSet.getTimestamp("end");
+
+				String userId = "User: 123_456_" + String.valueOf(resultSet.getInt("id"));
+				String userLogin = "Login time: " + dateFormat.format(login);
+				String userSessionLength = "Session length: ";
+
+				if (logout != null) {
+					int totalSeconds = (int) (logout.getTime() - login.getTime()) / 1000;
+					System.out.println("total secs: " + totalSeconds);
+					userSessionLength += GeneralHelperFunctions.getFormattedTimeFromSeconds(totalSeconds);
+				} else {
+					userSessionLength += "Not recorded";
+				}
+
+				GeneralHelperFunctions.printBlockMessage(userId, userLogin, userSessionLength);
+			}
+		}
+		catch (Exception e) {
+			logError(e, "printLastUserSessions");
+		}
+		finally {
+			_close();
+		}
+	}
+	public void deleteAllSessions() {
+		try {
+			connect = _prepareConnection();
+			preparedStatement = connect.prepareStatement("DELETE FROM session");
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e) {
+			logError(e, "deleteAllSessions");
+		}
+		finally {
+			_close();
+		}
+	}
 	private void _printUserInformation(int id) {
 		try {
 			connect = _prepareConnection();
@@ -554,45 +606,7 @@ public class UserDatabase extends Database {
 			_close();
 		}
 	}
-	public void printLastUserSessions() {
-		int AMOUNT_SESSIONS_TO_PRINT = 10;
 
-		try {
-			connect = _prepareConnection();
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM session ORDER BY start DESC LIMIT " + AMOUNT_SESSIONS_TO_PRINT + 1);
-
-			java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-			// running resultSet.next() so that it skips the first entry, which happens to be the current one
-			resultSet.next();
-
-			while (resultSet.next()) {
-				java.util.Date login = resultSet.getTimestamp("start");
-				java.util.Date logout = resultSet.getTimestamp("end");
-
-				String userId = "User: 123_456_" + String.valueOf(resultSet.getInt("id"));
-				String userLogin = "Login time: " + dateFormat.format(login);
-				String userSessionLength = "Session length: ";
-
-				if (logout != null) {
-					int totalSeconds = (int) (logout.getTime() - login.getTime()) / 1000;
-					System.out.println("total secs: " + totalSeconds);
-					userSessionLength += GeneralHelperFunctions.getFormattedTimeFromSeconds(totalSeconds);
-				} else {
-					userSessionLength += "Not recorded";
-				}
-
-				GeneralHelperFunctions.printBlockMessage(userId, userLogin, userSessionLength);
-			}
-		}
-		catch (Exception e) {
-			logError(e, "printLastUserSessions");
-		}
-		finally {
-			_close();
-		}
-	}
 
 	private boolean _userExists(String username) {
 		ArrayList<String> usernames = getUsernames();

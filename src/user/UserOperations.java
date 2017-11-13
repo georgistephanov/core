@@ -207,6 +207,8 @@ final class UserOperations {
 			return;
 		}
 	}
+	static void adminClearTestsPerformed() { new SystemDatabase().clearTestsPerformed(); }
+	static void adminDeleteUserSessions() { userDatabase.deleteAllSessions(); }
 
 
 	/* ======== PRIVATE METHODS ======== */

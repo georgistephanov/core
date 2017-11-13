@@ -6,10 +6,6 @@ import product.ProductCatalog;
 import java.time.Duration;
 import java.time.Instant;
 
-
-// TODO: Add counter how many times the program has been executed correctly and how many by an error
-// TODO: Count the total tests performed ever + the total tests passed/failed
-
 public class SystemDiagnostics extends java.util.TimerTask implements lib.observer.Observer {
 	private static SystemDiagnostics _systemDiagnostics;
 
@@ -36,6 +32,9 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		if (_systemDiagnostics == null) _systemDiagnostics = new SystemDiagnostics();
 		if (_userDatabase == null) _userDatabase = new UserDatabase();
 		if (_productDatabase == null) _productDatabase = new ProductDatabase();
+
+		// Updates the counter which registers how many times the program has been run
+		new SystemDatabase().registerProgramStart();
 
 		// This performs the cleanup operations first thing when the program is run
 		_performDatabaseCleanup();
@@ -83,6 +82,7 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		_printStatuses();
 		_printTimeActive();
 		_printChecksPerformed();
+		new SystemDatabase().printTotalTestsPerformed();
 		System.out.println("============================\n");
 	}
 
@@ -90,6 +90,11 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 	public boolean isUserAuthorised() {
 		return _userAuthorised;
 	}
+
+	//Returns the total tests performed and passed
+	public int getTestsPerformed() { return _testsPerformed; }
+	public int getTestsPassed() { return _testsPassed; }
+
 
 	// Controls the flow of the program. If there is something wrong it automatically terminates the application.
 	private void _testSystem() {
@@ -100,8 +105,6 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 			_testsPassed++;
 			return;
 		} else {
-
-			// TODO: Try to resolve the issues
 
 			if (!_engineRunning) {
 				System.out.println("(SYS_DIAGNOSTICS) Engine has stopped running");

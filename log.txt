@@ -106,3 +106,6 @@
 12/11/2017 18:41:19  (UserDatabase : logout())  com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server. Attempted reconnect 3 times. Giving up.
 
 
+13/11/2017 22:04:16  (UserDatabase : deleteAllSessions())  com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* FROM session' at line 1
+
+

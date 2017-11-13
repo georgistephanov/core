@@ -82,4 +82,81 @@ public class SystemDatabase extends Database {
 			_close();
 		}
 	}
+	public void printTotalTestsPerformed() {
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM tests");
+
+			if (resultSet.next()) {
+				System.out.println("\nTotal tests performed: " + resultSet.getInt("performed"));
+				System.out.println("Total tests passed: " + resultSet.getInt("passed"));
+			}
+		}
+		catch (Exception e) {
+			logError(e, "printTestsPerformed");
+		}
+		finally {
+			_close();
+		}
+	}
+	public void registerProgramStart() {
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT program_run FROM tests");
+
+			if (resultSet.next()) {
+				preparedStatement = connect.prepareStatement("UPDATE tests SET program_run=?");
+				preparedStatement.setInt(1, resultSet.getInt("program_run") + 1);
+				preparedStatement.executeUpdate();
+			}
+		}
+		catch (Exception e) {
+			logError(e, "registerProgramStart");
+		}
+		finally {
+			_close();
+		}
+	}
+	public void registerTestsPerformed(int performed, int passed) {
+		try {
+			connect = _prepareConnection();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM tests");
+
+			if (resultSet.next()) {
+				int totalPerformed = resultSet.getInt("performed");
+				int totalPassed = resultSet.getInt("passed");
+				int terminatedCorrectly = resultSet.getInt("program_terminated_correctly");
+
+				preparedStatement = connect.prepareStatement("UPDATE tests SET performed=?, passed=?, program_terminated_correctly=?");
+				preparedStatement.setInt(1, totalPerformed + performed);
+				preparedStatement.setInt(2, totalPassed + passed);
+				preparedStatement.setInt(3, terminatedCorrectly + 1);
+				preparedStatement.executeUpdate();
+			}
+		}
+		catch (Exception e) {
+			logError(e, "registerTestsPerformed");
+		}
+		finally {
+			_close();
+		}
+	}
+	public void clearTestsPerformed() {
+		try {
+			connect = _prepareConnection();
+			preparedStatement = connect.prepareStatement("UPDATE tests SET performed=?, passed=?");
+			preparedStatement.setInt(1, 0);
+			preparedStatement.setInt(2, 0);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e) {
+			logError(e, "clearTestsPerformed");
+		}
+		finally {
+			_close();
+		}
+	}
 }

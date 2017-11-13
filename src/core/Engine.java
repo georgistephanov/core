@@ -1,5 +1,6 @@
 package core;
 
+import data.SystemDatabase;
 import lib.GeneralHelperFunctions;
 import lib.Logger;
 import lib.SystemDiagnostics;
@@ -36,6 +37,8 @@ public final class Engine implements lib.observer.Subject {
 			if (SystemDiagnostics.getInstance().isUserAuthorised()) {
 				this.user.hardLogout();
 			}
+
+			new SystemDatabase().registerTestsPerformed(SystemDiagnostics.getInstance().getTestsPerformed(), SystemDiagnostics.getInstance().getTestsPassed());
 		}));
 	}
 

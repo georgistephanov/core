@@ -374,18 +374,22 @@ final class UserMenu {
 		_adminUserSettings();
 	}
 	private void _adminSystemSettingsMenu() {
-		String systemSettingsMenu[] = {"System settings:", "View system information", "Change system settings", "Back"};
+		String systemSettingsMenu[] = {"System settings:", "View system information", "Change system settings", "Clear tests performed", "Delete all user sessions", "Back"};
 		GeneralHelperFunctions.generateMenu(systemSettingsMenu);
 
 		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
 		switch (opt) {
 			case 1:
-				// Show the total tests performed ever
 				UserOperations.printSystemInformation();
 				break;
 			case 2:
 				UserOperations.adminChangeSystemVariables();
 				break;
+			case 3:
+				UserOperations.adminClearTestsPerformed();
+				break;
+			case 4:
+				UserOperations.adminDeleteUserSessions();
 			case 0:
 				return;
 			default:

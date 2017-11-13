@@ -26,6 +26,27 @@ public final class Logger {
 
 		System.err.println(errorMessage);
 	}
+	public void clearLogFile(String fileName) {
+		FileWriter fileWriter = null;
+
+		try {
+			fileWriter = new FileWriter(LOG_FILE_PATH, false);
+			fileWriter.write("");
+		}
+		catch (IOException e) {
+			System.err.println("IOException when trying to write to the log file.");
+		}
+		finally {
+			try {
+				if (fileWriter != null) {
+					fileWriter.close();
+				}
+			}
+			catch (IOException e) {
+				System.err.println("IOException when trying to close the FileWriter");
+			}
+		}
+	}
 
 	/*  Method which transforms the error to a full error message
 	 *  with timestamp and file and method names in which the
