@@ -6,9 +6,9 @@ import data.ProductDatabase;
 import product.ProductCatalog;
 
 public class Manager extends User {
-	// This class uses extensively the ProductDatabase class
-	ProductDatabase productDatabase;
+	private ProductDatabase productDatabase; // This class uses extensively the ProductDatabase class
 
+	/* ========= CONSTRUCTOR ========= */
 	Manager(String username) {
 		setObjectVariables(username, User.AccountType.MANAGER);
 		productDatabase = new ProductDatabase();
@@ -18,7 +18,25 @@ public class Manager extends User {
 		UserMenu menu = new UserMenu(this);
 		menu.initialiseMainMenu();
 	}
+	@Override public String toString() {
+		return super.toString() + "\n\nDiscount:\t" + getCheckoutDiscountPercentage() + "%";
+	}
 
+	/* ========= USER RELATED METHODS ========= */
+	void makeUserPremium() {
+		System.out.println("Enter user id: ");
+		int id = Engine.getInputScanner().nextInt();
+		Engine.getInputScanner().nextLine();
+
+		if (id != 0) {
+			if (id > 100_123_00)
+				userDatabase.makeUserPremium(id - 100_123_00);
+			else
+				userDatabase.makeUserPremium(id);
+		}
+	}
+
+	/* ========== PRODUCT/CATALOG RELATED ========== */
 	void addProductToTheCatalog() {
 		String newProductName = _createNewProduct();
 
@@ -29,8 +47,7 @@ public class Manager extends User {
 
 		System.out.println("The product has not been added to the catalog. Please try again in a few moments.");
 	}
-
-	 void removeProductFromCatalog() {
+	void removeProductFromCatalog() {
 		System.out.println("Enter product ID");
 		int id = Engine.getInputScanner().nextInt();
 		Engine.getInputScanner().nextLine();
@@ -46,7 +63,6 @@ public class Manager extends User {
 			System.out.println("Invalid ID entered");
 		}
 	}
-
 	private String _createNewProduct() {
 		try {
 			System.out.print("Name of the product: ");
@@ -61,10 +77,10 @@ public class Manager extends User {
 			Engine.flushInputScanner();
 
 			if (productDatabase.addProduct(name, price, quantity)) {
-				System.out.println("Product successfully added to the database.");
+				System.out.println("Product successfully added to the userDatabase.");
 				return name;
 			} else {
-				System.out.println("Something happened while adding the product to the database. Please try again!");
+				System.out.println("Something happened while adding the product to the userDatabase. Please try again!");
 			}
 		}
 		catch (Exception e) {
@@ -74,7 +90,8 @@ public class Manager extends User {
 		return null;
 	}
 
-	public String toString() {
-		return super.toString() + "\n\nDiscount:\t" + getCheckoutDiscountPercentage() + "%";
+	/* ========= ORDER RELATED METHODS ========= */
+	void printPreviousOrders() {
+		userDatabase.printPreviousOrders();
 	}
 }

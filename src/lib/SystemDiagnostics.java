@@ -65,6 +65,7 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 			timer.cancel();
 		}
 	}
+
 	// Implements the run() method of TimerTask so that we can map it to a timer object
 	public void run() {
 		_testSystem();
@@ -137,6 +138,7 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 		System.out.println("Catalog: " + (_catalogAvailable ? "available" : "not available"));
 		System.out.println();
 	}
+
 	// Prints the total time the program has been running
 	private void _printTimeActive() {
 		Duration duration = Duration.between(_timestamp, Instant.now());
@@ -147,11 +149,13 @@ public class SystemDiagnostics extends java.util.TimerTask implements lib.observ
 
 		System.out.printf("Time active: %02d:%02d:%02d\n\n", hours, minutes, seconds);
 	}
+
 	// Prints the total amount of checks performed
 	private void _printChecksPerformed() {
 		System.out.println("System tests performed: " + _testsPerformed);
 		System.out.println("System tests passed: " + _testsPassed);
 	}
+
 	// Performs database cleanup when the application is started
 	private static void _performDatabaseCleanup() {
 		// Clean the empty sessions

@@ -4,6 +4,9 @@ import core.Engine;
 import lib.GeneralHelperFunctions;
 import product.Product;
 import user.User;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -315,18 +318,18 @@ public class UserDatabase extends Database {
 		}
 	}
 
-	public ArrayList<String> getUsernames() {
-		ArrayList<String> usernames = new ArrayList<>();
+	public ArrayList<String> getUsernameList() {
+		ArrayList<String> usernameList = new ArrayList<>();
 
 		try {
 			connect = _prepareConnection();
 			statement = connect.createStatement();
 
 			resultSet = statement.executeQuery("SELECT username FROM user");
-			usernames = _createStringArrayListFromResultSet(resultSet, "username");
+			usernameList = _createStringArrayListFromResultSet(resultSet, "username");
 		}
 		catch (Exception e) {
-			logError(e, "getUsernames");
+			logError(e, "getUsernameList");
 
 			// This is crucial for the login process in order to prevent exposing system information.
 			Engine.getInstance().terminateApplication();
@@ -335,7 +338,7 @@ public class UserDatabase extends Database {
 			_close();
 		}
 
-		return usernames;
+		return usernameList;
 	}
 	public String getFirstName(int id) {
 		try {
@@ -491,7 +494,6 @@ public class UserDatabase extends Database {
 
 				if (logout != null) {
 					int totalSeconds = (int) (logout.getTime() - login.getTime()) / 1000;
-					System.out.println("total secs: " + totalSeconds);
 					userSessionLength += GeneralHelperFunctions.getFormattedTimeFromSeconds(totalSeconds);
 				} else {
 					userSessionLength += "Not recorded";
@@ -607,9 +609,8 @@ public class UserDatabase extends Database {
 		}
 	}
 
-
 	private boolean _userExists(String username) {
-		ArrayList<String> usernames = getUsernames();
+		ArrayList<String> usernames = getUsernameList();
 
 		for (String u : usernames) {
 			if (u.equals(username.trim())) {
@@ -847,7 +848,7 @@ public class UserDatabase extends Database {
 
 
 	/* =============== Cleanup Methods =============== */
-	// This method must run before the user has been logged in, because it will delete their current session
+	// This method must run before the user has been logged in, because it will delete their current session otherwise
 	public void deleteInvalidUserSessions() {
 		try {
 			connect = _prepareConnection();
@@ -862,4 +863,15 @@ public class UserDatabase extends Database {
 		}
 	}
 
+
+	/* =============== Helper Methods =============== */
+	private ArrayList<String> _createStringArrayListFromResultSet(ResultSet resultSet, String columnLabel) throws SQLException {
+		ArrayList<String> arrayList = new ArrayList<>();
+
+		while (resultSet.next()) {
+			arrayList.add(resultSet.getString(columnLabel));
+		}
+
+		return arrayList;
+	}
 }

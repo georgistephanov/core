@@ -35,7 +35,7 @@ final class UserMenu {
 			String userMenu[] = {"Menu:", "Catalog >", "Profile >", "Cart >", "Exit"};
 			GeneralHelperFunctions.generateMenu(userMenu);
 
-			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+			int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 			switch (opt) {
 				case 1:
 					_basicUserCatalogMenu();
@@ -57,7 +57,7 @@ final class UserMenu {
 			String managerMenu[] = {"Menu:", "Catalog >", "Cart >", "Profile >", "Manager menu >", "Exit"};
 			GeneralHelperFunctions.generateMenu(managerMenu);
 
-			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+			int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
 			switch (opt) {
 				case 1:
 					_managerCatalogMenu();
@@ -81,7 +81,7 @@ final class UserMenu {
 			String adminMenu[] = {"Admin menu:", "User settings >", "System settings >", "Profile >", "Exit"};
 			GeneralHelperFunctions.generateMenu(adminMenu);
 
-			int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+			int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 			switch (opt) {
 				case 1:
 					_adminUserSettings();
@@ -102,8 +102,7 @@ final class UserMenu {
 	}
 
 
-
-	/* ========== Profile Menu ========== */
+	/* ========== Profile Menus ========== */
 	private void _userProfileMenu() {
 		String profileMenu[] = {"Profile:", "View profile", "Edit profile >", "Card >", "Orders >", "9Logout", "Back"};
 		GeneralHelperFunctions.generateMenu(profileMenu);
@@ -162,12 +161,13 @@ final class UserMenu {
 		_adminProfileMenu();
 	}
 
+
 	/* ========== Cart Menu ========== */
 	private void _cartMenu() {
 		String cartMenu[] = {"Cart:", "View items", "Checkout", "Cancel line", "Back"};
 		GeneralHelperFunctions.generateMenu(cartMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 
 		switch(opt) {
 			case 1:
@@ -190,13 +190,12 @@ final class UserMenu {
 		_cartMenu();
 	}
 
-
 	/* ========== Card Menu ========== */
 	private void _cardMenu() {
 		String cardMenu[] = {"Card:", "Add new card", "Print card information", "Back"};
 		GeneralHelperFunctions.generateMenu(cardMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
 
 		switch (opt) {
 			case 1:
@@ -212,7 +211,6 @@ final class UserMenu {
 
 		_cardMenu();
 	}
-
 
 	/* ========== Edit profile Menu ========== */
 	private void _editProfile() {
@@ -243,7 +241,7 @@ final class UserMenu {
 		String ordersMenu[] = {"Orders:", "Previous orders", "See specific order", "Back"};
 		GeneralHelperFunctions.generateMenu(ordersMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 2);
 
 		switch (opt) {
 			case 1:
@@ -262,12 +260,12 @@ final class UserMenu {
 	}
 
 
-	/* ========== Catalog Menu ========== */
+	/* ========== Catalog Menus ========== */
 	private void _basicUserCatalogMenu() {
 		String menu[] = {"Catalog:", "View catalog", "Search product by name", "Scan product", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 
 		switch (opt) {
 			case 1:
@@ -294,7 +292,7 @@ final class UserMenu {
 		String menu[] = {"Catalog:", "View catalog", "Scan product", "Add product to the catalog", "Remove product from the catalog", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0,9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0,4);
 		switch (opt) {
 			case 1:
 				manager.printCatalog();
@@ -321,18 +319,19 @@ final class UserMenu {
 	}
 
 
+	/* ========== Manager Specific ========== */
 	private void _managerMenu() {
 		String menu[] = {"Manager menu", "View previous orders", "Make user premium", "System information", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 3);
 
 		switch (opt) {
 			case 1:
-				UserOperations.printPreviousOrders();
+				manager.printPreviousOrders();
 				break;
 			case 2:
-				UserOperations.makeUserPremium();
+				manager.makeUserPremium();
 				break;
 			case 3:
 				UserOperations.printSystemInformation();
@@ -346,24 +345,24 @@ final class UserMenu {
 		_managerMenu();
 	}
 
-	/* ========== Admin specific ========== */
+	/* ========== Admin Specific ========== */
 	private void _adminUserSettings() {
 		String menu[] = {"User settings:", "View user information", "View last 10 sessions", "Give user privileges", "Delete user", "Back"};
 		GeneralHelperFunctions.generateMenu(menu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
 		switch (opt) {
 			case 1:
-				UserOperations.adminViewUserInformation();
+				admin.viewUserInformation();
 				break;
 			case 2:
-				UserOperations.adminPrintLastUserSessions();
+				admin.printLastUserSessions();
 				break;
 			case 3:
-				UserOperations.adminGiveUserPrivileges();
+				admin.giveUserPrivileges();
 				break;
 			case 4:
-				UserOperations.adminDeleteUser();
+				admin.deleteUser();
 				break;
 			case 0:
 				return;
@@ -377,19 +376,19 @@ final class UserMenu {
 		String systemSettingsMenu[] = {"System settings:", "View system information", "Change system settings", "Clear tests performed", "Delete all user sessions", "Back"};
 		GeneralHelperFunctions.generateMenu(systemSettingsMenu);
 
-		int opt = GeneralHelperFunctions.inputIntegerOption(0, 9);
+		int opt = GeneralHelperFunctions.inputIntegerOption(0, 4);
 		switch (opt) {
 			case 1:
 				UserOperations.printSystemInformation();
 				break;
 			case 2:
-				UserOperations.adminChangeSystemVariables();
+				admin.changeSystemVariables();
 				break;
 			case 3:
-				UserOperations.adminClearTestsPerformed();
+				admin.clearTestsPerformed();
 				break;
 			case 4:
-				UserOperations.adminDeleteUserSessions();
+				admin.deleteUserSessions();
 			case 0:
 				return;
 			default:

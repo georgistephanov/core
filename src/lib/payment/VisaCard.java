@@ -11,22 +11,14 @@ public final class VisaCard implements Card {
 
 	private UserDatabase userDatabase;
 
+
 	public VisaCard(int user_id) {
 		userDatabase = new UserDatabase();
 
 		cardNumber = userDatabase.getCardNumber(user_id);
 		balance = userDatabase.getCardBalance(user_id);
 
-		if (cardNumber == null || balance == -1) {
-			cardActive = false;
-		} else {
-			cardActive = true;
-		}
-	}
-
-	public VisaCard(int user_id, String cardNumber, double balance) {
-		this.cardNumber = cardNumber;
-		this.balance = balance;
+		cardActive = (cardNumber != null && balance != -1);
 	}
 
 	public boolean makePayment(double amount) {
@@ -45,7 +37,7 @@ public final class VisaCard implements Card {
 		return false;
 	}
 
-	public String toString() {
+	@Override public String toString() {
 		return "\tCard #: " + _getCardNumber()
 			+ "\n\tBalance: $" + getBalance();
 	}

@@ -22,7 +22,6 @@ class Cart {
 
 
 	/* ============== PUBLIC METHODS ============== */
-
 	// This method is responsible for all the logic regarding adding a product to the cart
 	boolean addToCart(Product p) {
 
@@ -74,9 +73,7 @@ class Cart {
 	}
 
 
-
 	/* ============== PROTECTED METHODS ============== */
-
 	// Prints a brief information about the products in the cart
 	void showItems() {
 		if ( !items.isEmpty() ) {
@@ -106,10 +103,7 @@ class Cart {
 	}
 
 
-
-
 	/* ============== PRIVATE METHODS ============== */
-
 	// Checks whether the product passed as a parameter is in the cart
 	private boolean _productAlreadyInCart(Product p) {
 		for (Product i : items) {
@@ -153,9 +147,7 @@ class Cart {
 	}
 
 
-
 	/* ============== CHECKOUT METHODS ============== */
-
 	// The method responsible for all the logic regarding the checkout process
 	boolean checkout() {
 		if (associatedUser.getCard() == null) {
@@ -219,7 +211,7 @@ class Cart {
 		System.out.println();
 	}
 
-	// Prints the receipt and stores it in the database
+	// Prints the receipt and stores it in the userDatabase
 	private void _generateReceipt() {
 		_printCheckoutConfirmation();
 		System.out.println("The transaction has been made successfully.\nYou may take the products with you!");

@@ -1,11 +1,11 @@
 package data;
 
 import lib.Logger;
-import java.util.ArrayList;
 import java.sql.*;
 
 
 public abstract class Database {
+	/* =============== JDBC Variables =============== */
 	Connection connect = null;
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
@@ -13,23 +13,19 @@ public abstract class Database {
 
 	private String databaseToUse;
 	private String fileName;
-
 	private Logger logger = Logger.getInstance();
 
 
+	/* =============== Constructor =============== */
 	Database(String databaseToUse, String filename) { this.databaseToUse = databaseToUse; this.fileName = filename; }
 
-
-	ArrayList<String> _createStringArrayListFromResultSet(ResultSet resultSet, String columnLabel) throws SQLException {
-		ArrayList<String> arrayList = new ArrayList<>();
-
-		while (resultSet.next()) {
-			arrayList.add(resultSet.getString(columnLabel));
-		}
-
-		return arrayList;
+	/* =============== Connection Generating Method =============== */
+	Connection _prepareConnection() throws SQLException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
 	}
 
+	/* =============== Helper Methods =============== */
 	public boolean isRunning() {
 		try {
 			_prepareConnection();
@@ -45,16 +41,9 @@ public abstract class Database {
 
 		return false;
 	}
-
-	Connection _prepareConnection() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mysql://localhost/" + databaseToUse + "?autoReconnect=true&useSSL=false", "root", "");
-	}
-
 	void logError(Exception e, String methodName) {
 		logger.logError(e, fileName, methodName);
 	}
-
 	void _close() {
 		// You need to _close the resultSet
 		try {

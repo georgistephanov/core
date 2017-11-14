@@ -49,7 +49,7 @@ public abstract class User {
 	private VisaCard card;
 	private Cart cart;
 
-	private UserDatabase database = new UserDatabase();
+	UserDatabase userDatabase = new UserDatabase();
 
 	/* ============== STATIC FACTORY METHOD ============== */
 	public static User createUserInstance() {
@@ -73,7 +73,23 @@ public abstract class User {
 		//}
 	}
 
-	public void logout() {
+	@Override public String toString() {
+		return "\n============================="
+				+ "\nAccount number:\t" 	+ this.account_num
+				+ "\nUsername:\t\t"		+ getUsername()
+				+ "\nAccount type:\t" 		+ this.getStringAccountType()
+				+ "\n\nFirst name:\t\t" 		+ this.firstName
+				+ "\nLast name:\t\t" 		+ this.lastName
+				+ "\n=============================";
+	}
+
+
+	/* ============== ABSTRACT METHOD ============== */
+	public abstract void initialiseMainMenu();
+
+
+	/* ============== LOGOUT METHODS ============== */
+	void logout() {
 		System.out.println("Are you sure you want to logout?");
 		if (GeneralHelperFunctions.askForDecision()) {
 			this.authorised = false;
@@ -83,55 +99,20 @@ public abstract class User {
 		updateSessionUponLogout();
 		Engine.getInstance().userLoggedOut();
 	}
-	// This user logs out the user upon exit without asking for permission
 	public void hardLogout() {
+		// This user logs out the user upon exit without asking for permission
 		this.authorised = false;
 		updateSessionUponLogout();
 	}
 
-	private void updateSessionUponLogout() {
-		database.logout(getID());
-	}
 
-	/* ============== ABSTRACT CLASSES ============== */
-	public abstract void initialiseMainMenu();
-
-
-	/* ============== IMPLEMENTED CLASSES ============== */
-
-	// Method which sets the object variables when constructed
-	void setObjectVariables(String username, AccountType accountType) {
-
-		int id = database.getIDFromUsername(username);
-		account_num += id;
-
-		information = new Information();
-		information.putInformation(String.class, username);
-		information.putInformation(Integer.class, id);
-
-		firstName = database.getFirstName(id);
-		lastName = database.getLastName(id);
-
-		this._accountType = accountType;
-		authorised = true;
-
-		card = new VisaCard(id);
-		if (!card.isCardActive()) {
-			System.out.println("There seems to be a missing credit card to this account. "
-					+ "You won't be able to make any purchases until you add one!");
-		}
-
-		cart = new Cart(this);
-	}
-
+	/* ============== CART METHODS ============== */
 	void displayCartItems() {
 		cart.showItems();
 	}
-
 	boolean checkout() {
 		return cart.checkout();
 	}
-
 	void removeItemsFromCart() {
 		cart.cancelLine();
 	}
@@ -140,13 +121,10 @@ public abstract class User {
 	/* ============== GETTERS ============== */
 	String getUsername() { return information.getInformation(String.class); }
 	public int getID() { return information.getInformation(Integer.class); }
-
-	long getAccountNumber() { return this.account_num; }
 	Cart getCart() { return this.cart; }
 	VisaCard getCard() { return this.card; }
 	public boolean isAuthorised() { return this.authorised; }
-	AccountType getEnumAccountType() { return this._accountType; }
-	String getStringAccountType() {
+	private String getStringAccountType() {
 		switch (_accountType) {
 			case BASIC:
 				return "Basic user";
@@ -161,29 +139,42 @@ public abstract class User {
 		}
 	}
 	public String getFirstName() { return this.firstName; }
-	String getLastName() { return this.lastName; }
 	public int getCheckoutDiscountPercentage() { return this._accountType.getDiscountPercentage(); }
 
 
-	public String toString() {
-		return "\n============================="
-			 + "\nAccount number:\t" 	+ this.account_num
-			 + "\nUsername:\t\t"		+ getUsername()
-			 + "\nAccount type:\t" 		+ this.getStringAccountType()
-			 + "\n\nFirst name:\t\t" 		+ this.firstName
-			 + "\nLast name:\t\t" 		+ this.lastName
-			 + "\n=============================";
-	}
+	/* ============== HELPER METHODS ============== */
+	// Method which sets the object variables when constructed
+	void setObjectVariables(String username, AccountType accountType) {
 
-	// Print the catalog
+		int id = userDatabase.getIDFromUsername(username);
+		account_num += id;
+
+		information = new Information();
+		information.putInformation(String.class, username);
+		information.putInformation(Integer.class, id);
+
+		firstName = userDatabase.getFirstName(id);
+		lastName = userDatabase.getLastName(id);
+
+		this._accountType = accountType;
+		authorised = true;
+
+		card = new VisaCard(id);
+		if (!card.isCardActive()) {
+			System.out.println("There seems to be a missing credit card to this account. "
+					+ "You won't be able to make any purchases until you add one!");
+		}
+
+		cart = new Cart(this);
+	}
 	void printCatalog() {
 		ProductCatalog.printCatalog();
 	}
-
-	// Updates the users' first and last name from the database
 	void updateName() {
-		firstName = database.getFirstName(getID());
-		lastName = database.getLastName(getID());
+		firstName = userDatabase.getFirstName(getID());
+		lastName = userDatabase.getLastName(getID());
 	}
-
+	private void updateSessionUponLogout() {
+		userDatabase.logout(getID());
+	}
 }

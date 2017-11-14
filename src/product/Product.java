@@ -11,16 +11,16 @@ import java.text.DecimalFormat;
 public class Product {
 	private static final long PRODUCT_ID = 123_456_00;
 	private long _productID;
-
 	private String _name;
 	private double _price;
 	private int _quantityAvailable, _defaultQuantityAvailable;
 	private int _quantityInCart = 0;
-
 	private String _description;
 
 	private DecimalFormat f = new DecimalFormat("####.##");
 
+
+	/* ============== CONSTRUCTOR ============== */
 	private Product(Builder builder) {
 		_name = builder.name;
 		_price = builder.price;
@@ -60,6 +60,17 @@ public class Product {
 		}
 	}
 
+	@Override public String toString() {
+		return "\nProduct ID: " + _productID
+				+ "\nName: " + _name
+				+ "\nPrice: " + f.format(_price)
+				+ "\nQuantity: " + _quantityAvailable;
+	}
+	public String toShortString() {
+		return _productID + "\t" + _name + "\t$" + f.format(_price);
+	}
+
+
 	/* ============== GETTERS ============== */
 	public int getQuantityAvailable() {
 		return _quantityAvailable - _quantityInCart;
@@ -73,7 +84,7 @@ public class Product {
 	public int getBaseID() { return (int) _productID - 123_456_00; }
 
 
-	// Subtracts the quantity bought from the initial available quantity
+	/* ============== HELPER METHODS ============== */
 	public void reduceQuantityAvailable() {
 		_quantityAvailable--;
 	}
@@ -86,21 +97,8 @@ public class Product {
 	public void increaseQuantityInCart(int i) {
 		_quantityInCart += i;
 	}
-
 	public void productRemovedFromCart() {
 		_quantityAvailable = _defaultQuantityAvailable;
 		_quantityInCart = 0;
-	}
-
-
-	public String toString() {
-		return "\nProduct ID: " + _productID
-				+ "\nName: " + _name
-				+ "\nPrice: " + f.format(_price)
-				+ "\nQuantity: " + _quantityAvailable;
-	}
-
-	public String toShortString() {
-		return _productID + "\t" + _name + "\t$" + f.format(_price);
 	}
 }

@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import data.*;
 
 public final class ProductCatalog {
-
 	private static ArrayList<Product> _products = new ArrayList<>();
 
-
 	/* ============== PUBLIC METHODS ============== */
-
 	public static void initialiseCatalog() {
 		_products = new ProductDatabase().getProductsFromDatabase();
 	}
@@ -49,8 +46,7 @@ public final class ProductCatalog {
 	public static boolean isAvailable() { return !_products.isEmpty(); }
 
 
-	/* ============== PRIVATE METHODS ============== */
-
+	/* ============== HELPER METHODS ============== */
 	private static boolean _isProductAvailable(long id) {
 		for(Product p : _products) {
 			if (p.getID() == id)

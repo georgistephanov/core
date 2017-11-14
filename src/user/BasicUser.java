@@ -3,7 +3,6 @@ package user;
 public class BasicUser extends User {
 
 	/* ============== CONSTRUCTORS ============== */
-
 	// Main constructor which is used when an unregistered user is using the program
 	BasicUser() {
 		String username = UserOperations.createUser();
@@ -19,14 +18,12 @@ public class BasicUser extends User {
 		}
 	}
 
-	public String toString() {
+	@Override public String toString() {
 		return super.toString() + "\n\nDiscount:\t" + getCheckoutDiscountPercentage() + "%";
 	}
 
-	/* ============== IMPLEMENTED ABSTRACT METHODS ============== */
 	public void initialiseMainMenu() {
 		UserMenu menu = new UserMenu(this);
 		menu.initialiseMainMenu();
 	}
-
 }
